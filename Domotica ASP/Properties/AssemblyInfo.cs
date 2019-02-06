@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Domotica_ASP")]
+[assembly: AssemblyTitle("Domotica")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Domotica_ASP")]
+[assembly: AssemblyProduct("Domotica")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e4936012-e000-4bc6-995c-d5240262e37a")]
+[assembly: Guid("265c2696-a6c7-4bda-9a49-ee6cf1a530e3")]
 
 // Version information for an assembly consists of the following four values:
 //
