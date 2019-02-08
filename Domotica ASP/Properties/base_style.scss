@@ -1,0 +1,89 @@
+HTML{
+	font-size: 1.5em;
+	font-family:"Trebuchet Ms",Helvetica,sans-serif;
+	overflow: hidden;
+ 	height: 100%;
+ 	width: 100%;
+	padding: 0px;
+	margin-top: 0px;
+}
+
+body{
+	-webkit-background-height: cover;
+	-moz-background-height: cover;
+	-o-background-height: cover;
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: right top;
+	background-repeat: no-repeat;
+	padding: 0px;
+	margin-top: 0px;
+	margin: 0px;
+  	width: 100%;
+  	height: 100%;
+ 	overflow: hidden;
+	text-align: center;
+}
+
+//NOTE: for using scss variables in calc() function you need to call them in #{}
+
+//TODO: add responsive css
+
+$grid_parent_padding: 10px; //CHANGE: grid_parent padding
+$grid_parent_gap: 1em; //CHANGE: grid_parent grid_gap
+.grid_parent{
+	//position: relative;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7em, max-content));
+	justify-content: center;
+	padding: $grid_parent_padding; 
+	grid-gap: $grid_parent_gap; 
+	background-color: rgba(100, 100, 180, 1);
+	width: calc(100% - 2 * #{$grid_parent_padding});
+	text-align: center;
+}
+
+
+$grid_child_padding: 1em;
+.grid_child{
+	display: inline-block;
+	position: relative;
+	background-color: rgba(255, 255, 255, 0.8);
+	text-align: center;
+	padding: 0 $grid_child_padding; //CHANGE: grid_child padding
+	min-width: 5em;
+	max-width: 7em;
+	p {
+		width: 100%;
+	}
+}
+
+.toggableContainer{
+	display: block;
+	height: 100%;
+	width: 100%;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+		height: 0;
+		width: 0;
+	}
+	input:checked ~ .toggableCheckbox{
+		box-shadow: 0px 0px 3px 3px #fffffff7;
+	}
+}
+
+.toggableCheckbox {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	box-shadow: 0px 0px 0px 0px #fffffff7;
+}
