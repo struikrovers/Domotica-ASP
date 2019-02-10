@@ -54,6 +54,8 @@ namespace Domotica
 
             private System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
 
+            public bool Toggable = false;
+
             /// <summary>
             /// WidgetItem constructor
             /// </summary>
@@ -86,12 +88,21 @@ namespace Domotica
             /// </summary>
             public void isToggable(string function)
             {
+                // TODO: ask database if function is on.
+                string _checked = ""; //"checked";
                 HTML_string += @"
                 <label class=toggableContainer>
-                    <input type=checkbox>
-                    <span class=toggableCheckbox onclick="+ function +@"></span>
+                    <input type=checkbox "+ _checked +@">
+                    <span class=toggableCheckbox onclick="+ function + @"></span>
+                    <div class='bttn_on_off'>
+                        <span class='bttn_on'>on&nbsp</span>
+                        <span class='bttn_off'>off</span>
+                    </div>
                 </label>
                 ";
+                // NOTE: https://stackoverflow.com/questions/7896402/how-can-i-replace-text-with-css
+                classname += " toggable_widget grid_child_toggable";
+                Toggable = true;
             }
 
             /// <summary>
@@ -113,9 +124,9 @@ namespace Domotica
             }
 
             public void renderWidget()
-            {   
+            {                
                 HTML_string = @"
-                    <div class="+ classname +" id="+ id +@">
+                    <div class='"+ classname + "' id="+ id +@">
                         " + HTML_string + @"
                     </div>
                 ";
@@ -138,7 +149,6 @@ namespace Domotica
             }
 
             WidgetItem Test = new WidgetItem("test_test", grid_parent, comment: "test2");
-            Test.isToggable("");
             Test.renderWidget();
         }
     }
