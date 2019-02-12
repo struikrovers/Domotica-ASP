@@ -1,0 +1,7 @@
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\bin\Domotica ASP.dll.config
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\bin\Domotica ASP.dll
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\bin\Domotica ASP.pdb
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\obj\Release\Domotica ASP.csprojAssemblyReference.cache
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\obj\Release\Domotica ASP.csproj.CoreCompileInputs.cache
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\obj\Release\Domotica ASP.dll
+E:\Downloads\School\Domotica\domotica asp\Domotica-ASP\Domotica ASP\obj\Release\Domotica ASP.pdb
