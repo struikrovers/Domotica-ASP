@@ -109,7 +109,7 @@ namespace Domotica
             /// declares settings of the widget, standard overlay is created, and innerhtml is implemented into that window
             /// </summary>
             /// <param name="settings">innerHTML for the settings window</param>
-            public void hasSettings(StringWriter settings)
+            public void hasSettings(string settings)
             {
 
             }
@@ -147,7 +147,7 @@ namespace Domotica
                 kvp.Value.isToggable("");
                 kvp.Value.renderWidget();
             }
-
+            
             WidgetItem Test = new WidgetItem("test_test", grid_parent, comment: "test2");
             Test.renderWidget();
         }
