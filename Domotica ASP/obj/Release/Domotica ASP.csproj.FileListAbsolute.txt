@@ -1,6 +1,0 @@
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\bin\Domotica ASP.dll.config
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\bin\Domotica ASP.dll
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\bin\Domotica ASP.pdb
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\obj\Release\Domotica ASP.csproj.CoreCompileInputs.cache
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\obj\Release\Domotica ASP.dll
-F:\Downloads\School\Inholland\domotica\Domotica ASP\Domotica ASP\obj\Release\Domotica ASP.pdb
