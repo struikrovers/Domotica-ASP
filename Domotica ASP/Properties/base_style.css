@@ -1,129 +1,188 @@
 HTML {
-	font-size: 1.5em;
-	font-family: "Trebuchet Ms", Helvetica, sans-serif;
-	overflow: hidden;
-	height: 100%;
-	width: 100%;
-	padding: 0px;
-	margin-top: 0px
+  font-size: 1.5em;
+  font-family: "Trebuchet Ms",Helvetica,sans-serif;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin-top: 0px;
 }
 
 body {
-	-webkit-background-height: cover;
-	-moz-background-height: cover;
-	-o-background-height: cover;
-	background-size: cover;
-	background-attachment: fixed;
-	background-position: right top;
-	background-repeat: no-repeat;
-	padding: 0px;
-	margin-top: 0px;
-	margin: 0px;
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	text-align: center;
-	background-image: linear-gradient(135deg, #343444 0, #2b2b38 30%, #262631 56%, #1d1d21 100%);
-	background-position: 50% 50%;
-	background-origin: padding-box;
-	-webkit-background-clip: border-box;
-	background-clip: border-box;
-	background-size: auto auto
+  -webkit-background-height: cover;
+  -moz-background-height: cover;
+  -o-background-height: cover;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: right top;
+  background-repeat: no-repeat;
+  padding: 0px;
+  margin-top: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-align: center;
+  background-image: linear-gradient(135deg, #343444 0, #2b2b38 30%, #262631 56%, #1d1d21 100%);
+  background-position: 50% 50%;
+  background-origin: padding-box;
+  background-clip: border-box;
+  background-size: auto auto;
 }
 
 .grid_parent {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(7em, -webkit-max-content));
-	grid-template-columns: repeat(auto-fit, minmax(7em, max-content));
-	justify-content: center;
-	padding: 10px;
-	grid-gap: 1em;
-	width: calc(100% - 2 * 10px);
-	text-align: center
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(7em, max-content))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(7em, -webkit-max-content));
+      grid-template-columns: repeat(auto-fit, minmax(7em, max-content));
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  padding: 10px;
+  grid-gap: 1em;
+  width: calc(100% - 2 * 10px);
+  text-align: center;
 }
 
 .grid_child {
-	display: inline-block;
-	position: relative;
-	background: #c8c8c8;
-	text-align: center;
-	padding: 0 1em;
-	min-width: 5em;
-	max-width: 7em;
-	height: 6em;
-	border-radius: 3px;
-	box-shadow: 0px 0px 12px 2px #00000094, inset 0px 0px 2px 2px #0000004a;
-	border: #ff0000 10px
+  display: inline-block;
+  position: relative;
+  background: #c8c8c8;
+  text-align: center;
+  padding: 0 1em;
+  min-width: 5em;
+  max-width: 7em;
+  height: 6em;
+  border-radius: 3px;
+  -webkit-box-shadow: 0px 0px 12px 2px #00000094, inset 0px 0px 2px 2px #0000004a;
+          box-shadow: 0px 0px 12px 2px #00000094, inset 0px 0px 2px 2px #0000004a;
+  border: #ff0000 10px;
 }
 
 .grid_child p {
-	width: 100%
+  width: 100%;
 }
 
 .grid_child_toggable {
-	background: radial-gradient(closest-side, #c8c8c8 0, #c8c8c8 58%, rgba(200, 200, 200, 0.87) 66%, rgba(200, 200, 200, 0.83) 74%, rgba(200, 200, 200, 0.76) 83%, rgba(200, 200, 200, 0.59) 92%, rgba(255, 255, 255, 0) 100%), linear-gradient(45deg, rgba(250, 250, 250, 0.2) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(250, 250, 250, 0.2) 50%, rgba(250, 250, 250, 0.2) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0) 0), #c8c8c8;
-	background-position: 50% 50%, 0 0;
-	background-origin: padding-box;
-	-webkit-background-clip: border-box;
-	background-clip: border-box;
-	background-size: auto auto, 10px 10px;
-	box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.14) inset
+  background: radial-gradient(closest-side, #c8c8c8 0, #c8c8c8 58%, rgba(200, 200, 200, 0.87) 66%, rgba(200, 200, 200, 0.83) 74%, rgba(200, 200, 200, 0.76) 83%, rgba(200, 200, 200, 0.59) 92%, rgba(255, 255, 255, 0) 100%), linear-gradient(45deg, rgba(250, 250, 250, 0.2) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(250, 250, 250, 0.2) 50%, rgba(250, 250, 250, 0.2) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0) 0), #c8c8c8;
+  background-position: 50% 50%, 0 0;
+  background-origin: padding-box;
+  background-clip: border-box;
+  background-size: auto auto, 10px 10px;
+  -webkit-box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.14) inset;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.14) inset;
 }
 
 .toggable_widget {
-	box-shadow: 0px 0px 0px 0px
+  -webkit-box-shadow: 0px 0px 0px 0px;
+          box-shadow: 0px 0px 0px 0px;
 }
 
 .toggableContainer {
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .toggableContainer input {
-	position: absolute;
-	opacity: 0;
-	cursor: pointer;
-	height: 0;
-	width: 0
-}
-
-.toggableContainer input:checked~.toggableCheckbox {
-	box-shadow: 0px 0px 3px 3px #46cb2eab
-}
-
-.toggableContainer input:checked~.bttn_on_off>.bttn_on {
-	display: inline-block
-}
-
-.toggableContainer input:checked~.bttn_on_off>.bttn_off {
-	display: none
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .toggableCheckbox {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	box-shadow: 0px 0px 3px 3px #c03232ba;
-	border-radius: 3px
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  -webkit-box-shadow: 0px 0px 3px 3px #c03232ba;
+          box-shadow: 0px 0px 3px 3px #c03232ba;
+  border-radius: 3px;
 }
 
-.bttn_on_off {
-	position: absolute;
-	right: 5px;
-	top: 3px;
-	font-size: 0.5em
+/* The switch - the box around the slider */
+.toggle_switch {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  display: inline-block;
+  width: 1.3em;
+  height: 0.8em;
 }
 
-.bttn_on_off .bttn_on {
-	display: none;
-	margin-right: -1.4px
+.toggle_switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.bttn_on_off .bttn_off {
-	display: inline-block
+.Toggle_checkbox:checked ~ .toggableCheckbox {
+  -webkit-box-shadow: 0px 0px 3px 3px #46cb2eab;
+          box-shadow: 0px 0px 3px 3px #46cb2eab;
 }
+
+/* The slider */
+.toggle_slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #c70707d4;
+}
+
+.toggle_slider:before {
+  position: absolute;
+  content: "";
+  height: 0.6em;
+  width: 0.6em;
+  left: 2px;
+  top: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.Toggle_checkbox:checked ~ .toggle_switch > .toggle_slider {
+  background-color: #08a50eed;
+}
+
+.Toggle_checkbox:checked ~ .toggle_switch > .toggle_slider:before {
+  -webkit-transform: translateX(0.5em);
+  transform: translateX(0.5em);
+}
+
+/* Rounded sliders */
+.toggle_slider.round {
+  border-radius: 34px;
+}
+
+.toggle_slider.round:before {
+  border-radius: 50%;
+}
+
+*:focus {
+  outline: none !important;
+}
+
+.settings {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  position: absolute;
+  left: 2px;
+  top: 0px;
+  z-index: 5;
+  cursor: pointer;
+}
+
+.settings > .settings_icon {
+  width: 1em;
+}
+/*# sourceMappingURL=base_style.css.map */

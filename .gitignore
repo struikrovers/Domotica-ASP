@@ -261,3 +261,4 @@ __pycache__/
 
 *.Debug.config
 *.Release.config
+*.css.map

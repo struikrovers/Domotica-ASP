@@ -94,7 +94,6 @@ $grid_child_padding: 1em;
 }
 
 .toggableContainer {
-	cursor: pointer;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -105,16 +104,6 @@ $grid_child_padding: 1em;
 		cursor: pointer;
 		height: 0;
 		width: 0;
-	}
-	input:checked ~ .toggableCheckbox{
-		box-shadow: 0px 0px 3px 3px #46cb2eab;
-	}
-	// NOTE: https://css-tricks.com/almanac/selectors/c/child/
-	input:checked ~ .bttn_on_off > .bttn_on {
-		display: inline-block;
-	}
-	input:checked ~ .bttn_on_off > .bttn_off {
-		display: none;
 	}
 }
 
@@ -128,16 +117,77 @@ $grid_child_padding: 1em;
 	border-radius: $widget_border_radius;
 }
 
-.bttn_on_off{
+// NOTE: https://www.w3schools.com/howto/howto_css_switch.asp
+/* The switch - the box around the slider */
+.toggle_switch {
 	position: absolute;
     right: 5px;
-    top: 3px;
-	font-size: 0.5em;
-	.bttn_on {
-		display: none;
-		margin-right: -1.4px;
+    top: 5px;
+    display: inline-block;
+    width: 1.3em;
+    height: 0.8em;
+
+	input {
+		opacity: 0;
+		width: 0;
+		height: 0;
 	}
-	.bttn_off {
-		display: inline-block;
+  }
+
+.Toggle_checkbox:checked ~ .toggableCheckbox{
+	box-shadow: 0px 0px 3px 3px #46cb2eab;
+}
+
+/* The slider */
+.toggle_slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #c70707d4;
+&:before {
+	position: absolute;
+	content: "";
+	height: 0.6em;
+	width: 0.6em;
+	left: 2px;
+	top: 2px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+	}
+}
+
+$transform: 0.5em;
+.Toggle_checkbox:checked ~ .toggle_switch > .toggle_slider {
+	background-color: #08a50eed;
+	&:before {
+		-webkit-transform: translateX($transform);
+		-ms-transform: translateX($transform);
+		transform: translateX($transform);
+	}
+}
+
+  /* Rounded sliders */
+  .toggle_slider.round {
+	border-radius: 34px;
+	&:before {
+		border-radius: 50%;
+	}
+  }
+
+*:focus {outline:none !important}
+
+.settings{
+	display: inline-flex;
+	position: absolute;
+	left: 2px;
+	top: 0px;
+	z-index: 5;
+	cursor: pointer;
+	> .settings_icon {
+		width: 1em;
 	}
 }

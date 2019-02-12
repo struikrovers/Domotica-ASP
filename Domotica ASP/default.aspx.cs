@@ -92,12 +92,11 @@ namespace Domotica
                 string _checked = ""; //"checked";
                 HTML_string += @"
                 <label class=toggableContainer>
-                    <input type=checkbox "+ _checked +@">
+                    <input class='Toggle_checkbox' type='checkbox' "+ _checked +@">
                     <span class=toggableCheckbox onclick="+ function + @"></span>
-                    <div class='bttn_on_off'>
-                        <span class='bttn_on'>on&nbsp</span>
-                        <span class='bttn_off'>off</span>
-                    </div>
+                    <label class='toggle_switch'>
+                        <span class='toggle_slider round'></span>
+                    </label>
                 </label>
                 ";
                 // NOTE: https://stackoverflow.com/questions/7896402/how-can-i-replace-text-with-css
@@ -111,7 +110,12 @@ namespace Domotica
             /// <param name="settings">innerHTML for the settings window</param>
             public void hasSettings(string settings)
             {
-
+                HTML_string += @"
+                <div class='settings'>
+                    <span class='settings_icon' onclick=alert('clicked!')>
+                        <i style='font-size: 0.87em' class='fa fa-gear'></i>
+                    </span>
+                </div>";
             }
 
             /// <summary>
@@ -145,6 +149,7 @@ namespace Domotica
             foreach( KeyValuePair<string, WidgetItem> kvp in widgets)
             {
                 kvp.Value.isToggable("");
+                kvp.Value.hasSettings("");
                 kvp.Value.renderWidget();
             }
             
