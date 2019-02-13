@@ -9,27 +9,6 @@ namespace Domotica
         
         public static int widgets = 0;
 
-        static string MakeItem(int id)
-        {
-            /*
-            < !--grid item template -->
-
-            < div class="grid_child" id="grid_child_1">
-				<!-- -->
-				<p class="grid_child_name">Name</p>
-				<p class="grid_child_comment">Comment</p>
-			</div>
-            */
-
-            string Html_String = @"
-                <div class=grid_child id=grid_child_" + id + @">
-                    <p class=grid_child_name>name</p>
-                    <p class=grid_child_comment>comment</p>
-                </div>
-            ";
-            return Html_String;
-        }
-
         public class WidgetItem
         {
             /** NOTE: & TODO:
@@ -108,14 +87,19 @@ namespace Domotica
             /// declares settings of the widget, standard overlay is created, and innerhtml is implemented into that window
             /// </summary>
             /// <param name="settings">innerHTML for the settings window</param>
-            public void hasSettings(string settings)
+            /// <param name="grid_overlay">HTML tag ID of overlay_child</param>
+            public void hasSettings(string settings, System.Web.UI.HtmlControls.HtmlGenericControl overlay_child, System.Web.UI.HtmlControls.HtmlGenericControl grid_overlay_control)
             {
+                grid_overlay_control.InnerHtml += "<input id='settings_checkbox_" + this.id + @"' type='checkbox'>";
                 HTML_string += @"
                 <div class='settings'>
-                    <span class='settings_icon' onclick=alert('clicked!')>
-                        <i style='font-size: 0.87em' class='fa fa-gear'></i>
-                    </span>
+                    <label for='settings_checkbox_"+this.id+@"' class='settings_label'>
+                        <span class='settings_icon'>
+                            <i style='font-size: 0.87em' class='fa fa-gear'></i>
+                        </span>
+                    </label>
                 </div>";
+                overlay_child.InnerHtml += @"";
             }
 
             /// <summary>
@@ -140,6 +124,7 @@ namespace Domotica
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            index.widgets = 0;
             Dictionary<string, WidgetItem> widgets = new Dictionary<string, WidgetItem>();
             for (int id = 0; id < 7; id++)
             {
@@ -149,7 +134,7 @@ namespace Domotica
             foreach( KeyValuePair<string, WidgetItem> kvp in widgets)
             {
                 kvp.Value.isToggable("");
-                kvp.Value.hasSettings("");
+                kvp.Value.hasSettings("", overlay_child, grid_overlay_control);
                 kvp.Value.renderWidget();
             }
             

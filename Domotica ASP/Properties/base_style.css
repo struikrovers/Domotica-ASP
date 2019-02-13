@@ -185,4 +185,26 @@ body {
 .settings > .settings_icon {
   width: 1em;
 }
+
+.grid_overlay_control {
+  /*input {
+		opacity: 0;
+		width: 0;
+		height: 0;
+	}*/
+}
+
+#grid_overlay_control > .input:checked ~ .grid_overlay {
+  display: block;
+}
+
+.grid_overlay {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 6;
+}
 /*# sourceMappingURL=base_style.css.map */

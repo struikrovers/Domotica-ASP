@@ -14,7 +14,7 @@
 		<script src="../Properties/main.js"></script>
 
 		<link rel="stylesheet" href="../Properties/base_style.css" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</head>
@@ -27,8 +27,16 @@
 				not sure why this occurs.
 			-->
 		</div>
-		
+        <div>
+            <div id="grid_overlay_control" runat="server">
 
+            </div>
+		    <div class="grid_overlay" id="grid_overlay">
+			    <div class="overlay_child" id="overlay_child" runat="server">
+				
+			    </div>
+		    </div>
+        </div>
 		<!-- div to calculate em -->
 		<div id="em_calc" style="height:0;width:0;outline:none;border:none;padding:0;margin:0;"></div>
 	</body>
