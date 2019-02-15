@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domotica {
+namespace Domotica_ASP {
     
     
     public partial class index {
@@ -22,21 +22,84 @@ namespace Domotica {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
         
         /// <summary>
-        /// grid_overlay_control control.
+        /// global_form control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_overlay_control;
+        protected global::System.Web.UI.HtmlControls.HtmlForm global_form;
         
         /// <summary>
-        /// overlay_child control.
+        /// Widget1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl overlay_child;
+        protected global::Domotica_ASP.Widget Widget1;
+        
+        /// <summary>
+        /// Widget2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget2;
+        
+        /// <summary>
+        /// overlay_1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay overlay_1;
+        
+        /// <summary>
+        /// Widget3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget3;
+        
+        /// <summary>
+        /// Widget4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget4;
+        
+        /// <summary>
+        /// Widget5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget5;
+        
+        /// <summary>
+        /// overlay2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay overlay2;
+        
+        /// <summary>
+        /// Widget6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget6;
     }
 }

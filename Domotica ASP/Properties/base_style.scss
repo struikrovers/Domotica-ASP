@@ -183,7 +183,7 @@ $transform: 0.5em;
 .settings{
 	display: inline-flex;
 	position: absolute;
-	left: 2px;
+	left: 6px;
 	top: 0px;
 	z-index: 5;
 	cursor: pointer;
@@ -192,24 +192,50 @@ $transform: 0.5em;
 	}
 }
 
-.grid_overlay_control {
-	/*input {
+.settings_label {
+	input {
 		opacity: 0;
 		width: 0;
 		height: 0;
-	}*/
-}
-
-#grid_overlay_control > .input:checked ~ .grid_overlay{
-	display: block;
+		display: none;
+	}
 }
 
 .grid_overlay {
 	display: none;
-	width: 100%;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	background-color: rgba(0,0,0,0.6);
-	z-index: 6;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 6;
+}
+
+.overlay_child {
+	display: inline-block;
+  position: relative;
+  width: 70%;
+  max-width: 20em;
+  margin-top: 1.5em;
+  left: auto;
+  height: 87%;
+  background: #7d898e;
+  border: 3px solid #c8c6c6db;
+  border-radius: 15px 8px 20px 8px;
+	box-shadow: 0px 0px 1px 1px #bababa, inset 0px 0px 0px 2px #aaaaaabd, inset 0 0 11px 2px #393939;
+	padding-top: 10px;
+	padding-left: 10px;
+	text-align: left;
+	> .grid_child {
+		box-shadow: inset 0px 0px 0px 2px #000000ab;
+    border-radius: 5px;
+	}
+}
+
+.overlay_content {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(7em, max-content));
+	justify-content: center;
+	padding: $grid_parent_padding; 
+	grid-gap: $grid_parent_gap; 
 }
