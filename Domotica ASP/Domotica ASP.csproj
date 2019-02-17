@@ -58,6 +58,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InputFields.ascx" />
     <Content Include="overlay.ascx" />
     <Content Include="Properties\base_style.scss" />
     <Content Include="Widget.ascx" />
@@ -81,6 +82,13 @@
     </Compile>
     <Compile Include="default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InputFields.ascx.cs">
+      <DependentUpon>InputFields.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InputFields.ascx.designer.cs">
+      <DependentUpon>InputFields.ascx</DependentUpon>
     </Compile>
     <Compile Include="overlay.ascx.cs">
       <DependentUpon>overlay.ascx</DependentUpon>

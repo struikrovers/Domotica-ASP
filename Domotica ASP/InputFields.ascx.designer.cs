@@ -10,78 +10,60 @@
 namespace Domotica_ASP {
     
     
-    public partial class Widget {
+    public partial class InputFields {
         
         /// <summary>
-        /// grid_child control.
+        /// Horiz_Range control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Horiz_Range;
         
         /// <summary>
-        /// grid_child_commenter control.
+        /// Vert_Range control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child_commenter;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Vert_Range;
         
         /// <summary>
-        /// grid_child_comment control.
+        /// Text control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child_comment;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Text;
         
         /// <summary>
-        /// input control.
+        /// Number control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl input;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Number;
         
         /// <summary>
-        /// _Input control.
+        /// Radio control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder _Input;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Radio;
         
         /// <summary>
-        /// toggable control.
+        /// Checkbox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl toggable;
-        
-        /// <summary>
-        /// Toggle_checkbox control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox Toggle_checkbox;
-        
-        /// <summary>
-        /// settings control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl settings;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Checkbox;
     }
 }

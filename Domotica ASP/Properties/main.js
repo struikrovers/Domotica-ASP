@@ -39,15 +39,21 @@ function open_overlay(e, id) {
     open_overlays.push(id);
 }
 
-function close_overlay(e) {
+function close_overlay(e, force) {
     // get mouse position & check if it overlaps with the currently open overlay.
     x = e.clientX;
     y = e.clientY;
-    overlay_rect = document.getElementById(last(open_overlays)).getBoundingClientRect();
-    if (x < overlay_rect.left || x > overlay_rect.right || y < overlay_rect.top || y > overlay_rect.bottom)
+    // prevents js erros. when closing the last overlay it is called twice?
+    if (force == false && open_overlays.length != 0) {
+        overlay_rect = document.getElementById(last(open_overlays)).getBoundingClientRect();
+    }
+    else {
+        overlay_rect = "";
+    }
+    if (force == true || force == "back" || x < overlay_rect.left || x > overlay_rect.right || y < overlay_rect.top || y > overlay_rect.bottom )
     {
         // close the grid_overlay if there is only 1 overlay open at the time of closing.
-        if (open_overlays.length == 1) {
+        if (open_overlays.length == 1 || force == true) {
             document.getElementById('grid_overlay').style.display = "none";
             open_overlays.pop();
         }
@@ -56,6 +62,23 @@ function close_overlay(e) {
             document.getElementById(last(open_overlays)).style.display = "none";
             open_overlays.pop();
             document.getElementById(last(open_overlays)).style.display = "inline-block";
+        }
+    }
+}
+
+
+// NOTE: https://stackoverflow.com/a/29754070
+function waitForElementToDisplay(selector, time, fun, loops) {
+    if (document.querySelector(selector) != null) {
+        fun();
+        return;
+    }
+    else {
+        if (loops < 5) {
+            setTimeout(function () {
+                loops++;
+                waitForElementToDisplay(selector, time, fun, loops);
+            }, time);
         }
     }
 }

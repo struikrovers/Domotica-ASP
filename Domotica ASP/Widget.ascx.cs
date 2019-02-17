@@ -14,11 +14,23 @@ namespace Domotica_ASP
         public string comment { get; set; } = "";
         public bool toggle { get; set; } = false;
         public bool setting { get; set; } = false;
-        public string html_setting { get; set; }
-        // defining property for access to outer div ( outside of user control )
+        
+
+        // NOTE: input fields
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        public PlaceHolder Input { get; set; } = null;
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Input != null)
+            {
+                base.OnInit(e);
+                _Input.Controls.Add(Input);
+            }
+            else
+            {
+                input.Visible = false;
+            }
             toggable.Visible = toggle;
             settings.Visible = setting;
         }

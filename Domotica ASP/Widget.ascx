@@ -1,16 +1,25 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Widget.ascx.cs" Inherits="Domotica_ASP.Widget" %>
 
 <div class=grid_child id=grid_child runat="server">
-    <p class="grid_child_name"><%= this.name.ToString() %></p>
-    <p class="grid_child_name"><%= this.comment.ToString() %></p>
+    <div class="grid_child_header">
+        <p class="grid_child_name"><%= this.name.ToString() %></p>
+    </div>
+    <div class="grid_child_commenter" id="grid_child_commenter" runat="server">
+        <p class="grid_child_comment" id="grid_child_comment" runat="server"><%= this.comment.ToString() %></p>
+    </div>
+    <div id="input" class="widget_input" runat="server">
+        <asp:PlaceHolder ID="_Input" runat="server">
+
+        </asp:PlaceHolder>
+    </div>
     <div id="toggable" runat="server">
-        <label class=toggableContainer onclick="">
-            <input class='Toggle_checkbox' type='checkbox'>
-            <span class=toggableCheckbox></span>
-            <label class='toggle_switch'>
+        <div class=toggableContainer>
+            <input id=Toggle_checkbox class='Toggle_checkbox' type='checkbox' runat="server">
+            <span class=toggableCheckbox_span></span>
+            <label for="<%= this.ClientID.ToString() %>_Toggle_checkbox" class='toggle_switch' onclick="">
                 <span class='toggle_slider round'></span>
             </label>
-        </label>
+        </div>
     </div>
     <div id="settings" class='settings' runat="server">
         <label class='settings_label'>
