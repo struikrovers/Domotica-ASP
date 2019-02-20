@@ -58,7 +58,11 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="InputFields.ascx" />
+    <Content Include="InputRadioCheck.ascx" />
+    <Content Include="overlay.ascx" />
     <Content Include="Properties\base_style.scss" />
+    <Content Include="Widget.ascx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -67,20 +71,48 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="index.aspx" />
+    <Content Include="default.aspx" />
     <Content Include="Properties\base_style.css" />
     <Content Include="Properties\main.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="index.aspx.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="index.aspx.designer.cs">
-      <DependentUpon>index.aspx</DependentUpon>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="InputFields.ascx.cs">
+      <DependentUpon>InputFields.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InputFields.ascx.designer.cs">
+      <DependentUpon>InputFields.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="InputRadioCheck.ascx.cs">
+      <DependentUpon>InputRadioCheck.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InputRadioCheck.ascx.designer.cs">
+      <DependentUpon>InputRadioCheck.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="overlay.ascx.cs">
+      <DependentUpon>overlay.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="overlay.ascx.designer.cs">
+      <DependentUpon>overlay.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Widget.ascx.cs">
+      <DependentUpon>Widget.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Widget.ascx.designer.cs">
+      <DependentUpon>Widget.ascx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

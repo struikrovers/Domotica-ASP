@@ -14,10 +14,10 @@
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]eleases/
+[Oo]bj/
 x64/
 x86/
 bld/
-[Bb]in/
 [Ll]og/
 
 # Visual Studio 2015 cache/options directory
@@ -258,3 +258,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+
+*.Debug.config
+*.Release.config
+*.css.map

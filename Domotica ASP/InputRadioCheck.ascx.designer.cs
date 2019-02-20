@@ -7,18 +7,18 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domotica {
+namespace Domotica_ASP {
     
     
-    public partial class index {
+    public partial class InputRadioCheck {
         
         /// <summary>
-        /// grid_parent control.
+        /// inputs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl inputs;
     }
 }
