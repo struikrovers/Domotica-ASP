@@ -2,6 +2,7 @@
 <%@ Register TagPrefix="Wid" TagName="Widget" Src="Widget.ascx" %>
 <%@ Register TagPrefix="Wid" TagName="Overlay" Src="overlay.ascx" %>
 <%@ Register TagPrefix="Wid" TagName="Input" Src="InputFields.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="RadioCheck" Src="InputRadioCheck.ascx" %>
 
 <!DOCTYPE html>
 
@@ -32,42 +33,104 @@
 				not sure why this occurs.
 			-->
             <!-- NOTE: for any widget with a setting create an overlay! -->
-            <Wid:Widget id="Widget1" name="test" comment="hello!" setting="true" toggle="true" runat="server" >
+            <Wid:Widget id="Widget1" name="Vertical" comment="This is a vertical slider!" setting="true" toggle="true" runat="server" >
                 <Input>
-                    <Wid:Input ID="input_Test1" in_type="ver_slider" runat="server"/>
+                    <Wid:Input ID="Vertical" in_type="ver_slider" runat="server"/>
                 </Input>
             </Wid:Widget>
-            <Wid:Widget id="Widget2" name="yes" comment="my dude!" runat="server" >
+            <Wid:Widget id="Widget2" name="Horizontal" comment="This is a horizontal slider!" runat="server" >
                 <Input>
-                    <Wid:Input ID="input1" in_type="hor_slider" runat="server"/>
+                    <Wid:Input ID="Horizontal" in_type="hor_slider" runat="server"/>
                 </Input>
             </Wid:Widget>
-            <Wid:Widget ID="Widget7" name="Oven" comment="Insert a temperture for your oven" runat="server"  >
+            <Wid:Widget ID="Widget3" name="Number" comment="This is a number input!" runat="server"  >
                 <Input>
                     <Wid:Input ID="Number" in_type="number" runat="server"/>
                 </Input>
             </Wid:Widget>
-            <Wid:Widget ID="Widget8" name="Oven" comment="Insert a temperture for your oven" runat="server"  >
+            <Wid:Widget ID="Widget4" name="Text" comment="This is a text input!" runat="server"  >
                 <Input>
                     <Wid:Input ID="Text" in_type="text" runat="server"/>
                 </Input>
             </Wid:Widget>
+            <Wid:Widget ID="Widget5" name="Radio" comment="This is a radio input!" runat="server"  >
+                <Input>
+                    <Wid:Input ID="Radio" in_type="radio" runat="server" button_text="submit">
+                        <__Radio>
+                            <Wid:RadioCheck ID="RadioCheck1" type="radio" value="1" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck2" type="radio" value="2" check="true" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck3" type="radio" value="3" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck4" type="radio" value="4" runat="server"/>
+                        </__Radio>
+                    </Wid:Input>
+                </Input>
+            </Wid:Widget>
+            <Wid:Widget ID="Widget6" name="Checkbox" comment="This is a checkbox input!" runat="server"  >
+                <Input>
+                    <Wid:Input ID="Checkbox" in_type="radio" runat="server">
+                        <__Radio>
+                            <Wid:RadioCheck ID="RadioCheck5" type="checkbox" value="1" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck6" type="checkbox" value="2" check="true" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck7" type="checkbox" value="3" runat="server"/>
+                            <Wid:RadioCheck ID="RadioCheck8" type="checkbox" value="4" runat="server"/>
+                        </__Radio>
+                    </Wid:Input>
+                </Input>
+            </Wid:Widget>
+            <Wid:Widget ID="Widget13" name="Header" comment="This is the comment box." runat="server" />
 		</div>
-        <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false)">
+        <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)">
 		    <Wid:Overlay ID="overlay_1" widget_parent="Widget1" runat="server" >
                 <content>
-                    <Wid:Widget id="Widget3" name="yes" comment="my dude!" runat="server" />
-                    <Wid:Widget id="Widget4" name="test" comment="hello!" setting="true" toggle="true" runat="server" >
+                    <Wid:Widget id="Widget7" name="Vertical" comment="This is a vertical slider!" setting="true" toggle="true" runat="server" >
                         <Input>
-                            <Wid:Input ID="input2" in_type="hor_slider" runat="server"/>
+                            <Wid:Input ID="Input1" in_type="ver_slider" runat="server"/>
                         </Input>
                     </Wid:Widget>
-                    <Wid:Widget id="Widget5" name="test" comment="hello!" toggle="true" runat="server" />
+                    <Wid:Widget id="Widget8" name="Horizontal" comment="This is a horizontal slider!" runat="server" >
+                        <Input>
+                            <Wid:Input ID="Input2" in_type="hor_slider" runat="server"/>
+                        </Input>
+                    </Wid:Widget>
+                    <Wid:Widget ID="Widget9" name="Number" comment="This is a number input!" runat="server"  >
+                        <Input>
+                            <Wid:Input ID="Input3" in_type="number" stantext="placeholder" runat="server"/>
+                        </Input>
+                    </Wid:Widget>
+                    <Wid:Widget ID="Widget10" name="Text" stantext="placeholder" comment="This is a text input!" runat="server"  >
+                        <Input>
+                            <Wid:Input ID="Input4" in_type="text" runat="server"/>
+                        </Input>
+                    </Wid:Widget>
+                    <Wid:Widget ID="Widget11" name="Radio" comment="This is a radio input!" runat="server"  >
+                        <Input>
+                            <Wid:Input ID="Input5" in_type="radio" runat="server" button_text="submit">
+                                <__Radio>
+                                    <Wid:RadioCheck ID="RadioCheck9" type="radio" value="1" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck10" type="radio" value="2" check="true" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck11" type="radio" value="3" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck12" type="radio" value="4" runat="server"/>
+                                </__Radio>
+                            </Wid:Input>
+                        </Input>
+                    </Wid:Widget>
+                    <Wid:Widget ID="Widget12" name="Checkbox" comment="This is a checkbox input!" runat="server"  >
+                        <Input>
+                            <Wid:Input ID="Input6" in_type="radio" runat="server">
+                                <__Radio>
+                                    <Wid:RadioCheck ID="RadioCheck13" type="checkbox" value="1" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck14" type="checkbox" value="2" check="true" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck15" type="checkbox" value="3" runat="server"/>
+                                    <Wid:RadioCheck ID="RadioCheck16" type="checkbox" value="4" runat="server"/>
+                                </__Radio>
+                            </Wid:Input>
+                        </Input>
+                    </Wid:Widget>
                 </content>
             </Wid:Overlay>
-            <Wid:Overlay ID="overlay2" widget_parent="Widget4" runat="server" >
+            <Wid:Overlay ID="overlay2" widget_parent="Widget7" runat="server" >
                 <content>
-                    <Wid:Widget id="Widget6" name="yes" comment="my dude!" runat="server" />
+                    
                 </content>
             </Wid:Overlay>
 	    </div>

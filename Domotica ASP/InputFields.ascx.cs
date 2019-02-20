@@ -10,11 +10,17 @@ namespace Domotica_ASP
     public partial class InputFields : System.Web.UI.UserControl
     {
 
-        public int stanvalue { get; set; } = 1;
+        public int stanvalue { get; set; }
+        public string stantext { get; set; } = "placeholder";
         public int maxvalue { get; set; } = 100;
         public int minvalue { get; set; } = 0;
         public string in_type { get; set; } = "hor_slider";
-        private Dictionary<string, int> in_type_dict = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox" , 6}};
+        private Dictionary<string, int> in_type_dict = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }};
+        public string innerHTML { get; set; } = "";
+
+        [PersistenceMode(PersistenceMode.InnerProperty)]
+        public PlaceHolder __Radio { get; set; } = null;
+        public string button_text { get; set; } = "submit";
         protected void Page_Load(object sender, EventArgs e)
         {
             Horiz_Range.Visible = false;
@@ -22,7 +28,12 @@ namespace Domotica_ASP
             Text.Visible = false;
             Number.Visible = false;
             Radio.Visible = false;
-            Checkbox.Visible = false;
+
+            if (__Radio != null)
+            {
+                base.OnInit(e);
+                _Radio.Controls.Add(__Radio);
+            }
 
             int type;
             if (in_type_dict.TryGetValue(in_type, out type)) { Console.WriteLine("Input type specified does not exist in class" + this.ID.ToString()); }
@@ -46,10 +57,6 @@ namespace Domotica_ASP
                 case 5:
                     // radio button
                     Radio.Visible = true;
-                    break;
-                case 6:
-                    // checkbox
-                    Checkbox.Visible = true;
                     break;
                 default:
                     break;
