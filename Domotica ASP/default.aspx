@@ -50,7 +50,7 @@
             </Wid:Widget>
             <Wid:Widget ID="Widget4" name="Text" comment="This is a text input!" runat="server"  >
                 <Input>
-                    <Wid:Input ID="Text" in_type="text" stantext="testing Github!" runat="server"/>
+                    <Wid:Input ID="Text" in_type="text" stantext="fricking frick when will you learn?!" runat="server"/>
                 </Input>
             </Wid:Widget>
             <Wid:Widget ID="Widget5" name="Radio" comment="This is a radio input!" runat="server"  >
