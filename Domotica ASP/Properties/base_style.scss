@@ -109,8 +109,8 @@ $widget_border_radius: 3px;
 
 .widget_input {
 	height: 1.2em;
-	form {
-    position: relative;
+	div {
+		position: relative;
 		z-index: 1;
 		height: 100%;
 		> .Horiz_range {
@@ -236,19 +236,37 @@ $widget_border_radius: 3px;
 		}
 		> .input_radio {
 			position: absolute;
-			top: -3.6em;
+			top: -3.4em;
 			bottom: 0;
 			left: 5px;
-			> .input_radiocheck {
-				font-size: 0.7em;
-				> input[type=radio] {
-					margin-top: -1px;
-					vertical-align: middle;
+			height: auto;
+    	display: inline-block;
+			> br {
+				margin: -10px 0;
+				display: block;
+				content: "";
+			}
+			> table {
+				font-size: 0.55em;
+				display: inline-block;
+				> tbody{
+					>tr {
+						>td {
+							> input[type=radio] {
+								margin-top: -3px;
+								vertical-align: middle;
+							}
+							> input[type=checkbox] {
+								margin-top: -1px;
+								vertical-align: middle;
+							}
+						}
+					}
 				}
 			}
 			> input[type=button], input[type=submit]{
+				bottom: 4px;
 				position: absolute;
-				bottom: 5px;
 			}
 		}
 		> .input_checkbox{
@@ -336,8 +354,8 @@ $widget_border_radius: 3px;
 	content: "";
 	height: 0.6em;
 	width: 0.6em;
-	left: 2px;
-	top: 2px;
+	left: 0.1em;
+	top: 0.1em;
 	background-color: white;
 	-webkit-transition: .4s;
 	transition: .4s;
@@ -368,7 +386,7 @@ $transform: 0.5em;
 	display: inline-flex;
 	position: absolute;
 	right: 5px;
-	bottom: 5px;
+	bottom: 2px;
 	z-index: 5;
 	> .settings_icon {
 		width: 1em;

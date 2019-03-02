@@ -13,6 +13,15 @@ namespace Domotica_ASP {
     public partial class InputFields {
         
         /// <summary>
+        /// InputField control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl InputField;
+        
+        /// <summary>
         /// Horiz_Range control.
         /// </summary>
         /// <remarks>
@@ -20,6 +29,24 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Horiz_Range;
+        
+        /// <summary>
+        /// Range_Input control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Range_Input;
+        
+        /// <summary>
+        /// Range_Display control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Range_Display;
         
         /// <summary>
         /// Vert_Range control.
@@ -31,6 +58,24 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Vert_Range;
         
         /// <summary>
+        /// Range_Input_Vert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Range_Input_Vert;
+        
+        /// <summary>
+        /// Range_Display_Vert control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Range_Display_Vert;
+        
+        /// <summary>
         /// Text control.
         /// </summary>
         /// <remarks>
@@ -40,6 +85,15 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Text;
         
         /// <summary>
+        /// TextInput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextInput;
+        
+        /// <summary>
         /// Number control.
         /// </summary>
         /// <remarks>
@@ -47,6 +101,15 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Number;
+        
+        /// <summary>
+        /// NumberInput control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox NumberInput;
         
         /// <summary>
         /// Radio control.
@@ -65,5 +128,14 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.PlaceHolder _Radio;
+        
+        /// <summary>
+        /// RadioSubBTN control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button RadioSubBTN;
     }
 }

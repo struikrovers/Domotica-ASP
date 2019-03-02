@@ -21,8 +21,10 @@ namespace Domotica_ASP
         [PersistenceMode(PersistenceMode.InnerProperty)]
         public PlaceHolder __Radio { get; set; } = null;
         public string button_text { get; set; } = "submit";
+        protected string parent_id;
         protected void Page_Load(object sender, EventArgs e)
         {
+            parent_id = this.ClientID.ToString().Remove(this.ClientID.ToString().IndexOf(this.ID.ToString()), (this.ID.ToString()).Length);
             Horiz_Range.Visible = false;
             Vert_Range.Visible = false;
             Text.Visible = false;
@@ -41,26 +43,53 @@ namespace Domotica_ASP
                 case 1:
                     // horizontal slider
                     Horiz_Range.Visible = true;
+                    Range_Input.Attributes["type"] = "range";
+                    Range_Display.Attributes["type"] = "number";
+                    Range_Input.Attributes["value"] = stanvalue.ToString();
+                    Range_Display.Attributes["value"] = stanvalue.ToString();
+                    Range_Input.Attributes["min"] = minvalue.ToString();
+                    Range_Display.Attributes["min"] = minvalue.ToString();
+                    Range_Input.Attributes["max"] = maxvalue.ToString();
+                    Range_Display.Attributes["max"] = maxvalue.ToString();
+                    Range_Input.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Display').value = document.getElementById('" + ClientID + "_Range_Input').value";
+                    Range_Display.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Input').value = document.getElementById('" + ClientID + "_Range_Display').value";
                     break;
                 case 2:
                     // vertical slider
                     Vert_Range.Visible = true;
+                    Range_Input_Vert.Attributes["type"] = "range";
+                    Range_Display_Vert.Attributes["type"] = "number";
+                    Range_Input_Vert.Attributes["value"] = stanvalue.ToString();
+                    Range_Display_Vert.Attributes["value"] = stanvalue.ToString();
+                    Range_Input_Vert.Attributes["min"] = minvalue.ToString();
+                    Range_Display_Vert.Attributes["min"] = minvalue.ToString();
+                    Range_Input_Vert.Attributes["max"] = maxvalue.ToString();
+                    Range_Display_Vert.Attributes["max"] = maxvalue.ToString();
+                    Range_Input_Vert.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Display_Vert').value = document.getElementById('" + ClientID + "_Range_Input_Vert').value";
+                    Range_Display_Vert.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Input_Vert').value = document.getElementById('" + ClientID + "_Range_Display_Vert').value";
                     break;
                 case 3:
                     // Text input
                     Text.Visible = true;
+                    TextInput.Attributes["type"] = "Text";
+                    TextInput.Attributes["placeholder"] = stantext;
                     break;
                 case 4:
                     // number input
                     Number.Visible = true;
+                    NumberInput.Attributes["type"] = "number";
+                    NumberInput.Attributes["value"] = stanvalue.ToString();
                     break;
                 case 5:
                     // radio button
                     Radio.Visible = true;
+                    RadioSubBTN.Text = button_text;
                     break;
                 default:
                     break;
             }
+
+            InputField.DataBind();
         }
     }
 }

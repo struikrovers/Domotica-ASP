@@ -22,6 +22,15 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child;
         
         /// <summary>
+        /// grid_child_name control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child_name;
+        
+        /// <summary>
         /// grid_child_commenter control.
         /// </summary>
         /// <remarks>
@@ -83,5 +92,14 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl settings;
+        
+        /// <summary>
+        /// settings_icon control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl settings_icon;
     }
 }

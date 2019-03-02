@@ -112,40 +112,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.InputFields Radio;
         
         /// <summary>
-        /// RadioCheck1 control.
+        /// RadioButton_Input control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck1;
-        
-        /// <summary>
-        /// RadioCheck2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck2;
-        
-        /// <summary>
-        /// RadioCheck3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck3;
-        
-        /// <summary>
-        /// RadioCheck4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck4;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButton_Input;
         
         /// <summary>
         /// Widget6 control.
@@ -166,40 +139,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.InputFields Checkbox;
         
         /// <summary>
-        /// RadioCheck5 control.
+        /// CheckBoxList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck5;
-        
-        /// <summary>
-        /// RadioCheck6 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck6;
-        
-        /// <summary>
-        /// RadioCheck7 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck7;
-        
-        /// <summary>
-        /// RadioCheck8 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck8;
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxList1;
         
         /// <summary>
         /// Widget13 control.
@@ -211,13 +157,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget Widget13;
         
         /// <summary>
-        /// overlay_1 control.
+        /// overlay1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.overlay overlay_1;
+        protected global::Domotica_ASP.overlay overlay1;
         
         /// <summary>
         /// Widget7 control.
@@ -310,40 +256,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.InputFields Input5;
         
         /// <summary>
-        /// RadioCheck9 control.
+        /// RadioButtonList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck9;
-        
-        /// <summary>
-        /// RadioCheck10 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck10;
-        
-        /// <summary>
-        /// RadioCheck11 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck11;
-        
-        /// <summary>
-        /// RadioCheck12 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck12;
+        protected global::System.Web.UI.WebControls.RadioButtonList RadioButtonList1;
         
         /// <summary>
         /// Widget12 control.
@@ -364,40 +283,22 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.InputFields Input6;
         
         /// <summary>
-        /// RadioCheck13 control.
+        /// CheckBoxList2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck13;
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxList2;
         
         /// <summary>
-        /// RadioCheck14 control.
+        /// Widget14 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck14;
-        
-        /// <summary>
-        /// RadioCheck15 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck15;
-        
-        /// <summary>
-        /// RadioCheck16 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputRadioCheck RadioCheck16;
+        protected global::Domotica_ASP.Widget Widget14;
         
         /// <summary>
         /// overlay2 control.

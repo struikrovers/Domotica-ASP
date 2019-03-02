@@ -113,3 +113,25 @@ function waitForElementToDisplay(selector, time, fun, loops) {
         }
     }
 }
+
+function ChangeSettingsIcon(ParentID, left = "", right = "", top = "", bottom = "") {
+    waitForElementToDisplay("#" + ParentID + "settings", 10, () => {
+        var widget_settings = document.getElementById(ParentID.concat("settings"));
+        if (left != "") { widget_settings.style.left = left; }
+        if (right != "") { widget_settings.style.right = right; }
+        if (top != "") { widget_settings.style.top = top; }
+        if (bottom != "") { widget_settings.style.bottom = bottom; }
+    }, 0);
+}
+
+function changeTextPlacement(ParentID, clientID) {
+    setTimeout(function () {
+        width_input = document.getElementById(clientID.concat("_Radio")).getBoundingClientRect().width;
+        width_container = document.getElementById(ParentID.concat("grid_child_commenter")).getBoundingClientRect().width;
+        width = width_container - (width_input + 20)
+        para = document.getElementById(ParentID.concat("grid_child_comment"));
+        para.style.width = width + "px";
+        para.style.right = "5px";
+        para.style.position = "absolute";
+    }, 50);
+}

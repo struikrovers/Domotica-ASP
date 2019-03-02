@@ -14,7 +14,7 @@ namespace Domotica_ASP
         public string comment { get; set; } = "";
         public bool toggle { get; set; } = false;
         public bool setting { get; set; } = false;
-        
+        public string overlayID { get; set; }
 
         // NOTE: input fields
         [PersistenceMode(PersistenceMode.InnerProperty)]
@@ -33,6 +33,9 @@ namespace Domotica_ASP
             }
             toggable.Visible = toggle;
             settings.Visible = setting;
+            grid_child_name.InnerHtml = name;
+            grid_child_comment.InnerHtml = comment;
+            settings_icon.Attributes["onclick"] = "open_overlay(event, '" + overlayID + "_overlay_child');";
         }
     }
 }
