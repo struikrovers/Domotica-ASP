@@ -58,6 +58,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Domotica.mdf" />
+    <Content Include="App_Data\Domotica_log.ldf">
+      <DependentUpon>Domotica.mdf</DependentUpon>
+    </Content>
     <Content Include="InputFields.ascx" />
     <Content Include="overlay.ascx" />
     <Content Include="Properties\base_style.scss" />

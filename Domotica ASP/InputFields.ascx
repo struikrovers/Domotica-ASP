@@ -2,7 +2,7 @@
 <!-- needed to get styling right -->
 <div id="InputField" runat="server">
     <script>
-        var ParentID = "<%# this.ClientID.ToString().Remove(this.ClientID.ToString().IndexOf(this.ID.ToString()), (this.ID.ToString()).Length) %>"
+        var ParentID = "<%# this.parent_id %>"
         var ClientID = "<%# this.ClientID.ToString() %>"
     </script>
 
