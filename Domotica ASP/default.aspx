@@ -50,7 +50,7 @@
                 </Wid:Widget>
                 <Wid:Widget ID="Widget4" name="Text" comment="This is a text input!" setting="true" overlayID="overlay1" runat="server"  >
                     <Input>
-                        <Wid:Input ID="Text" in_type="text" stantext="werkt t eindelijk?" setting="true" overlayID="overlay1" runat="server"/>
+                        <Wid:Input ID="Text" in_type="text" stantext="zo te zien werkt t!" setting="true" overlayID="overlay1" runat="server"/>
                     </Input>
                 </Wid:Widget>
                 <Wid:Widget ID="Widget5" name="Radio" comment="This is a radio input!" setting="true" overlayID="overlay1" runat="server"  >
