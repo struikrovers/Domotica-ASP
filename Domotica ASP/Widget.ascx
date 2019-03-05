@@ -14,11 +14,11 @@
     </div>
     <div id="toggable" runat="server">
         <div class=toggableContainer>
-            <input id=Toggle_checkbox class='Toggle_checkbox' type='checkbox' runat="server">
-            <span class=toggableCheckbox_span></span>
-            <label for="Toggle_checkbox" class='toggle_switch' onclick="" runat="server">
+            <asp:CheckBox ID="Toggle_Checkbox" runat="server" />
+            <asp:Label ID="ToggleLabel" CssClass="toggle_switch" runat="server" AssociatedControlID="Toggle_Checkbox">
                 <span class='toggle_slider round'></span>
-            </label>
+            </asp:Label>
+            <span class=toggableCheckbox_span></span>
         </div>
     </div>
     <div id="settings" class='settings' runat="server">

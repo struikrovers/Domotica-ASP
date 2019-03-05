@@ -76,13 +76,22 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl toggable;
         
         /// <summary>
-        /// Toggle_checkbox control.
+        /// Toggle_Checkbox control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox Toggle_checkbox;
+        protected global::System.Web.UI.WebControls.CheckBox Toggle_Checkbox;
+        
+        /// <summary>
+        /// ToggleLabel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ToggleLabel;
         
         /// <summary>
         /// settings control.
