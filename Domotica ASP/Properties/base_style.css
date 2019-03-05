@@ -296,10 +296,10 @@ body {
   outline: none !important; }
 
 .settings {
-  display: inline-flex;
+  display: inline-block;
   position: absolute;
+  top: 0px;
   right: 5px;
-  bottom: 2px;
   z-index: 5; }
   .settings > .settings_icon {
     width: 1em; }

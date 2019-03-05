@@ -38,6 +38,10 @@ namespace Domotica_ASP
             settings_icon.Attributes["onclick"] = "open_overlay(event, '" + overlayID + "_overlay_child');";
             Toggle_Checkbox.InputAttributes["class"] = "Toggle_Checkbox";
             Toggle_Checkbox.InputAttributes["name"] = ClientID + "_Toggle_Checkbox";
+            if (setting)
+            {
+                ToggleLabel.Attributes["style"] = "right: 30px";
+            }
         }
     }
 }

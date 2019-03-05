@@ -38,7 +38,7 @@
                         <Wid:Input ID="Vertical" in_type="ver_slider" runat="server"/>
                     </Input>
                 </Wid:Widget>
-                <Wid:Widget id="Widget2" name="Horizontal" comment="This is a horizontal slider!" setting="true" overlayID="overlay1" runat="server" >
+                <Wid:Widget id="Widget2" name="Horizontal" comment="This is a horizontal slider!" setting="false" toggle="true" overlayID="overlay1" runat="server" >
                     <Input>
                         <Wid:Input ID="Horizontal" in_type="hor_slider"  runat="server"/>
                     </Input>
@@ -144,28 +144,6 @@
                     </content>
                 </Wid:Overlay>
 	        </div>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="UserID" DataSourceID="SqlDataSource1" ForeColor="#333333" GridLines="None">
-                <AlternatingRowStyle BackColor="White" />
-                <Columns>
-                    <asp:BoundField DataField="UserID" HeaderText="UserID" InsertVisible="False" ReadOnly="True" SortExpression="UserID" />
-                    <asp:BoundField DataField="Voornaam" HeaderText="Voornaam" SortExpression="Voornaam" />
-                    <asp:BoundField DataField="Achternaam" HeaderText="Achternaam" SortExpression="Achternaam" />
-                    <asp:BoundField DataField="Username" HeaderText="Username" SortExpression="Username" />
-                    <asp:BoundField DataField="Email" HeaderText="Email" SortExpression="Email" />
-                    <asp:BoundField DataField="Password" HeaderText="Password" SortExpression="Password" />
-                    <asp:BoundField DataField="ToegangsLevel" HeaderText="ToegangsLevel" SortExpression="ToegangsLevel" />
-                </Columns>
-                <EditRowStyle BackColor="#2461BF" />
-                <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
-                <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
-                <RowStyle BackColor="#EFF3FB" />
-                <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
-                <SortedAscendingCellStyle BackColor="#F5F7FB" />
-                <SortedAscendingHeaderStyle BackColor="#6D95E1" />
-                <SortedDescendingCellStyle BackColor="#E9EBEF" />
-                <SortedDescendingHeaderStyle BackColor="#4870BE" />
-            </asp:GridView>
         </form>
 		<!-- div to calculate em -->
 		<div id="em_calc" style="height:0;width:0;outline:none;border:none;padding:0;margin:0;"></div>
