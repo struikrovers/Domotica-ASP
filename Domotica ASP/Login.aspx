@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Domotica_ASP.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="login.aspx.cs" Inherits="Domotica_ASP.Login" %>
 
 <!DOCTYPE html>
 
@@ -14,9 +14,10 @@
             <asp:Label ID="password" runat="server" AssociatedControlID="PasswordInput" Text="Password"></asp:Label>
             <asp:TextBox ID="PasswordInput" runat="server"></asp:TextBox>
         </div>
-        <asp:CheckBox ID="CheckBox1" runat="server" Text="Remember me" />
+        <asp:CheckBox ID="remember" runat="server" Text="Remember me" />
         <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Login" />
-        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        <asp:Label ID="Label1" runat="server"></asp:Label>
+        <asp:Label ID="Label2" runat="server"></asp:Label>
     </form>
 </body>
 </html>
