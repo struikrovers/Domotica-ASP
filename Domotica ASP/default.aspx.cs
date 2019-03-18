@@ -11,7 +11,16 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            string User = Session["user"].ToString();
+            //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
+            //WHERE h.GROUPID IN(
+            //    SELECT `GROUPID` FROM neemtdeelaan
 
+            //    WHERE `userid` IN (
+            //        SELECT `userid` FROM user WHERE `gebruikersnaam` = :gbnaam
+	           // )
+            //)
+            // query to get the device id's and names of the devices the user has access to.
         }
     }
 }

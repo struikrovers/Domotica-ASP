@@ -14,5 +14,7 @@
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
         
+        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+        
     </div>
 </asp:Content>

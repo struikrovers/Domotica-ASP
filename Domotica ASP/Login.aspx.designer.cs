@@ -10,7 +10,7 @@
 namespace Domotica_ASP {
     
     
-    public partial class Login1 {
+    public partial class Login {
         
         /// <summary>
         /// username control.

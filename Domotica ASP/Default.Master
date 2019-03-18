@@ -25,6 +25,11 @@
 </head>
 <body>
     <form runat="server">
+    <div id="Header" class="header" runat="server">
+        <asp:Label ID="WelcomeLabel" runat="server"></asp:Label>
+        <input type="button" ID="LoginButton" runat="server" value="Login" onclick="document.location.href='Login.aspx';"/>
+        <input type="button" ID="LogoutButton" runat="server" value="Logout" onclick="document.location.href='Login.aspx?Logout=t';" visible="false"/>
+    </div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>
     </form>

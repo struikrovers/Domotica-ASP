@@ -4,8 +4,17 @@ window.onload = function (event) {
     getEMValue("em_calc");
     // makes the overlays content render correctly
     setTimeout(function () {
-        document.getElementById('grid_overlay').style.display = "none";
-        document.getElementById('grid_overlay').style.visibility = "visible";
+        if (window.location.href.match('default.aspx') || window.location.href.match('admin.aspx')) {
+            document.getElementById('grid_overlay').style.display = "none";
+            document.getElementById('grid_overlay').style.visibility = "visible";
+        }
+    }, 50);
+    setTimeout(function () {
+        if (window.location.href.match('Login.aspx')) {
+            if (document.getElementById("ContentPlaceHolder1_PasswordInput").value != "") {
+                document.getElementById("ContentPlaceHolder1_remember").checked = true;
+            }
+        }
     }, 50);
 }
 
