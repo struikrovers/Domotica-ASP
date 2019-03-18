@@ -10,7 +10,7 @@
 namespace Domotica_ASP {
     
     
-    public partial class index {
+    public partial class _default {
         
         /// <summary>
         /// grid_parent control.

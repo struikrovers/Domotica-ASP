@@ -79,6 +79,32 @@ namespace Domotica_ASP
             return returned;
         }
 
+        public static bool checkUserCookie(HttpCookie verkade, out string error, out bool errorInd)
+        {
+            MySqlCommand query2 = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
+            query2.Parameters.Add("gbnaam", verkade["username"]);
+            List<dynamic> result = global.ExecuteReader(query2, out string error2, out bool errorInd2);
+            if (errorInd2)
+            {
+                error = error2;
+                errorInd = true;
+                return false;
+            }
+            else {
+                error = "";
+                errorInd = false;
+                int userID = global.getValueFromList(result);
+                int username_num = global.stringToInt(verkade["username"]);
+                if (verkade["userkey"] == ((int.Parse(verkade["salt"]) * (userID * 10)) * username_num).ToString())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
         // https://stackoverflow.com/a/20044767
         public static int stringToInt(string text)
         {
