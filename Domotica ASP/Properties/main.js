@@ -50,6 +50,10 @@ function open_overlay(e, id) {
     }
     document.getElementById(id).style.display = "inline-block";
     open_overlays.push(id);
+    overlay_rect = document.getElementById(id).getClientRects();
+    icon_width = document.getElementById("close_overlay_back").getClientRects()[0].width;
+    document.getElementById("close_overlay_back").style.left = overlay_rect[0].x - icon_width/2 + "px";
+    document.getElementById("close_overlay_icon").style.left = overlay_rect[0].right - icon_width/2 + "px";
 }
 
 function close_overlay(e, force) {

@@ -60,9 +60,27 @@
             </Input>
         </Wid:Widget>
         <Wid:Widget ID="Widget13" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget15" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget16" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget17" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget18" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget19" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget20" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget22" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+        <Wid:Widget ID="Widget21" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
     </div>
 
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)">
+        <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">
+        <span class='close_icon'>
+            <i class='fa fa-times'></i>
+        </span>
+        </div>
+        <div id="close_overlay_back" class="overlay_closer icon_back" onclick="close_overlay(event, 'back', this)">
+            <span class="close_icon" style="font-size:0.65em">
+                <i class="fa fa-long-arrow-left"></i>
+            </span>
+        </div>
         <!-- put overlays here! -->
 	    <Wid:Overlay ID="overlay1" runat="server" >
             <Content>
@@ -115,6 +133,12 @@
                     </Input>
                 </Wid:Widget>
                 <Wid:Widget ID="Widget14" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget23" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget24" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget25" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget26" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget27" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
+                <Wid:Widget ID="Widget28" name="Header" comment="This is the comment box." setting="true" overlayID="overlay1" runat="server" />
             </content>
         </Wid:Overlay>
         <Wid:Overlay ID="overlay2" runat="server" >
