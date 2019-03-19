@@ -31,6 +31,9 @@ namespace Domotica_ASP
             {
                 input.Visible = false;
             }
+
+            overlayID = ClientID.ToString().Remove(ClientID.ToString().IndexOf(ID.ToString()), (ID.ToString()).Length) + overlayID;
+
             toggable.Visible = toggle;
             settings.Visible = setting;
             grid_child_name.InnerHtml = name;

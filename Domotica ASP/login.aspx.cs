@@ -13,6 +13,16 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            // logout
+            if(Request.QueryString["Logout"] == "t")
+            {
+                Session.Clear();
+            }
+
+            if(Session["deleteCookie"] == null)
+            {
+                Session["deleteCookie"] = false;
+            }
             PasswordInput.Attributes["type"] = "password";
             HttpCookie verkade = Request.Cookies["verkade"];
             if (verkade != null)
@@ -27,30 +37,12 @@ namespace Domotica_ASP
                     }
                 }
             }
-        }
-
-        /*
-        MySqlCommand query2 = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES ('imre', 'korf', 'admin3', :wachtwoord, 'test3@hotmail.com', '50')");
-        query2.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash("admin123"));
-        global.ExecuteReader(query2, out string error2, out bool errorInd2);
-        if (errorInd2)
-        {
-            Label1.Text = error2;
-        }
-        */
+        }        
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            Session["deleteCookie"] = remember.Checked;
             // delete cookie if remember me is unchecked.
-            void delete_cookie()
-            {
-                if (remember.Checked == false && Request.Cookies["verkade"] != null)
-                {
-                    base.Response.Cookies["verkade"].Expires = DateTime.Now.AddDays(-1);
-                    UsernameInput.Text = "";
-                    PasswordInput.Text = "";
-                }
-            }
 
             string username = UsernameInput.Text;
             string password = PasswordInput.Text;
@@ -78,17 +70,29 @@ namespace Domotica_ASP
                         // check if the userkey is correct
                         if (global.checkUserCookie(verkade, out string error3, out bool errorInd3))
                         {
+                            MySqlCommand query2 = new MySqlCommand("SELECT toegangslevel FROM user WHERE gebruikersnaam = :gebruikersnaam");
+                            query2.Parameters.Add("gebruikersnaam", verkade["username"]);
+                            List<dynamic> result2 = global.ExecuteReader(query2, out string error2, out bool errorInd2);
+                            int authlvl = 1;
+                            if (errorInd2) { }
+                            else
+                            {
+                                authlvl = global.getValueFromList(result2);
+                            }
+
                             UsernameInput.Text = verkade["username"];
                             PasswordInput.Text = "*******";
                             Session["user"] = verkade["username"];
+                            Session["LoggedIn"] = true;
+                            Session["authlvl"] = authlvl;
+                            Response.Redirect("default.aspx", true);
                         }
                         else
                         {
                             // if somehow the userkey is wrong then refresh the page.
-                            Response.Redirect(Request.Url.AbsolutePath, false);
+                            Response.Redirect(Request.Url.AbsolutePath, true);
                         }
                     }
-                    delete_cookie();
                 }
                 // check if password is a supported hash
                 else if (SecurePasswordHasher.IsHashSupported(returned_password))
@@ -97,6 +101,16 @@ namespace Domotica_ASP
                     if (SecurePasswordHasher.Verify(password, returned_password))
                     {
                         // TODO: redirect to default;
+                        MySqlCommand query3 = new MySqlCommand("SELECT toegangslevel FROM user WHERE gebruikersnaam = :gebruikersnaam");
+                        query3.Parameters.Add("gebruikersnaam", username);
+                        List<dynamic> result3 = global.ExecuteReader(query3, out string error3, out bool errorInd3);
+                        int authlvl = 1;
+                        if (errorInd3) { }
+                        else
+                        {
+                            authlvl = global.getValueFromList(result3);
+                        }
+
                         // if remember me checked then add a cookie if it doesnt exist yet.
                         if (remember.Checked == true)
                         {
@@ -127,8 +141,11 @@ namespace Domotica_ASP
                                 }
                             }
                         }
-                        // delete the cookie if the remember me is left unchecked after the user is already logged in
-                        delete_cookie();
+
+                        Session["user"] = username;
+                        Session["LoggedIn"] = true;
+                        Session["authlvl"] = authlvl;
+                        Response.Redirect("default.aspx", true);
                     }
                     else
                     {
