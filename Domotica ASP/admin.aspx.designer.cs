@@ -22,12 +22,39 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
         
         /// <summary>
-        /// Label1 control.
+        /// Register control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::Domotica_ASP.Widget Register;
+        
+        /// <summary>
+        /// Register_overlay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay Register_overlay;
+        
+        /// <summary>
+        /// Add control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Add;
+        
+        /// <summary>
+        /// Overlay1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay Overlay1;
     }
 }

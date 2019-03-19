@@ -13,8 +13,27 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
-        
-        <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-        
+        <Wid:Widget id="Register" name="Registratie" comment="Beheer gebruikers" setting="true" overlayID="Register_overlay" runat="server" toggle="False" /> 
+
+    </div>
+    <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)">
+        <Wid:Overlay ID="Register_overlay" runat="server">
+            <Content>
+                <Wid:Widget ID="Add" comment="Voeg een gebruiker toe." name="Toevoegen" runat="server" setting="True" overlayID="Add_User">
+
+                  
+                </Wid:Widget>
+
+            </Content>
+
+        </Wid:Overlay>
+        <Wid:Overlay ID="Overlay1" runat="server">
+            <Content>
+               
+
+            </Content>
+
+        </Wid:Overlay>
+
     </div>
 </asp:Content>
