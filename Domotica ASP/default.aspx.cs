@@ -11,7 +11,6 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            string User = Session["user"].ToString();
             //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
             //WHERE h.GROUPID IN(
             //    SELECT `GROUPID` FROM neemtdeelaan
