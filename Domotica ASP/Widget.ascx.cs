@@ -32,7 +32,7 @@ namespace Domotica_ASP
                 input.Visible = false;
             }
 
-            overlayID = ClientID.ToString().Remove(ClientID.ToString().IndexOf(ID.ToString()), (ID.ToString()).Length) + overlayID;
+            overlayID = "ContentPlaceHolder1_" + overlayID;
 
             toggable.Visible = toggle;
             settings.Visible = setting;
