@@ -25,7 +25,7 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
-    <form runat="server">
+    <form runat="server" id="masterForm">
     <div id="Header" class="header" runat="server">
         <asp:Label ID="WelcomeLabel" runat="server"></asp:Label>
         <input type="button" ID="LoginButton" runat="server" value="Login" onclick="document.location.href='Login.aspx';"/>
