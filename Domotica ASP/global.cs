@@ -17,14 +17,52 @@ namespace Domotica_ASP
         /// <param name="error"> the error message </param>
         /// <param name="errorInd"> indicator of the error </param>
         /// <returns></returns>
-        public static List<dynamic> ExecuteReader(MySqlCommand query, out string error, out bool errorInd)
+        public static List<List<string>> ExecuteReader(MySqlCommand query, out string error, out bool errorInd)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.ConnectionStrings["demotica_conn"].ToString());
             query.Connection = conn;
             error = "";
             errorInd = false;
+
+            //int resultLength = 0;
+
+            // getting size of result
+            /*
+            string querytext = query.CommandText;
+            querytext = querytext.Insert("SELECT ".Length, "COUNT(");
+            querytext = querytext.Insert(querytext.IndexOf(" FROM"), ")");
+            MySqlCommand querylength = new MySqlCommand(querytext);
+            querylength.Connection = conn;
+            // add previously defined parameters.
+            foreach (MySqlParameter param in query.Parameters)
+            {
+                querylength.Parameters.Add(param.ToString(), param.Value);
+            }
+
+            try
+            {
+                conn.Open();
+                MySqlDataReader myReader22 = querylength.ExecuteReader();
+                while (myReader22.Read())
+                {
+                    for (int i = 0; i < myReader22.FieldCount; i++)
+                    {
+                        resultLength = int.Parse(myReader22.GetValue(i).ToString());
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                error = "getResultLengthError: " + exc.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            */
+
             // why dynamic you might ask? well because there are different data types in the database ofcourse! let the compiler fix the datatypes for you! source: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/dynamic
-            List<dynamic> result = new List<dynamic>();
+            List<List<string>> result = new List<List<string>>();
             try
             {
                 conn.Open();
@@ -34,10 +72,10 @@ namespace Domotica_ASP
                     while (myReader.Read())
                     {
                         // creating a list of the current columns
-                        List<dynamic> result_inner = new List<dynamic>();
+                        List<string> result_inner = new List<string>();
                         for(int i = 0; i < myReader.FieldCount; i++)
                         {
-                            result_inner.Add(myReader.GetValue(i));
+                            result_inner.Add(myReader.GetValue(i).ToString());
                         }
                         result.Add(result_inner);
                     }
@@ -66,12 +104,12 @@ namespace Domotica_ASP
             return result;
         }
 
-        public static dynamic getValueFromList(List<dynamic> Result)
+        public static string getValueFromList(List<List<string>> Result)
         {
-            dynamic returned = "";
-            foreach (dynamic list in Result)
+            string returned = "";
+            foreach (List<string> list in Result)
             {
-                foreach(dynamic value in list)
+                foreach(string value in list)
                 {
                     returned = value;
                 }
@@ -83,7 +121,7 @@ namespace Domotica_ASP
         {
             MySqlCommand query2 = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
             query2.Parameters.Add("gbnaam", verkade["username"]);
-            List<dynamic> result = global.ExecuteReader(query2, out string error2, out bool errorInd2);
+            List<List<string>> result = ExecuteReader(query2, out string error2, out bool errorInd2);
             if (errorInd2)
             {
                 error = error2;
@@ -93,7 +131,7 @@ namespace Domotica_ASP
             else {
                 error = "";
                 errorInd = false;
-                int userID = global.getValueFromList(result);
+                int userID = int.Parse(getValueFromList(result));
                 int username_num = global.stringToInt(verkade["username"]);
                 if (verkade["userkey"] == ((int.Parse(verkade["salt"]) * (userID * 10)) * username_num).ToString())
                 {
