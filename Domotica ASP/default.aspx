@@ -12,10 +12,9 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
-        
     </div>
 
-    <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)">
+    <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">
         <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">
         <span class='close_icon'>
             <i class='fa fa-times'></i>

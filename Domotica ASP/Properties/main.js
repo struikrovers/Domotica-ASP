@@ -5,8 +5,8 @@ window.onload = function (event) {
     // makes the overlays content render correctly
     setTimeout(function () {
         if (window.location.href.match('default.aspx') || window.location.href.match('admin.aspx')) {
-            document.getElementById('grid_overlay').style.display = "none";
-            document.getElementById('grid_overlay').style.visibility = "visible";
+            document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "none";
+            document.getElementById('ContentPlaceHolder1_grid_overlay').style.visibility = "visible";
         }
     }, 50);
     setTimeout(function () {
@@ -42,7 +42,7 @@ var open_overlays = [];
 
 function open_overlay(e, id) {
     if (open_overlays.length == 0) {
-        document.getElementById('grid_overlay').style.display = "block";
+        document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "block";
     }
     //close all previously opened overlay_children
     for (i = 0; i < document.getElementsByClassName('overlay_child').length; i++) {
@@ -68,7 +68,7 @@ function close_overlay(e, force) {
         if (overlay_rect != null) {
             // close the grid_overlay if there is only 1 overlay open at the time of closing.
             if (open_overlays.length == 1 || force == "close") {
-                document.getElementById('grid_overlay').style.display = "none";
+                document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "none";
                 open_overlays.pop();
                 document.getElementById("masterForm").style.overflowY = "scroll";
             }
