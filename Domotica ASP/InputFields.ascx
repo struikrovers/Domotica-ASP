@@ -37,4 +37,10 @@
         </asp:PlaceHolder>
         <asp:Button ID="RadioSubBTN" runat="server" Text="Button" />
     </div>
+    <div id="DropDownList" runat="server" class="input_List">
+        <!-- DropDown Input -->
+        <asp:PlaceHolder ID="_DropDownList" runat="server">
+
+        </asp:PlaceHolder>
+    </div>
 </div>

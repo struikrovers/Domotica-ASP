@@ -15,11 +15,12 @@ namespace Domotica_ASP
         public int maxvalue { get; set; } = 100;
         public int minvalue { get; set; } = 0;
         public string in_type { get; set; } = "hor_slider";
-        private Dictionary<string, int> in_type_dict = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }};
+        private Dictionary<string, int> in_type_dict = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "DropDownList", 6 } };
         public string innerHTML { get; set; } = "";
 
         [PersistenceMode(PersistenceMode.InnerProperty)]
         public PlaceHolder __Radio { get; set; } = null;
+        public PlaceHolder __DropList { get; set; } = null;
         public string button_text { get; set; } = "submit";
         protected string parent_id;
         protected void Page_Load(object sender, EventArgs e)
@@ -35,6 +36,12 @@ namespace Domotica_ASP
             {
                 base.OnInit(e);
                 _Radio.Controls.Add(__Radio);
+            }
+
+            if (__DropList != null)
+            {
+                base.OnInit(e);
+                _DropDownList.Controls.Add(__DropList);
             }
 
             int type;
@@ -84,6 +91,10 @@ namespace Domotica_ASP
                     // radio button
                     Radio.Visible = true;
                     RadioSubBTN.Text = button_text;
+                    break;
+                case 6:
+                    // radio button
+                    DropDownList.Visible = true;
                     break;
                 default:
                     break;
