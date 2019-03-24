@@ -74,31 +74,36 @@
                     </Wid:Widget>
                     
                     <Wid:Widget ID="InsertUsers" comment="voer hier de gebruikers er aan toe die toegang nodig hebben." name="gebruiker toevoegen" runat="server">
-                        <!--TODO: maak dropdownlist inputfield -->
+                      
                     </Wid:Widget>
                     
                      <Wid:Widget ID="InsertDevices" comment="voer hier de Apparaten toe." name="Apparaat toevoegen" runat="server">
-                        <!--TODO: maak dropdownlist inputfield van de available apparaten-->
+                       
                     </Wid:Widget>
                     </Content>
                 </Wid:overlay>
         <Wid:overlay ID="ManageGroupOID" runat="server">
                 <Content>
                     <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
-                        <!--TODO: maak dropdownlist inputfield van de bestaande groepen-->
+                        
                     </Wid:Widget>
                     <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="gebruiker modificeren" runat="server">
-                        <!--TODO: maak dropdownlist inputfield van de gebruikers in de groep van CurrentGroup-->
+                        
                     </Wid:Widget>
                     <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten modificeren" runat="server">
-                        <!--TODO: maak dropdownlist inputfield van de apparaten in de groep van CurrentGroup-->
+                        
                     </Wid:Widget>
                 </Content>
                 </Wid:overlay>
             
         <Wid:overlay ID="DeleteGroupOID" runat="server">
                 <Content>
-
+                <Wid:Widget ID="DeleteGroup" comment="Verwijder hier de groepnaam in." name="groepsnaam" runat="server">
+                    <Input>
+                        <Wid:Input ID="input1" in_type="text" stantext="new group" runat="server" />
+                    </Input>
+                    </Wid:Widget>
+                    
                 </Content>
                 </Wid:overlay>
     </div>

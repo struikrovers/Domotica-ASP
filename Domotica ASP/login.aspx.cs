@@ -54,7 +54,7 @@ namespace Domotica_ASP
                 // get a password that corresponds to the given username
                 MySqlCommand query = new MySqlCommand("SELECT wachtwoord FROM user WHERE gebruikersnaam = :gebruikersnaam");
                 query.Parameters.Add("gebruikersnaam", username);
-                List<dynamic> result = global.ExecuteReader(query, out string error, out bool errorInd);
+                List<List<string>> result = global.ExecuteReader(query, out string error, out bool errorInd);
                 if (errorInd) { }
                 else
                 {
@@ -72,12 +72,12 @@ namespace Domotica_ASP
                         {
                             MySqlCommand query2 = new MySqlCommand("SELECT toegangslevel FROM user WHERE gebruikersnaam = :gebruikersnaam");
                             query2.Parameters.Add("gebruikersnaam", verkade["username"]);
-                            List<dynamic> result2 = global.ExecuteReader(query2, out string error2, out bool errorInd2);
+                            List<List<string>> result2 = global.ExecuteReader(query2, out string error2, out bool errorInd2);
                             int authlvl = 1;
                             if (errorInd2) { }
                             else
                             {
-                                authlvl = global.getValueFromList(result2);
+                                authlvl = int.Parse(global.getValueFromList(result2));
                             }
 
                             UsernameInput.Text = verkade["username"];
@@ -103,12 +103,12 @@ namespace Domotica_ASP
                         // TODO: redirect to default;
                         MySqlCommand query3 = new MySqlCommand("SELECT toegangslevel FROM user WHERE gebruikersnaam = :gebruikersnaam");
                         query3.Parameters.Add("gebruikersnaam", username);
-                        List<dynamic> result3 = global.ExecuteReader(query3, out string error3, out bool errorInd3);
+                        List<List<string>> result3 = global.ExecuteReader(query3, out string error3, out bool errorInd3);
                         int authlvl = 1;
                         if (errorInd3) { }
                         else
                         {
-                            authlvl = global.getValueFromList(result3);
+                            authlvl = int.Parse(global.getValueFromList(result3));
                         }
 
                         // if remember me checked then add a cookie if it doesnt exist yet.
@@ -120,7 +120,7 @@ namespace Domotica_ASP
                                 // get the userID that corresponds to the user
                                 MySqlCommand query2 = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
                                 query2.Parameters.Add("gbnaam", username);
-                                int userID = global.getValueFromList(global.ExecuteReader(query2, out string error2, out bool errorInd2));
+                                int userID = int.Parse(global.getValueFromList(global.ExecuteReader(query2, out string error2, out bool errorInd2)));
                                 if (errorInd) { }
                                 else
                                 {
