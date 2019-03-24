@@ -25,12 +25,14 @@ namespace Domotica_ASP
         protected string parent_id;
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             parent_id = ClientID.ToString().Remove(ClientID.ToString().IndexOf(ID.ToString()), (ID.ToString()).Length);
             Horiz_Range.Visible = false;
             Vert_Range.Visible = false;
             Text.Visible = false;
             Number.Visible = false;
             Radio.Visible = false;
+            DropDownList.Visible = false;
 
             if (__Radio != null)
             {
@@ -93,7 +95,7 @@ namespace Domotica_ASP
                     RadioSubBTN.Text = button_text;
                     break;
                 case 6:
-                    // radio button
+                    // DropDownList button
                     DropDownList.Visible = true;
                     break;
                 default:

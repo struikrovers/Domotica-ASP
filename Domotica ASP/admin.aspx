@@ -98,7 +98,7 @@
             
         <Wid:overlay ID="DeleteGroupOID" runat="server">
                 <Content>
-                <Wid:Widget ID="DeleteGroup" comment="Verwijder hier de groepnaam in." name="groepsnaam" runat="server">
+                <Wid:Widget ID="RemoveGroup" comment="Verwijder hier de groepnaam in." name="groepsnaam" runat="server">
                     <Input>
                         <Wid:Input ID="input1" in_type="text" stantext="new group" runat="server" />
                     </Input>

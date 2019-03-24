@@ -62,6 +62,7 @@
   <ItemGroup>
     <Content Include="admin.aspx" />
     <Content Include="default.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="InputFields.ascx" />
     <Content Include="Login.aspx" />
     <Content Include="overlay.ascx" />
@@ -101,6 +102,9 @@
     </Compile>
     <Compile Include="Default.Master.designer.cs">
       <DependentUpon>Default.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="global.cs" />
     <Compile Include="InputFields.ascx.cs">
