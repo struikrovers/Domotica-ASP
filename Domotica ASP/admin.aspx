@@ -14,10 +14,20 @@
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
         <Wid:Widget id="Register" name="Registratie" comment="Beheer gebruikers" setting="true" overlayID="Register_overlay" runat="server" toggle="False" /> 
-        <Wid:Widget id="GroupManage" name="Groepbeheer" comment="Beheer groepen" setting="true" overlayID="AddTo_Group" runat="server" toggle="False" /> 
+        <Wid:Widget id="GroupManage" name="Groepbeheer" comment="Beheer groepen" setting="true" overlayID="AddTo_Group" runat="server" toggle="False" />
+        <Wid:Widget id="DeviceManage" name="Apparaatbeheer" comment="Beheer Apparaten" setting="true" overlayID="DeviceManager" runat="server" toggle="False" /> 
     </div>
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)">
-        
+        <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">
+        <span class='close_icon'>
+            <i class='fa fa-times'></i>
+        </span>
+        </div>
+        <div id="close_overlay_back" class="overlay_closer icon_back" onclick="close_overlay(event, 'back', this)">
+            <span class="close_icon" style="font-size:0.65em">
+                <i class="fa fa-long-arrow-left"></i>
+            </span>
+        </div>
         <Wid:Overlay ID="Register_overlay" runat="server">
             <Content>
                 <Wid:Widget ID="Add" comment="Voeg een gebruiker toe." name="Toevoegen" runat="server" setting="True" overlayID="Add_User" />
@@ -52,7 +62,9 @@
         </Wid:Overlay>
         <Wid:Overlay ID="Remove_User" runat="server">
             <Content>
-            <!--    <Wid:Widget ID="" -->
+                
+                
+                   
             </Content>
         </Wid:Overlay>
         
@@ -87,10 +99,10 @@
                     <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
                         
                     </Wid:Widget>
-                    <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="gebruiker modificeren" runat="server">
+                    <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server">
                         
                     </Wid:Widget>
-                    <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten modificeren" runat="server">
+                    <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server">
                         
                     </Wid:Widget>
                 </Content>
@@ -98,13 +110,34 @@
             
         <Wid:overlay ID="DeleteGroupOID" runat="server">
                 <Content>
-                <Wid:Widget ID="RemoveGroup" comment="Verwijder hier de groepnaam in." name="groepsnaam" runat="server">
+                <Wid:Widget ID="RemoveGroup" comment="Verwijder hier de groep." name="verwijder groep" runat="server">
                     <Input>
-                        <Wid:Input ID="input1" in_type="text" stantext="new group" runat="server" />
+                        <Wid:Input ID="input_deletegroup" in_type="DropDownList">
+                            
+                        </Wid:Input>
                     </Input>
                     </Wid:Widget>
                     
                 </Content>
                 </Wid:overlay>
+    
+    <Wid:Overlay ID="DeviceManager" runat="server">
+            <Content>
+                <Wid:Widget ID="DeviceName" comment="voer de naam in van het apparaat." name="Toevoegen" runat="server">
+                    <Input>
+                        <Wid:Input ID="input_devicename">
+
+                        </Wid:Input>
+
+                    </Input>
+                </Wid:Widget>
+                <Wid:Widget ID="Widget2" comment="Verander instellingen aan de groepen." name="Wijzigen" runat="server" setting="True" overlayID="ManageGroupOID">
+                    <Input></Input>
+                </Wid:Widget>
+                <Wid:Widget ID="Widget3" comment="Verwijder groepen." name="Verwijderen" runat="server" setting="True" overlayID="DeleteGroupOID" />
+            </Content>
+            </Wid:Overlay>
+    
+    
     </div>
 </asp:Content>

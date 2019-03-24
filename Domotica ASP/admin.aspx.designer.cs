@@ -40,6 +40,15 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget GroupManage;
         
         /// <summary>
+        /// DeviceManage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget DeviceManage;
+        
+        /// <summary>
         /// Register_overlay control.
         /// </summary>
         /// <remarks>
@@ -301,12 +310,39 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget RemoveGroup;
         
         /// <summary>
-        /// input1 control.
+        /// DeviceManager control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputFields input1;
+        protected global::Domotica_ASP.overlay DeviceManager;
+        
+        /// <summary>
+        /// DeviceName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget DeviceName;
+        
+        /// <summary>
+        /// Widget2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget2;
+        
+        /// <summary>
+        /// Widget3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget3;
     }
 }
