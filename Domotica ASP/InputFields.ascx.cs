@@ -15,7 +15,6 @@ namespace Domotica_ASP
         public int maxvalue { get; set; } = 100;
         public int minvalue { get; set; } = 0;
         public string in_type { get; set; } = "hor_slider";
-        private Dictionary<string, int> in_type_dict = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "DropDownList", 6 } };
         public string innerHTML { get; set; } = "";
 
         [PersistenceMode(PersistenceMode.InnerProperty)]
@@ -47,7 +46,8 @@ namespace Domotica_ASP
             }
 
             int type;
-            if (in_type_dict.TryGetValue(in_type, out type)) { Console.WriteLine("Input type specified does not exist in class" + this.ID.ToString()); }
+            // give an error when the given type does not exist.
+            if (!global.listTypes.TryGetValue(in_type, out type)) { throw new inputTypeException(string.Format("Input type does not exist! From widget: {0}", parent_id)); }
             switch (type) {
                 case 1:
                     // horizontal slider
@@ -94,7 +94,7 @@ namespace Domotica_ASP
                     Radio.Visible = true;
                     RadioSubBTN.Text = button_text;
                     break;
-                case 6:
+                case 7:
                     // DropDownList button
                     DropDownList.Visible = true;
                     break;

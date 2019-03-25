@@ -8,9 +8,26 @@ using System.Security.Cryptography;
 
 namespace Domotica_ASP
 {
+    public class inputTypeException : Exception
+    {
+        public inputTypeException()
+        {
+
+        }
+
+        public inputTypeException(string message) : base(message)
+        {
+        }
+
+        public inputTypeException(string message, Exception inner)
+            : base(message, inner)
+        {
+        }
+    }
+
     public class global
     {
-        public static Dictionary<string, int> listTypes = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox", 6 }, { "DropDownList", 7 } };
+        public static Dictionary<string, int> listTypes { get; set; } = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox", 6 }, { "DropDownList", 7 } };
 
         /// <summary>
         /// Executs the mysqlcommand given, query generation should be done beforehand
@@ -62,8 +79,7 @@ namespace Domotica_ASP
                 conn.Close();
             }
             */
-
-            // why dynamic you might ask? well because there are different data types in the database ofcourse! let the compiler fix the datatypes for you! source: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/dynamic
+            
             List<List<string>> result = new List<List<string>>();
             try
             {
@@ -119,21 +135,20 @@ namespace Domotica_ASP
             return returned;
         }
 
-        public static bool checkUserCookie(HttpCookie verkade, out string error, out bool errorInd)
+        public static bool checkUserCookie(HttpCookie verkade, out string error)
         {
-            MySqlCommand query2 = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
-            query2.Parameters.Add("gbnaam", verkade["username"]);
-            List<List<string>> result = ExecuteReader(query2, out string error2, out bool errorInd2);
-            if (errorInd2)
+            MySqlCommand UserIDQuery = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
+            UserIDQuery.Parameters.Add("gbnaam", verkade["username"]);
+            List<List<string>> UserIDqueryResult = ExecuteReader(UserIDQuery, out string UserIDQueryError, out bool UserIDQueryErrorInd);
+            if (UserIDQueryErrorInd)
             {
-                error = error2;
-                errorInd = true;
+                /* do something if there is an error */
+                error = UserIDQueryError;
                 return false;
             }
             else {
                 error = "";
-                errorInd = false;
-                int userID = int.Parse(getValueFromList(result));
+                int userID = int.Parse(getValueFromList(UserIDqueryResult));
                 int username_num = global.stringToInt(verkade["username"]);
                 if (verkade["userkey"] == ((int.Parse(verkade["salt"]) * (userID * 10)) * username_num).ToString())
                 {

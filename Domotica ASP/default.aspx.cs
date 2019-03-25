@@ -30,209 +30,231 @@ namespace Domotica_ASP
                 List<List<string>> result = global.ExecuteReader(apparaatquery, out string apparaatError, out bool apparaatErrorInd);
                 if (apparaatErrorInd)
                 {
+                    /* do something if there is an error */
                     Label label = new Label();
                     label.Text = apparaatError;
                     grid_parent.Controls.Add(label);
                 }
-
-                Dictionary<string, string> tableQueryComb = new Dictionary<string, string>() { { "kantemp", "`min`, `max`" }, { "kanstand", "`stand`"} };
-
-                MySqlCommand apparatIDSMetOverlay = new MySqlCommand("SELECT DISTINCT kantemp.apparaatID, kanstand.apparaatID FROM kantemp, kanstand WHERE kantemp.apparaatID = kanstand.apparaatID");
-                List<List<string>> apparaatIDSmetOverlayResult = global.ExecuteReader(apparatIDSMetOverlay, out string IDError, out bool IDErrorInd);
-                List<string> apparaatIDSmetOverlayList = new List<string>();
-                foreach(List<string> row in apparaatIDSmetOverlayResult)
+                else
                 {
-                    apparaatIDSmetOverlayList.Add(row[0]);
-                }
+                    Dictionary<string, string> tableQueryComb = new Dictionary<string, string>() { { "kantemp", "`min`, `max`" }, { "kanstand", "`stand`" } };
 
-                foreach (List<string> row in result)
-                {
-                    if (apparaatIDSmetOverlayList.Contains(row[0]))
-                    {
-                        // get multiple values
-                        MySqlCommand overlayQuery = new MySqlCommand("SELECT `min`, `max`, `stand` FROM kanstand INNER JOIN kantemp ON kanstand.APPARAATID = kantemp.APPARAATID WHERE kanstand.APPARAATID = :appID");
-                        overlayQuery.Parameters.Add("appID", row[0]);
-                        List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError, out bool overlayQueryErrorInd);
-
-                        // create the widget
-                        Widget widget = (Widget)LoadControl("Widget.ascx");
-                        widget.ID = row[1];
-                        widget.name = row[1];
-
-                        // create the <Input> place holder
-                        PlaceHolder InputPlaceHolder = new PlaceHolder();
-
-                        // horizontal slider InputFields Usercontrol for in the Input place holder
-                        InputFields slider = (InputFields)LoadControl("InputFields.ascx");
-                        slider.in_type = "ver_slider";
-                        slider.minvalue = int.Parse(overlayQueryResult[0][0]);
-                        slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
-                        slider.stanvalue = int.Parse(overlayQueryResult[0][0]); // change this to value in database
-                        
-                        // dropdown list Inputfields usercontrol for in the input place holder
-                        InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
-                        dropdownlist.in_type = "DropDownList";
-                        // create the <__DropList> place holder
-                        PlaceHolder ddlPH = new PlaceHolder();
-                        // create the drop down list
-                        DropDownList DDlist = new DropDownList();
-                        // add the items for on the dropdown list
-                        foreach(List<string> ddlRow in overlayQueryResult)
-                        {
-                            // add a way to set the currently active state in database as selected
-                            DDlist.Items.Add(ddlRow[2]);
-                        }
-                        // set the dropdown list class ( this is to counter conflicting styling )
-                        DDlist.CssClass = "dropDownMulti";
-
-                        // add the dropdownlist to the <__DropList> place holder
-                        ddlPH.Controls.Add(DDlist);
-                        // set the dropdownlist <__DropList> place holder to previously created one
-                        dropdownlist.__DropList = ddlPH;
-
-                        // add the InputField controls to the <Input> place holder
-                        InputPlaceHolder.Controls.Add(slider);
-                        InputPlaceHolder.Controls.Add(dropdownlist);
-
-                        // set the <Input> place holder from the widget to the created place holder
-                        widget.Input = InputPlaceHolder;
-
-                        // add the widget to the grid
-                        grid_parent.Controls.Add(widget);
-                    }
+                    List<string> apparaatIDSmetOverlayList = new List<string>();
+                    MySqlCommand apparatIDSMetOverlay = new MySqlCommand("SELECT DISTINCT kantemp.apparaatID, kanstand.apparaatID FROM kantemp, kanstand WHERE kantemp.apparaatID = kanstand.apparaatID");
+                    List<List<string>> apparaatIDSmetOverlayResult = global.ExecuteReader(apparatIDSMetOverlay, out string IDError, out bool IDErrorInd);
+                    if (IDErrorInd) { /* do something if there is an error */ }
                     else
                     {
-                        MySqlCommand InputTypeQuery = new MySqlCommand("SELECT apparaatID, InputType, TypeWaarde FROM apparaattype AS appType INNER JOIN apparaat AS app ON appType.TypeID = app.TypeID WHERE app.apparaatid = :appID");
-                        InputTypeQuery.Parameters.Add("appID", row[0]);
-                        List<List<string>> result2 = global.ExecuteReader(InputTypeQuery, out string InputQueryError, out bool InputQueryErrorInd);
-                        if (InputQueryErrorInd) { }
-                        else
+                        foreach (List<string> row in apparaatIDSmetOverlayResult)
                         {
+                            apparaatIDSmetOverlayList.Add(row[0]);
+                        }
+                    }
 
-                            List<string> input_type = result2[0];
-                            /*
-                            Label label = new Label();
-
-                            foreach(string record in input_type)
-                            {
-                                label.Text += record + " ";
-                            }
-
-                            grid_parent.Controls.Add(label);
-                            */
-
-                            if (input_type[1] == "Toggle")
-                            {
-                                Widget widget = (Widget)LoadControl("Widget.ascx");
-                                widget.name = row[1];
-                                widget.ID = row[1];
-                                widget.toggle = true;
-                                grid_parent.Controls.Add(widget);
-                            }
+                    foreach (List<string> row in result)
+                    {
+                        if (apparaatIDSmetOverlayList.Contains(row[0]))
+                        {
+                            // get multiple values
+                            MySqlCommand overlayQuery = new MySqlCommand("SELECT `min`, `max`, `stand` FROM kanstand INNER JOIN kantemp ON kanstand.APPARAATID = kantemp.APPARAATID WHERE kanstand.APPARAATID = :appID");
+                            overlayQuery.Parameters.Add("appID", row[0]);
+                            List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError, out bool overlayQueryErrorInd);
+                            if (overlayQueryErrorInd) { /* do something if there is an error */ }
                             else
                             {
+                                // create the widget
                                 Widget widget = (Widget)LoadControl("Widget.ascx");
-                                widget.name = row[1];
                                 widget.ID = row[1];
+                                widget.name = row[1];
 
-                                PlaceHolder inputPH = new PlaceHolder();
-                                inputPH.ID = "inputPH";
+                                // create the <Input> place holder
+                                PlaceHolder InputPlaceHolder = new PlaceHolder();
 
-                                InputFields input = (InputFields)LoadControl("InputFields.ascx");
-                                input.ID = input_type[1] + "_" + row[1];
+                                // horizontal slider InputFields Usercontrol for in the Input place holder
+                                InputFields slider = (InputFields)LoadControl("InputFields.ascx");
+                                slider.in_type = "ver_slider";
+                                slider.minvalue = int.Parse(overlayQueryResult[0][0]);
+                                slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
+                                slider.stanvalue = int.Parse(overlayQueryResult[0][0]); // change this to value in database
+                                slider.ID = row[1];
 
-                                if (global.listTypes.ContainsKey(input_type[1]))
+                                // dropdown list Inputfields usercontrol for in the input place holder
+                                InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
+                                dropdownlist.in_type = "DropDownList";
+                                dropdownlist.ID = row[1];
+
+                                // create the <__DropList> place holder
+                                PlaceHolder ddlPH = new PlaceHolder();
+                                // create the drop down list
+                                DropDownList DDlist = new DropDownList();
+                                // add the items for on the dropdown list
+                                foreach (List<string> ddlRow in overlayQueryResult)
                                 {
-                                    PlaceHolder ListPH = new PlaceHolder();
-                                    ListPH.ID = "ListPH";
+                                    // add a way to set the currently active state in database as selected
+                                    DDlist.Items.Add(ddlRow[2]);
+                                }
+                                // set the dropdown list class ( this is to counter conflicting styling )
+                                DDlist.CssClass = "dropDownMulti";
+                                DDlist.ID = "dropdownlistMulti";
 
-                                    int type;
-                                    if (global.listTypes.TryGetValue(input_type[1], out type)) { Console.WriteLine("Input type specified does not exist in class" + this.ID.ToString()); }
+                                // add the dropdownlist to the <__DropList> place holder
+                                ddlPH.Controls.Add(DDlist);
+                                // set the dropdownlist <__DropList> place holder to previously created one
+                                dropdownlist.__DropList = ddlPH;
 
-                                    // get the device specs such as "min/max" or "stand"
+                                // add the InputField controls to the <Input> place holder
+                                InputPlaceHolder.Controls.Add(slider);
+                                InputPlaceHolder.Controls.Add(dropdownlist);
 
-                                    MySqlCommand getAppSpec = new MySqlCommand();
-                                    if (input_type[2] == "kantemp")
-                                    {
-                                        getAppSpec.CommandText = "SELECT `min`, `max` FROM kantemp WHERE `apparaatid` = :apparaatid";
-                                    }
+                                // set the <Input> place holder from the widget to the created place holder
+                                widget.Input = InputPlaceHolder;
+
+                                // add the widget to the grid
+                                grid_parent.Controls.Add(widget);
+                            }
+                        }
+                        else
+                        {
+                            MySqlCommand InputTypeQuery = new MySqlCommand("SELECT apparaatID, InputType, TypeWaarde FROM apparaattype AS appType INNER JOIN apparaat AS app ON appType.TypeID = app.TypeID WHERE app.apparaatid = :appID");
+                            InputTypeQuery.Parameters.Add("appID", row[0]);
+                            List<List<string>> inputTypeQueryResult = global.ExecuteReader(InputTypeQuery, out string InputQueryError, out bool InputQueryErrorInd);
+                            if (InputQueryErrorInd) { /* do something if there is an error */ }
+                            else
+                            {
+
+                                List<string> input_type = inputTypeQueryResult[0];
+
+                                // create a toggable widget instead of special input widget
+                                if (input_type[1] == "Toggle")
+                                {
+                                    // create widget
+                                    Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    widget.name = row[1];
+                                    widget.ID = row[1];
+                                    widget.toggle = true;
+                                    grid_parent.Controls.Add(widget); // add the widget to the grid_parent control
+                                }
+                                // create a widget with a special input type
+                                else
+                                {
+                                    // create widget
+                                    Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    widget.name = row[1];
+                                    widget.ID = row[1];
+
+                                    // create <Input> placeholder tag
+                                    PlaceHolder inputPH = new PlaceHolder();
+                                    //inputPH.ID = "inputPH"; needed?
+
+                                    // create InputFields user control
+                                    InputFields input = (InputFields)LoadControl("InputFields.ascx");
+                                    input.ID = input_type[1] + "_" + row[1];
+
+                                    int type; // the type index from the dictionary
+                                    if (!global.listTypes.TryGetValue(input_type[1], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from apparaat: {0}", row[0])); } // throw an error if the input type from the database does not exist
                                     else
                                     {
-                                        getAppSpec.CommandText = "SELECT `stand` FROM kanstand WHERE `apparaatid` = :apparaatid";
-                                    }
-                                    getAppSpec.Parameters.Add("apparaatid", input_type[0]);
-                                    List<List<string>> appSpec = global.ExecuteReader(getAppSpec, out string appSpecError, out bool appSpecErrorInd);
-                                    if (appSpecErrorInd) { }
-                                    else
-                                    {
-                                        switch (type)
+                                        // get the device specs such as "min/max" or "stand"
+                                        MySqlCommand getAppSpec = new MySqlCommand();
+                                        if (input_type[2] == "kantemp")
                                         {
-                                            case 1:
-                                                // horizontal slider
-                                                input.minvalue = int.Parse(appSpec[0][0]);
-                                                input.maxvalue = int.Parse(appSpec[0][1]);
-                                                input.stanvalue = int.Parse(appSpec[0][0]);
-                                                break;
-                                            case 2:
-                                                // vertical slider
-                                                input.minvalue = int.Parse(appSpec[0][0]);
-                                                input.maxvalue = int.Parse(appSpec[0][1]);
-                                                input.stanvalue = int.Parse(appSpec[0][0]);
-                                                break;
-                                            case 3:
-                                                // text
-
-                                                break;
-                                            case 4:
-                                                // number
-                                                break;
-                                            case 5:
-                                                // radio
-                                                RadioButtonList RBlist = new RadioButtonList();
-                                                RBlist.ID = "RadioButtonList";
-
-                                                ListPH.Controls.Add(RBlist);
-                                                input.__Radio = ListPH;
-                                                break;
-                                            case 6:
-                                                // checkbox
-                                                CheckBoxList CKlist = new CheckBoxList();
-                                                CKlist.ID = "RadioButtonList";
-                                                input_type[1] = "radio";
-
-                                                ListPH.Controls.Add(CKlist);
-                                                input.__Radio = ListPH;
-                                                break;
-                                            case 7:
-                                                // dropdownlist
-                                                DropDownList DPlist = new DropDownList();
-                                                DPlist.ID = "RadioButtonList";
-                                                foreach (List<string> specrow in appSpec)
-                                                {
-                                                    DPlist.Items.Add(specrow[0]);
-                                                }
-                                                ListPH.Controls.Add(DPlist);
-                                                input.__DropList = ListPH;
-                                                break;
-                                            default:
-                                                break;
+                                            getAppSpec.CommandText = "SELECT `min`, `max` FROM kantemp WHERE `apparaatid` = :apparaatid";
                                         }
+                                        else
+                                        {
+                                            getAppSpec.CommandText = "SELECT `stand` FROM kanstand WHERE `apparaatid` = :apparaatid";
+                                        }
+                                        getAppSpec.Parameters.Add("apparaatid", input_type[0]);
+                                        // get the apparaat specs
+                                        List<List<string>> appSpec = global.ExecuteReader(getAppSpec, out string appSpecError, out bool appSpecErrorInd);
+                                        if (appSpecErrorInd) { /* do something if there is an error */}
+                                        else
+                                        {
+                                            // create the <__radio> or <__DropList> placeholder
+                                            PlaceHolder ListPH = new PlaceHolder();
+                                            //ListPH.ID = "ListPH"; needed?
 
-                                        input.in_type = input_type[1];
+                                            // set the special input parameters of the widget
+                                            switch (type)
+                                            {
+                                                case 1:
+                                                    // horizontal slider
+                                                    input.minvalue = int.Parse(appSpec[0][0]);
+                                                    input.maxvalue = int.Parse(appSpec[0][1]);
+                                                    input.stanvalue = int.Parse(appSpec[0][0]);
+                                                    ListPH.Dispose(); // delete the ListPH placeholder if it is not used
+                                                    break;
+
+                                                case 2:
+                                                    // vertical slider
+                                                    input.minvalue = int.Parse(appSpec[0][0]);
+                                                    input.maxvalue = int.Parse(appSpec[0][1]);
+                                                    input.stanvalue = int.Parse(appSpec[0][0]);
+                                                    ListPH.Dispose(); // delete the ListPH placeholder if it is not used
+                                                    break;
+
+                                                case 3:
+                                                    // text
+                                                    ListPH.Dispose(); // delete the ListPH placeholder if it is not used
+                                                    break;
+
+                                                case 4:
+                                                    // number
+                                                    ListPH.Dispose(); // delete the ListPH placeholder if it is not used
+                                                    break;
+
+                                                case 5:
+                                                    // radio
+                                                    RadioButtonList RBlist = new RadioButtonList(); // create a radio
+                                                    RBlist.ID = "RadioButtonList";
+
+                                                    ListPH.Controls.Add(RBlist);
+                                                    input.__Radio = ListPH;
+                                                    break;
+
+                                                case 6:
+                                                    // checkbox
+                                                    CheckBoxList CKlist = new CheckBoxList();
+                                                    CKlist.ID = "RadioButtonList";
+                                                    input_type[1] = "radio";
+
+                                                    ListPH.Controls.Add(CKlist);
+                                                    input.__Radio = ListPH;
+                                                    break;
+
+                                                case 7:
+                                                    // dropdownlist
+                                                    DropDownList DPlist = new DropDownList();
+                                                    DPlist.ID = "RadioButtonList";
+                                                    foreach (List<string> specrow in appSpec)
+                                                    {
+                                                        DPlist.Items.Add(specrow[0]);
+                                                    }
+                                                    ListPH.Controls.Add(DPlist);
+                                                    input.__DropList = ListPH;
+                                                    break;
+
+                                                default:
+                                                    ListPH.Dispose(); // delete the ListPH placeholder if it is not used
+                                                    break;
+                                            }
+                                            // set the in_type of the input control
+                                            input.in_type = input_type[1];
+                                        }
                                     }
+                                    // add the input control to the <input> placeholder
+                                    inputPH.Controls.Add(input);
+                                    // set the widget <input> placeholder to inputPH
+                                    widget.Input = inputPH;
+                                    // add the widget to the grid view
+                                    grid_parent.Controls.Add(widget);
+
                                 }
 
-                                inputPH.Controls.Add(input);
-                                widget.Input = inputPH;
-
-                                grid_parent.Controls.Add(widget);
-
                             }
-
                         }
                     }
                 }
-
             }
         }
     }

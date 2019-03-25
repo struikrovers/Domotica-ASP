@@ -306,6 +306,30 @@ $widget_border_radius: 3px;
 		> .input_checkbox{
 
 		}
+		> div {
+			> select, .dropDownMulti {
+				position: absolute;
+				left: 0.2em;
+				height: 1.7em;
+				width: 75%;
+				background: rgba(255, 255, 255, 0.27);
+				border: none;
+				border-radius: 5px 5px 0 0;
+				border-bottom: 2px ridge #858585;
+				font-family: 'Roboto Slab', sans-serif;
+				> option {
+					background: #d7d7d7;
+				}
+			}
+			> select {
+				top: 0.2em;
+				
+			}
+			> .dropDownMulti {
+				top: -1.9em;
+
+			}
+		}
 	}
 }
 
