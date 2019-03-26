@@ -12,6 +12,11 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+            </ContentTemplate>
+        </asp:UpdatePanel>
     </div>
 
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">

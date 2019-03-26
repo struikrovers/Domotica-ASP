@@ -10,6 +10,19 @@ namespace Domotica_ASP
 {
     public partial class _default : System.Web.UI.Page
     {
+
+        // source: http://www.alexandre-gomes.com/?p=137
+        private class ProgressTemplate : ITemplate
+        {
+            #region ITemplate Members
+
+            public void InstantiateIn(Control container)
+            { }
+
+            #endregion
+        }
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
@@ -61,7 +74,7 @@ namespace Domotica_ASP
                             List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError, out bool overlayQueryErrorInd);
                             if (overlayQueryErrorInd) { /* do something if there is an error */ }
                             else
-                            {
+                            { 
                                 // create the widget
                                 Widget widget = (Widget)LoadControl("Widget.ascx");
                                 widget.ID = row[1];
@@ -111,8 +124,18 @@ namespace Domotica_ASP
                                 // set the <Input> place holder from the widget to the created place holder
                                 widget.Input = InputPlaceHolder;
 
+                                // ajax:
+                                // create the updatepanel
+                                UpdatePanel UpdatePanelWidget = new UpdatePanel();
+                                UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
+                                UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
+                                UpdateProgress UpdateProgressControl = new UpdateProgress();
+                                // create updateprogress control
+                                UpdateProgressControl.ID = "UpdateProgress_" + row[1];
+                                UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
                                 // add the widget to the grid
-                                grid_parent.Controls.Add(widget);
+                                grid_parent.Controls.Add(UpdatePanelWidget);
+                                grid_parent.Controls.Add(UpdateProgressControl);
                             }
                         }
                         else
@@ -136,7 +159,19 @@ namespace Domotica_ASP
                                     widget.ID = row[1];
                                     widget.toggle = true;
                                     widget.submittable = true;
-                                    grid_parent.Controls.Add(widget); // add the widget to the grid_parent control
+
+                                    // ajax:
+                                    // create the updatepanel
+                                    UpdatePanel UpdatePanelWidget = new UpdatePanel();
+                                    UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
+                                    UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
+                                    UpdateProgress UpdateProgressControl = new UpdateProgress();
+                                    // create updateprogress control
+                                    UpdateProgressControl.ID = "UpdateProgress_" + row[1];
+                                    UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
+                                    // add the widget to the grid
+                                    grid_parent.Controls.Add(UpdatePanelWidget);
+                                    grid_parent.Controls.Add(UpdateProgressControl);
                                 }
                                 // create a widget with a special input type
                                 else
@@ -252,8 +287,23 @@ namespace Domotica_ASP
                                     inputPH.Controls.Add(input);
                                     // set the widget <input> placeholder to inputPH
                                     widget.Input = inputPH;
-                                    // add the widget to the grid view
-                                    grid_parent.Controls.Add(widget);
+                                    // ajax:
+                                    // create the updatepanel
+                                    UpdatePanel UpdatePanelWidget = new UpdatePanel();
+                                    UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
+                                    UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
+                                    UpdateProgress UpdateProgressControl = new UpdateProgress();
+                                    // create updateprogress control
+                                    UpdateProgressControl.ID = "UpdateProgress_" + row[1];
+                                    UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
+
+                                    UpdateProgressControl.ProgressTemplate = new ProgressTemplate();
+                                    Label testlbl = new Label();
+                                    testlbl.Text = "loading...";
+                                    UpdateProgressControl.Controls.Add(testlbl);
+                                    // add the widget to the grid
+                                    grid_parent.Controls.Add(UpdatePanelWidget);
+                                    grid_parent.Controls.Add(UpdateProgressControl);
 
                                 }
 

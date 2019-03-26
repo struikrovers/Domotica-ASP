@@ -52,6 +52,13 @@ namespace Domotica_ASP
             {
                 ToggleLabel.Attributes["style"] = "right: 30px";
             }
+
+
+        }
+
+        protected void submitBTN_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
