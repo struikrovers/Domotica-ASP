@@ -319,6 +319,15 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget RemoveGroup;
         
         /// <summary>
+        /// input_deletegroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields input_deletegroup;
+        
+        /// <summary>
         /// DeviceManager control.
         /// </summary>
         /// <remarks>
@@ -328,13 +337,58 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.overlay DeviceManager;
         
         /// <summary>
-        /// DeviceName control.
+        /// AddDevice control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget DeviceName;
+        protected global::Domotica_ASP.Widget AddDevice;
+        
+        /// <summary>
+        /// ManageDevice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget ManageDevice;
+        
+        /// <summary>
+        /// DeleteDevice control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget DeleteDevice;
+        
+        /// <summary>
+        /// Overlay1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay Overlay1;
+        
+        /// <summary>
+        /// Widget1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget1;
+        
+        /// <summary>
+        /// input1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields input1;
         
         /// <summary>
         /// Widget2 control.
@@ -353,5 +407,68 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Domotica_ASP.Widget Widget3;
+        
+        /// <summary>
+        /// Overlay2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay Overlay2;
+        
+        /// <summary>
+        /// Widget4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget4;
+        
+        /// <summary>
+        /// Widget5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget5;
+        
+        /// <summary>
+        /// Widget6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget6;
+        
+        /// <summary>
+        /// Overlay3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay Overlay3;
+        
+        /// <summary>
+        /// Widget7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Widget7;
+        
+        /// <summary>
+        /// input2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields input2;
     }
 }

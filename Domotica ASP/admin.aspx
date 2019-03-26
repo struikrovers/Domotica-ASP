@@ -105,7 +105,7 @@
             <Content>
                 <Wid:Widget ID="RemoveGroup" comment="Verwijder hier de groep." name="verwijder groep" runat="server">
                     <Input>
-                        <Wid:Input ID="input_deletegroup" in_type="DropDownList">
+                        <Wid:Input ID="input_deletegroup" in_type="DropDownList" runat="server">
                         </Wid:Input>
                     </Input>
                 </Wid:Widget>
@@ -115,18 +115,48 @@
 
         <Wid:Overlay ID="DeviceManager" runat="server">
             <Content>
-                <Wid:Widget ID="DeviceName" comment="voer de naam in van het apparaat." name="Toevoegen" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_devicename">
-                        </Wid:Input>
-
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="Widget2" comment="Verander instellingen aan de groepen." name="Wijzigen" runat="server" setting="True" overlayID="ManageGroupOID">
-                    <Input></Input>
-                </Wid:Widget>
-                <Wid:Widget ID="Widget3" comment="Verwijder groepen." name="Verwijderen" runat="server" setting="True" overlayID="DeleteGroupOID" />
+                <Wid:Widget ID="AddDevice" comment="Voeg apparaat toe." name="Toevoegen" runat="server" setting="true" overlayID="AddDeviceOID" />
+                <Wid:Widget ID="ManageDevice" comment="Verander instellingen aan de apparaten." name="Wijzigen" runat="server" setting="True" overlayID="ManageDeviceOID" />
+                <Wid:Widget ID="DeleteDevice" comment="Verwijder apparaten." name="Verwijderen" runat="server" setting="True" overlayID="DeleteDeviceOID" />
             </Content>
         </Wid:Overlay>
+        <Wid:Overlay ID="Overlay1" runat="server">
+            <Content>
+
+                <Wid:Widget ID="Widget1" comment="Voer hier de groepnaam in." name="groepsnaam" runat="server">
+                    <Input>
+                        <Wid:Input ID="input1" in_type="text" stantext="new group" runat="server" />
+                    </Input>
+                </Wid:Widget>
+
+                <Wid:Widget ID="Widget2" comment="voer hier de gebruikers er aan toe die toegang nodig hebben." name="gebruiker toevoegen" runat="server">
+                </Wid:Widget>
+
+                <Wid:Widget ID="Widget3" comment="voer hier de Apparaten toe." name="Apparaat toevoegen" runat="server">
+                </Wid:Widget>
+            </Content>
+        </Wid:Overlay>
+        <Wid:Overlay ID="Overlay2" runat="server">
+            <Content>
+                <Wid:Widget ID="Widget4" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
+                </Wid:Widget>
+                <Wid:Widget ID="Widget5" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server">
+                </Wid:Widget>
+                <Wid:Widget ID="Widget6" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server">
+                </Wid:Widget>
+            </Content>
+        </Wid:Overlay>
+
+        <Wid:Overlay ID="Overlay3" runat="server">
+            <Content>
+                <Wid:Widget ID="Widget7" comment="Verwijder hier de groep." name="verwijder groep" runat="server">
+                    <Input>
+                        <Wid:Input ID="input2" in_type="DropDownList" runat="server">
+                        </Wid:Input>
+                    </Input>
+
+                </Wid:Widget>
+               </Content>
+              </Wid:Overlay>
     </div>
 </asp:Content>

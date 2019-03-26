@@ -23,16 +23,22 @@ namespace Domotica_ASP
             */
             MySqlCommand userQuery = new MySqlCommand("SELECT gebruikersnaam, voornaam, achternaam FROM user WHERE gebruikersnaam != :gbnaam");
             userQuery.Parameters.Add("gbnaam", Session["user"]);
-            List<List<string>> result = global.ExecuteReader(userQuery, out string apparaatError, out bool apparaatErrorInd);
-            if (apparaatErrorInd)
+           // MySqlCommand groupQuery = new MySqlCommand("SELECT GROUPID, groepsnaam FROM group");
+           // groupQuery.Parameters.Add("gbnaam", Session["user"]);
+
+
+            List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
+           // List<List<string>> GroepenTabel = global.ExecuteReader(groupQuery, out string error_groep, out bool groupErrorYes);
+            if (userErrorYes || userErrorYes)
             {
                 Label label = new Label();
-                label.Text = apparaatError;
+                label.Text = error_gebruiker;
                 grid_parent.Controls.Add(label);
             }
+            
             else
-            {
-                foreach (List<string> row in result)
+            { 
+                foreach (List<string> row in GebruikersTabel)
                 {
                     Widget widget = (Widget)LoadControl("Widget.ascx");
                     widget.name = row[0];
@@ -41,23 +47,60 @@ namespace Domotica_ASP
                     Remove_User.Content.Controls.Add(widget);
                 }
 
+                /* template widget
                 Widget SubmitWidget = (Widget)LoadControl("Widget.ascx");
                 SubmitWidget.ID = "SubmitWidget";
-
-                PlaceHolder phInput = new PlaceHolder();
-                phInput.ID = "placeholder";
-
-                InputFields Input = (InputFields)LoadControl("InputFields.ascx");
-                Input.in_type = "radio";
-                Input.button_text = "submit";
-                Input.ID = "InputField";
-
-                phInput.Controls.Add(Input);
-
-                SubmitWidget.Input = phInput;
-
+                SubmitWidget.submittable = true;
+                SubmitWidget.name = "verstuur";
                 Remove_User.Content.Controls.Add(SubmitWidget);
+                */ 
 
+                Widget Submit_Remove_User = (Widget)LoadControl("Widget.ascx");
+                Submit_Remove_User.ID = "Submit_Remove_User";
+                Submit_Remove_User.submittable = true;
+                Submit_Remove_User.name = "verstuur";
+                Remove_User.Content.Controls.Add(Submit_Remove_User);
+
+                Widget Submit_Add_User = (Widget)LoadControl("Widget.ascx");
+                Submit_Add_User.ID = "SubmitWidget";
+                Submit_Add_User.submittable = true;
+                Submit_Add_User.name = "verstuur";
+                Add_User.Content.Controls.Add(Submit_Add_User);
+
+                Widget Submit_AddGroupOID = (Widget)LoadControl("Widget.ascx");
+                Submit_AddGroupOID.ID = "Submit_AddGroupOID";
+                Submit_AddGroupOID.submittable = true;
+                Submit_AddGroupOID.name = "verstuur";
+                AddGroupOID.Content.Controls.Add(Submit_AddGroupOID);
+
+                Widget Submit_ManageGroupOID = (Widget)LoadControl("Widget.ascx");
+                Submit_ManageGroupOID.ID = "Submit_ManageGroupOID";
+                Submit_ManageGroupOID.submittable = true;
+                Submit_ManageGroupOID.name = "verstuur";
+                ManageGroupOID.Content.Controls.Add(Submit_ManageGroupOID);
+
+                Widget Submit_DeleteGroupOID = (Widget)LoadControl("Widget.ascx");
+                Submit_DeleteGroupOID.ID = " Submit_DeleteGroupOID";
+                Submit_DeleteGroupOID.submittable = true;
+                Submit_DeleteGroupOID.name = "verstuur";
+                DeleteGroupOID.Content.Controls.Add(Submit_DeleteGroupOID);
+
+                
+
+
+
+                /*PlaceHolder phInput = new PlaceHolder();
+               phInput.ID = "placeholder";
+
+               InputFields Input = (InputFields)LoadControl("InputFields.ascx");
+               Input.in_type = "radio";
+               Input.button_text = "submit";
+               Input.ID = "InputField";
+
+               phInput.Controls.Add(Input);
+
+               SubmitWidget.Input = phInput;
+               */
             }
 
         }
