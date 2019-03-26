@@ -66,6 +66,8 @@ namespace Domotica_ASP
                                 Widget widget = (Widget)LoadControl("Widget.ascx");
                                 widget.ID = row[1];
                                 widget.name = row[1];
+                                widget.timeField = true;
+                                widget.submittable = true;
 
                                 // create the <Input> place holder
                                 PlaceHolder InputPlaceHolder = new PlaceHolder();
@@ -129,9 +131,11 @@ namespace Domotica_ASP
                                 {
                                     // create widget
                                     Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    widget.timeField = true;
                                     widget.name = row[1];
                                     widget.ID = row[1];
                                     widget.toggle = true;
+                                    widget.submittable = true;
                                     grid_parent.Controls.Add(widget); // add the widget to the grid_parent control
                                 }
                                 // create a widget with a special input type
@@ -139,6 +143,8 @@ namespace Domotica_ASP
                                 {
                                     // create widget
                                     Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    widget.timeField = true;
+                                    widget.submittable = true;
                                     widget.name = row[1];
                                     widget.ID = row[1];
 

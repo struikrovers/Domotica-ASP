@@ -27,7 +27,9 @@ namespace Domotica_ASP
 
     public class global
     {
-        public static Dictionary<string, int> listTypes { get; set; } = new Dictionary<string, int>() { { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox", 6 }, { "DropDownList", 7 } };
+        public static Dictionary<string, int> listTypes { get; set; } = new Dictionary<string, int>() {
+            { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox", 6 }, { "DropDownList", 7 }
+        };
 
         /// <summary>
         /// Executs the mysqlcommand given, query generation should be done beforehand

@@ -15,6 +15,8 @@ namespace Domotica_ASP
         public bool toggle { get; set; } = false;
         public bool setting { get; set; } = false;
         public string overlayID { get; set; }
+        public bool timeField { get; set; } = false;
+        public bool submittable { get; set; } = false;
 
         // NOTE: input fields
         [PersistenceMode(PersistenceMode.InnerProperty)]
@@ -41,6 +43,11 @@ namespace Domotica_ASP
             settings_icon.Attributes["onclick"] = "open_overlay(event, '" + overlayID + "_overlay_child');";
             Toggle_Checkbox.InputAttributes["class"] = "Toggle_Checkbox";
             Toggle_Checkbox.InputAttributes["name"] = ClientID + "_Toggle_Checkbox";
+            timeInput.Attributes["placeholder"] = "HH:MM - DD";
+            timeInput.Attributes["onblur"] = "timeValidator(this)";
+            timeInput.CssClass = "timeInputField";
+            timeInput.Visible = timeField;
+            submitBTN.Visible = submittable;
             if (setting)
             {
                 ToggleLabel.Attributes["style"] = "right: 30px";

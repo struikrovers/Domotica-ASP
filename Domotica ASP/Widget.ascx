@@ -7,6 +7,8 @@
     <div class="grid_child_commenter" id="grid_child_commenter" runat="server">
         <p class="grid_child_comment" id="grid_child_comment" runat="server"></p>
     </div>
+    <asp:TextBox ID="timeInput" runat="server"></asp:TextBox>
+    <asp:Button ID="submitBTN" runat="server" Text="submit" CssClass="submitbutton"/>
     <div id="input" class="widget_input" runat="server">
         <asp:PlaceHolder ID="_Input" runat="server">
 
@@ -27,5 +29,5 @@
                 <i style='font-size: 0.87em' class='fa fa-gear'></i>
             </span>
         </label>
-    </div>
+    </div> 
 </div>

@@ -150,3 +150,10 @@ function changeTextPlacement(ParentID, clientID) {
         para.style.position = "absolute";
     }, 50);
 }
+
+function timeValidator(input) {
+    var regex = /^([0-2][0-9]){1}:([0-5][0-9]){1}\s*-\s*(([0-2][0-9]){1}|([3][0-1]){1}|([0-9]){1}){1}$/g;
+    if (!regex.test(input.value)) {
+        input.value = "verkeerde syntax";
+    }
+}

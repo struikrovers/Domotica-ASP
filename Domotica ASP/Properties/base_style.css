@@ -48,6 +48,9 @@ body {
     border-radius: 3px;
     font-family: 'Roboto', sans-serif;
     font-size: 0.7em; }
+    .header > input[type=button]:hover {
+      background-color: #ffffffed;
+      cursor: pointer; }
   .header > span {
     float: left; }
 
@@ -107,6 +110,34 @@ form {
   font-size: 0.75em;
   height: 58%; }
 
+.timeInputField {
+  position: absolute;
+  top: 2.8em;
+  left: 0.4em;
+  width: 70%;
+  height: 1.5em;
+  background: rgba(167, 167, 167, 0.27);
+  border: none;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 2px ridge #858585;
+  font-family: 'Roboto Slab', sans-serif; }
+
+.submitbutton {
+  position: absolute;
+  bottom: 0.2em;
+  left: 0.2em;
+  background-color: #d2d2d2e3;
+  border: #d0d0d0 1.5px;
+  border-style: outset inset outset inset;
+  border-radius: 4px;
+  font-family: 'Roboto', sans-serif;
+  z-index: 3;
+  /* font-size: 0.6em; */
+  color: #383838; }
+  .submitbutton:hover {
+    background-color: #e2e2e2e3;
+    cursor: pointer; }
+
 .widget_input {
   height: 1.2em; }
   .widget_input div {
@@ -125,7 +156,7 @@ form {
         outline: 0;
         position: absolute;
         margin-left: 4px;
-        top: 0.8em; }
+        top: -1.4em; }
         .widget_input div > .Horiz_range > input[type=range]::-webkit-slider-thumb {
           -webkit-appearance: none;
           background-color: #e9e9e9;
@@ -138,13 +169,13 @@ form {
             border: 2px solid #296000; }
       .widget_input div > .Horiz_range > input[type=number] {
         width: 15%;
-        background: rgba(255, 255, 255, 0.27);
+        background: rgba(167, 167, 167, 0.27);
         border: none;
         border-radius: 5px 5px 0 0;
         border-bottom: 2px ridge #858585;
         text-align: center;
         position: absolute;
-        top: 0.3em;
+        top: -1.8em;
         right: 5px;
         font-family: 'Roboto Slab', sans-serif; }
         .widget_input div > .Horiz_range > input[type=number]::-webkit-inner-spin-button, .widget_input div > .Horiz_range > input[type=number]::-webkit-outer-spin-button {
@@ -240,10 +271,10 @@ form {
         position: absolute; }
     .widget_input div > div > select, .widget_input div > div .dropDownMulti {
       position: absolute;
-      left: 0.2em;
+      left: 0.3em;
       height: 1.7em;
       width: 75%;
-      background: rgba(255, 255, 255, 0.27);
+      background: rgba(162, 162, 162, 0.27);
       border: none;
       border-radius: 5px 5px 0 0;
       border-bottom: 2px ridge #858585;
@@ -251,9 +282,9 @@ form {
       .widget_input div > div > select > option, .widget_input div > div .dropDownMulti > option {
         background: #d7d7d7; }
     .widget_input div > div > select {
-      top: 0.2em; }
+      top: -3.8em; }
     .widget_input div > div > .dropDownMulti {
-      top: -1.9em; }
+      top: -5.9em; }
 
 .grid_child_toggable {
   background: radial-gradient(closest-side, #c8c8c8 0, #c8c8c8 58%, rgba(200, 200, 200, 0.87) 66%, rgba(200, 200, 200, 0.83) 74%, rgba(200, 200, 200, 0.76) 83%, rgba(200, 200, 200, 0.59) 92%, rgba(255, 255, 255, 0) 100%), linear-gradient(45deg, rgba(250, 250, 250, 0.2) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(250, 250, 250, 0.2) 50%, rgba(250, 250, 250, 0.2) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0) 0), #c8c8c8;
