@@ -22,7 +22,6 @@ namespace Domotica_ASP
             #endregion
         }
 
-
         protected void Page_Load(object sender, EventArgs e)
         {
             //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
@@ -74,13 +73,14 @@ namespace Domotica_ASP
                             List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError, out bool overlayQueryErrorInd);
                             if (overlayQueryErrorInd) { /* do something if there is an error */ }
                             else
-                            { 
+                            {
                                 // create the widget
                                 Widget widget = (Widget)LoadControl("Widget.ascx");
                                 widget.ID = row[1];
                                 widget.name = row[1];
                                 widget.timeField = true;
                                 widget.submittable = true;
+                                widget.input_types = new string[]{ "ver_slider", "DropDownList" };
 
                                 // create the <Input> place holder
                                 PlaceHolder InputPlaceHolder = new PlaceHolder();
@@ -91,12 +91,12 @@ namespace Domotica_ASP
                                 slider.minvalue = int.Parse(overlayQueryResult[0][0]);
                                 slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
                                 slider.stanvalue = int.Parse(overlayQueryResult[0][0]); // change this to value in database
-                                slider.ID = row[1];
+                                slider.ID = "ver_slider";
 
                                 // dropdown list Inputfields usercontrol for in the input place holder
                                 InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
                                 dropdownlist.in_type = "DropDownList";
-                                dropdownlist.ID = row[1];
+                                dropdownlist.ID = "DropDownList";
 
                                 // create the <__DropList> place holder
                                 PlaceHolder ddlPH = new PlaceHolder();
@@ -110,7 +110,7 @@ namespace Domotica_ASP
                                 }
                                 // set the dropdown list class ( this is to counter conflicting styling )
                                 DDlist.CssClass = "dropDownMulti";
-                                DDlist.ID = "dropdownlistMulti";
+                                DDlist.ID = "DropDownListInput";
 
                                 // add the dropdownlist to the <__DropList> place holder
                                 ddlPH.Controls.Add(DDlist);
@@ -126,16 +126,12 @@ namespace Domotica_ASP
 
                                 // ajax:
                                 // create the updatepanel
-                                UpdatePanel UpdatePanelWidget = new UpdatePanel();
-                                UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
-                                UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
-                                UpdateProgress UpdateProgressControl = new UpdateProgress();
-                                // create updateprogress control
-                                UpdateProgressControl.ID = "UpdateProgress_" + row[1];
-                                UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
+                                //UpdatePanel UpdatePanelWidget = new UpdatePanel();
+                                //UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
+                                //UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
+
                                 // add the widget to the grid
-                                grid_parent.Controls.Add(UpdatePanelWidget);
-                                grid_parent.Controls.Add(UpdateProgressControl);
+                                grid_parent.Controls.Add(widget);
                             }
                         }
                         else
@@ -146,7 +142,6 @@ namespace Domotica_ASP
                             if (InputQueryErrorInd) { /* do something if there is an error */ }
                             else
                             {
-
                                 List<string> input_type = inputTypeQueryResult[0];
 
                                 // create a toggable widget instead of special input widget
@@ -159,6 +154,7 @@ namespace Domotica_ASP
                                     widget.ID = row[1];
                                     widget.toggle = true;
                                     widget.submittable = true;
+                                    widget.input_types = new string[] { input_type[1]};
 
                                     // ajax:
                                     // create the updatepanel
@@ -182,14 +178,14 @@ namespace Domotica_ASP
                                     widget.submittable = true;
                                     widget.name = row[1];
                                     widget.ID = row[1];
+                                    widget.input_types = new string[] { input_type[1] };
 
                                     // create <Input> placeholder tag
                                     PlaceHolder inputPH = new PlaceHolder();
-                                    //inputPH.ID = "inputPH"; needed?
 
                                     // create InputFields user control
                                     InputFields input = (InputFields)LoadControl("InputFields.ascx");
-                                    input.ID = input_type[1] + "_" + row[1];
+                                    input.ID = input_type[1]; //input_type[1] + "_" + 
 
                                     int type; // the type index from the dictionary
                                     if (!global.listTypes.TryGetValue(input_type[1], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from apparaat: {0}", row[0])); } // throw an error if the input type from the database does not exist
@@ -247,8 +243,11 @@ namespace Domotica_ASP
                                                 case 5:
                                                     // radio
                                                     RadioButtonList RBlist = new RadioButtonList(); // create a radio
-                                                    RBlist.ID = "RadioButtonList";
-
+                                                    RBlist.ID = "RadioButtonListInput";
+                                                    foreach (List<string> specrow in appSpec)
+                                                    {
+                                                        RBlist.Items.Add(specrow[0]);
+                                                    }
                                                     ListPH.Controls.Add(RBlist);
                                                     input.__Radio = ListPH;
                                                     break;
@@ -256,9 +255,12 @@ namespace Domotica_ASP
                                                 case 6:
                                                     // checkbox
                                                     CheckBoxList CKlist = new CheckBoxList();
-                                                    CKlist.ID = "RadioButtonList";
+                                                    CKlist.ID = "CheckboxListInput";
                                                     input_type[1] = "radio";
-
+                                                    foreach (List<string> specrow in appSpec)
+                                                    {
+                                                        CKlist.Items.Add(specrow[0]);
+                                                    }
                                                     ListPH.Controls.Add(CKlist);
                                                     input.__Radio = ListPH;
                                                     break;
@@ -266,7 +268,7 @@ namespace Domotica_ASP
                                                 case 7:
                                                     // dropdownlist
                                                     DropDownList DPlist = new DropDownList();
-                                                    DPlist.ID = "RadioButtonList";
+                                                    DPlist.ID = "DropDownListInput";
                                                     foreach (List<string> specrow in appSpec)
                                                     {
                                                         DPlist.Items.Add(specrow[0]);
@@ -289,21 +291,12 @@ namespace Domotica_ASP
                                     widget.Input = inputPH;
                                     // ajax:
                                     // create the updatepanel
-                                    UpdatePanel UpdatePanelWidget = new UpdatePanel();
-                                    UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
-                                    UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
-                                    UpdateProgress UpdateProgressControl = new UpdateProgress();
-                                    // create updateprogress control
-                                    UpdateProgressControl.ID = "UpdateProgress_" + row[1];
-                                    UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
+                                    //UpdatePanel UpdatePanelWidget = new UpdatePanel();
+                                    //UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
+                                    //UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
 
-                                    UpdateProgressControl.ProgressTemplate = new ProgressTemplate();
-                                    Label testlbl = new Label();
-                                    testlbl.Text = "loading...";
-                                    UpdateProgressControl.Controls.Add(testlbl);
                                     // add the widget to the grid
-                                    grid_parent.Controls.Add(UpdatePanelWidget);
-                                    grid_parent.Controls.Add(UpdateProgressControl);
+                                    grid_parent.Controls.Add(widget);
 
                                 }
 

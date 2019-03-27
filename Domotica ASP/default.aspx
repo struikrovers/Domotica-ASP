@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Domotica_ASP._default" %>
+
 <%@ Register TagPrefix="Wid" TagName="Widget" Src="Widget.ascx" %>
 <%@ Register TagPrefix="Wid" TagName="Overlay" Src="overlay.ascx" %>
 <%@ Register TagPrefix="Wid" TagName="Input" Src="InputFields.ascx" %>
@@ -12,9 +13,12 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+        
+        <asp:UpdatePanel ID="outputUpdatePanel" runat="server">
             <ContentTemplate>
-                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+                <div id="update_panel_div" class="updateNotifier">
+                    <asp:Label ID="output" runat="server"></asp:Label>
+                </div>
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>

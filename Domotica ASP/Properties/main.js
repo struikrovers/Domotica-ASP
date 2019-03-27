@@ -152,8 +152,39 @@ function changeTextPlacement(ParentID, clientID) {
 }
 
 function timeValidator(input) {
-    var regex = /^([0-2][0-9]){1}:([0-5][0-9]){1}\s*-\s*(([0-2][0-9]){1}|([3][0-1]){1}|([0-9]){1}){1}$/g;
+    btn = document.getElementById(input.id.replace("_timeInput", "_submitBTN"));
+    var regex = /^([0-1][0-9]||[2][0-3]){1}:([0-5][0-9]){1}(\s-\s||-)(([0-2][0-9]){1}|([3][0-1]){1}|([0-9]){1}){1}$/g;
     if (!regex.test(input.value)) {
-        input.value = "verkeerde syntax";
+        input.className = "timeInputField";
+        input.className += " bounce";
+        btn.disabled = true;
+    }
+    else{
+        input.className = "timeInputField";
+        btn.disabled = false;
+    }
+}
+
+function checkuserinput(ClientID, maxvalue, minvalue) {
+    extension = '_Range_Display';
+    extension2 = '_Range_Input';
+    if(document.getElementById(ClientID + '_Range_Display_Vert') != null){
+        extension = '_Range_Display_Vert';
+        extension2 = '_Range_Input_Vert';
+    }
+    numberInput = document.getElementById(ClientID + extension)
+    if(parseInt(numberInput.value) > parseInt(maxvalue)){
+        numberInput.value = maxvalue
+    }
+    if(parseInt(numberInput.value) < parseInt(minvalue)){
+        numberInput.value = minvalue
+    }
+    document.getElementById(ClientID + extension2).value = numberInput.value;
+}
+
+function setTime(el) {
+    var d = new Date();
+    if (el.value == "") {
+        el.value = d.getHours() + ":" + d.getMinutes() + "-" + d.getDate();
     }
 }

@@ -44,43 +44,6 @@ namespace Domotica_ASP
             query.Connection = conn;
             error = "";
             errorInd = false;
-
-            //int resultLength = 0;
-
-            // getting size of result
-            /*
-            string querytext = query.CommandText;
-            querytext = querytext.Insert("SELECT ".Length, "COUNT(");
-            querytext = querytext.Insert(querytext.IndexOf(" FROM"), ")");
-            MySqlCommand querylength = new MySqlCommand(querytext);
-            querylength.Connection = conn;
-            // add previously defined parameters.
-            foreach (MySqlParameter param in query.Parameters)
-            {
-                querylength.Parameters.Add(param.ToString(), param.Value);
-            }
-
-            try
-            {
-                conn.Open();
-                MySqlDataReader myReader22 = querylength.ExecuteReader();
-                while (myReader22.Read())
-                {
-                    for (int i = 0; i < myReader22.FieldCount; i++)
-                    {
-                        resultLength = int.Parse(myReader22.GetValue(i).ToString());
-                    }
-                }
-            }
-            catch (Exception exc)
-            {
-                error = "getResultLengthError: " + exc.Message;
-            }
-            finally
-            {
-                conn.Close();
-            }
-            */
             
             List<List<string>> result = new List<List<string>>();
             try
@@ -122,6 +85,30 @@ namespace Domotica_ASP
                 errorInd = true;
             }
             return result;
+        }
+
+        public static bool ExecuteChanger(MySqlCommand query, out string error)
+        {
+            MySqlConnection conn = new MySqlConnection(ConfigurationManager.ConnectionStrings["demotica_conn"].ToString());
+            query.Connection = conn;
+            bool finished = false;
+            error = "";
+            try
+            {
+                conn.Open();
+                query.ExecuteNonQuery();
+                finished = true;
+            }
+            catch(Exception exc)
+            {
+                error = exc.Message;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return finished;
         }
 
         public static string getValueFromList(List<List<string>> Result)
@@ -171,6 +158,98 @@ namespace Domotica_ASP
                 num += text.ToUpper()[i] - 64;
             }
             return num;
+        }
+
+        public static void updateDevices(string[] userInput, DateTime schedule, string name, out string error)
+        {
+            error = "";
+            // query looks like: INSERT INTO schakelschema (`apparaatid`, `tijd`) VALUES('apparaatid', 'tijd');
+            MySqlCommand get_appid = new MySqlCommand("SELECT apparaatid FROM apparaat WHERE naam = :naam");
+            get_appid.Parameters.Add(":naam", name);
+            List<List<string>> appid = ExecuteReader(get_appid, out string get_appid_error, out bool get_appid_error_ind);
+            if (get_appid_error_ind)
+            {
+                /* do something with the error */
+                error = "get_app_id error: " + get_appid_error;
+            }
+            else
+            {
+                //apparaatid = appid[0][0]
+                MySqlCommand create_schedule = new MySqlCommand("INSERT INTO schakelschema (`apparaatid`, `tijd`) VALUES(:apparaatid, :tijd)");
+                create_schedule.Parameters.Add(":apparaatid", appid[0][0]);
+                create_schedule.Parameters.Add(":tijd", schedule);
+                if (!ExecuteChanger(create_schedule, out string schedule_error))
+                {
+                    /* do something with the error */
+                    error = "create_schedule error: " + schedule_error;
+                }
+                else
+                {
+                    // get schakelID: SELECT schakelID FROM schakelschema WHERE apparaatid = apparaatid AND tijd = tijd;
+                    MySqlCommand get_schakelid = new MySqlCommand("SELECT schakelid FROM schakelschema WHERE apparaatid = :appid AND tijd = :tijd");
+                    get_schakelid.Parameters.Add(":appid", appid[0][0]);
+                    get_schakelid.Parameters.Add(":tijd", schedule);
+                    List<List<string>> schakelid = ExecuteReader(get_schakelid, out string get_schakelid_error, out bool get_schakelid_error_ind);
+                    if (get_schakelid_error_ind)
+                    {
+                        /* do something with the error */
+                        error = "get_schakelid error: " + get_schakelid_error;
+                    }
+                    else
+                    {
+                        //schakelid = schakelid[0][0];
+                        foreach (string input in userInput)
+                        {
+                            if (input != null)
+                            {
+                                if (!bool.TryParse(input, out bool toggle))
+                                {
+                                    // not a toggle
+                                    if (int.TryParse(input, out int num))
+                                    {
+                                        // it's a temperature
+                                        // set temp: INSERT INTO temp (`schakelid`, `temp`) VALUES ('schakelid', 'temp')
+                                        MySqlCommand add_temp = new MySqlCommand("INSERT INTO temp (`schakelid`, `temperatuur`) VALUES (:schakelid, :temp)");
+                                        add_temp.Parameters.Add(":schakelid", schakelid[0][0]);
+                                        add_temp.Parameters.Add(":temp", num);
+                                        if (!ExecuteChanger(add_temp, out string add_temp_error))
+                                        {
+                                            /* do something with the error */
+                                            error = "add_temp error: " + add_temp_error;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // it's a setting
+                                        // set setting: INSERT INTO stand (`schakelid`, `stand`) VALUES ('schakelid', 'stand')
+                                        MySqlCommand add_stand = new MySqlCommand("INSERT INTO stand (`schakelid`, `stand`) VALUES (:schakelid, :stand)");
+                                        add_stand.Parameters.Add(":schakelid", schakelid[0][0]);
+                                        add_stand.Parameters.Add(":stand", input);
+                                        if (!ExecuteChanger(add_stand, out string add_stand_error))
+                                        {
+                                            /* do something with the error */
+                                            error = "add_stand error: " + add_stand_error;
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // it's a toggle
+                                    // set stand to "aan": INSERT INTO stand (`schakelid`, `stand`) VALUES ('schakelid', 'toggle')
+                                    MySqlCommand add_toggle = new MySqlCommand("INSERT INTO stand (`schakelid`, `stand`) VALUES (:schakelid, :stand)");
+                                    add_toggle.Parameters.Add(":schakelid", schakelid[0][0]);
+                                    add_toggle.Parameters.Add(":stand", toggle);
+                                    if (!ExecuteChanger(add_toggle, out string add_toggle_error))
+                                    {
+                                        /* do something with the error */
+                                        error = "add_toggle error: " + add_toggle_error;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 
