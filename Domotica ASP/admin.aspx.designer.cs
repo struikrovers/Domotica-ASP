@@ -364,49 +364,58 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget DeleteDevice;
         
         /// <summary>
-        /// Overlay1 control.
+        /// AddDeviceOID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.overlay Overlay1;
+        protected global::Domotica_ASP.overlay AddDeviceOID;
         
         /// <summary>
-        /// Widget1 control.
+        /// DeviceName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget Widget1;
+        protected global::Domotica_ASP.Widget DeviceName;
         
         /// <summary>
-        /// input1 control.
+        /// input_devicename control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputFields input1;
+        protected global::Domotica_ASP.InputFields input_devicename;
         
         /// <summary>
-        /// Widget2 control.
+        /// DeviceType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget Widget2;
+        protected global::Domotica_ASP.Widget DeviceType;
         
         /// <summary>
-        /// Widget3 control.
+        /// DevicePin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget Widget3;
+        protected global::Domotica_ASP.Widget DevicePin;
+        
+        /// <summary>
+        /// DeviceNetwork control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget DeviceNetwork;
         
         /// <summary>
         /// Overlay2 control.
@@ -445,13 +454,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget Widget6;
         
         /// <summary>
-        /// Overlay3 control.
+        /// DeleteDeviceOID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.overlay Overlay3;
+        protected global::Domotica_ASP.overlay DeleteDeviceOID;
         
         /// <summary>
         /// Widget7 control.

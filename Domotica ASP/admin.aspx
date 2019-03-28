@@ -35,7 +35,7 @@
                 <Wid:Widget ID="Remove" comment="Verwijder een gebruiker." name="Verwijderen" runat="server" setting="True" overlayID="Remove_User" />
             </Content>
         </Wid:Overlay>
-
+        <!-- User Overlay -->
         <Wid:Overlay ID="Add_User" runat="server">
             <Content>
                 <Wid:Widget ID="user_naam" comment="Naam van gebruiker" name="naam" runat="server">
@@ -73,20 +73,20 @@
                 <Wid:Widget ID="DeleteGroup" comment="Verwijder groepen." name="Verwijderen" runat="server" setting="True" overlayID="DeleteGroupOID" />
             </Content>
         </Wid:Overlay>
-
+        <!-- Group Overlay -->
         <Wid:Overlay ID="AddGroupOID" runat="server">
             <Content>
 
-                <Wid:Widget ID="Groupname" comment="Voer hier de groepnaam in." name="groepsnaam" runat="server">
+                <Wid:Widget ID="Groupname" comment="Voer hier de groepnaam in." name="Groepsnaam" runat="server">
                     <Input>
                         <Wid:Input ID="input_groupname" in_type="text" stantext="new group" runat="server" />
                     </Input>
                 </Wid:Widget>
 
-                <Wid:Widget ID="InsertUsers" comment="voer hier de gebruikers er aan toe die toegang nodig hebben." name="gebruiker toevoegen" runat="server">
+                <Wid:Widget ID="InsertUsers" comment="voeg hier de gebruikers er aan toe die toegang nodig hebben." name="Gebruiker" runat="server">
                 </Wid:Widget>
 
-                <Wid:Widget ID="InsertDevices" comment="voer hier de Apparaten toe." name="Apparaat toevoegen" runat="server">
+                <Wid:Widget ID="InsertDevices" comment="voeg hier de Apparaten toe." name="Apparaat" runat="server">
                 </Wid:Widget>
             </Content>
         </Wid:Overlay>
@@ -116,27 +116,32 @@
         <Wid:Overlay ID="DeviceManager" runat="server">
             <Content>
                 <Wid:Widget ID="AddDevice" comment="Voeg apparaat toe." name="Toevoegen" runat="server" setting="true" overlayID="AddDeviceOID" />
-                <Wid:Widget ID="ManageDevice" comment="Verander instellingen aan de apparaten." name="Wijzigen" runat="server" setting="True" overlayID="ManageDeviceOID" />
+                <!-- <Wid:Widget ID="ManageDevice" comment="Verander instellingen aan de apparaten." name="Wijzigen" runat="server" setting="True" overlayID="ManageDeviceOID" /> -->
                 <Wid:Widget ID="DeleteDevice" comment="Verwijder apparaten." name="Verwijderen" runat="server" setting="True" overlayID="DeleteDeviceOID" />
             </Content>
         </Wid:Overlay>
-        <Wid:Overlay ID="Overlay1" runat="server">
+
+        <!-- Apparaten Overlay -->
+        <Wid:Overlay ID="AddDeviceOID" runat="server">
             <Content>
 
-                <Wid:Widget ID="Widget1" comment="Voer hier de groepnaam in." name="groepsnaam" runat="server">
+                <Wid:Widget ID="DeviceName" comment="Voer hier de apparaatnaam in." name="Apparaatnaam" runat="server">
                     <Input>
-                        <Wid:Input ID="input1" in_type="text" stantext="new group" runat="server" />
+                        <Wid:Input ID="input_devicename" in_type="text" stantext="new group" runat="server" />
                     </Input>
                 </Wid:Widget>
 
-                <Wid:Widget ID="Widget2" comment="voer hier de gebruikers er aan toe die toegang nodig hebben." name="gebruiker toevoegen" runat="server">
+                <Wid:Widget ID="DeviceType" comment="Kies uw apparaat." name="Type" runat="server">
                 </Wid:Widget>
 
-                <Wid:Widget ID="Widget3" comment="voer hier de Apparaten toe." name="Apparaat toevoegen" runat="server">
+                <Wid:Widget ID="DevicePin" comment="Hoe is de device aangesloten" name="Aansluiting" runat="server">
+                </Wid:Widget>
+
+                <Wid:Widget ID="DeviceNetwork" comment="is de device aangesloteen aan het netwerk?" name="Netwerk" runat="server">
                 </Wid:Widget>
             </Content>
         </Wid:Overlay>
-        <Wid:Overlay ID="Overlay2" runat="server">
+       <!-- <Wid:Overlay ID="Overlay2" runat="server">
             <Content>
                 <Wid:Widget ID="Widget4" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
                 </Wid:Widget>
@@ -146,10 +151,10 @@
                 </Wid:Widget>
             </Content>
         </Wid:Overlay>
-
-        <Wid:Overlay ID="Overlay3" runat="server">
+           -->
+        <Wid:Overlay ID="DeleteDeviceOID" runat="server">
             <Content>
-                <Wid:Widget ID="Widget7" comment="Verwijder hier de groep." name="verwijder groep" runat="server">
+                <Wid:Widget ID="Widget7" comment="Verwijder hier de apparaten." name="verwijder apparaat" runat="server">
                     <Input>
                         <Wid:Input ID="input2" in_type="DropDownList" runat="server">
                         </Wid:Input>

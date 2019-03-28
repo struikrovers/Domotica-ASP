@@ -23,8 +23,10 @@ namespace Domotica_ASP
             */
             MySqlCommand userQuery = new MySqlCommand("SELECT gebruikersnaam, voornaam, achternaam FROM user WHERE gebruikersnaam != :gbnaam");
             userQuery.Parameters.Add("gbnaam", Session["user"]);
-           // MySqlCommand groupQuery = new MySqlCommand("SELECT GROUPID, groepsnaam FROM group");
-           // groupQuery.Parameters.Add("gbnaam", Session["user"]);
+            // MySqlCommand groupQuery = new MySqlCommand("SELECT GROUPID, groepsnaam FROM group");
+            // groupQuery.Parameters.Add("gbnaam", Session["user"]);
+
+            MySqlCommand query_gebruikertoevoegen = new MySqlCommand("SELECT " );
 
 
             List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
@@ -85,9 +87,17 @@ namespace Domotica_ASP
                 Submit_DeleteGroupOID.name = "verstuur";
                 DeleteGroupOID.Content.Controls.Add(Submit_DeleteGroupOID);
 
-                
+                Widget Submit_AddDeviceOID = (Widget)LoadControl("Widget.ascx");
+                Submit_AddDeviceOID.ID = "Submit_AddDeviceOID";
+                Submit_AddDeviceOID.submittable = true;
+                Submit_AddDeviceOID.name = "verstuur";
+                AddDeviceOID.Content.Controls.Add(Submit_AddDeviceOID);
 
-
+                Widget Submit_DeleteDeviceOID = (Widget)LoadControl("Widget.ascx");
+                Submit_DeleteDeviceOID.ID = "Submit_DeleteDeviceOID";
+                Submit_DeleteDeviceOID.submittable = true;
+                Submit_DeleteDeviceOID.name = "verstuur";
+                DeleteDeviceOID.Content.Controls.Add(Submit_DeleteDeviceOID);
 
                 /*PlaceHolder phInput = new PlaceHolder();
                phInput.ID = "placeholder";
