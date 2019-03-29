@@ -12,6 +12,7 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            outputUpdatePanel.Attributes["class"] = "updateNotifierParent";
             /*
             MySqlCommand query5 = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES ('joost', 'visserman', 'joost', :wachtwoord, 'test3@hotmail.com', '50')");
             query5.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash("admin123"));
@@ -26,12 +27,10 @@ namespace Domotica_ASP
             // MySqlCommand groupQuery = new MySqlCommand("SELECT GROUPID, groepsnaam FROM group");
             // groupQuery.Parameters.Add("gbnaam", Session["user"]);
 
-            MySqlCommand query_gebruikertoevoegen = new MySqlCommand("SELECT " );
-
 
             List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
-           // List<List<string>> GroepenTabel = global.ExecuteReader(groupQuery, out string error_groep, out bool groupErrorYes);
-            if (userErrorYes || userErrorYes)
+            // List<List<string>> GroepenTabel = global.ExecuteReader(groupQuery, out string error_groep, out bool groupErrorYes);
+            if (userErrorYes)
             {
                 Label label = new Label();
                 label.Text = error_gebruiker;
@@ -121,12 +120,12 @@ namespace Domotica_ASP
         }
         public void MakeUser(object sender, EventArgs e)
         {
-            TextBox user_name = (TextBox)input_naam.FindControl("Textinput");
-            TextBox user_surname = (TextBox)input_achternaam.FindControl("Textinput");
-            TextBox user_username = (TextBox)input_username.FindControl("Textinput");
-            TextBox user_password = (TextBox)input_password.FindControl("Textinput");
-            TextBox user_email = (TextBox)input_email.FindControl("Textinput");
-            CheckBox user_toeganglvl = (CheckBox)input_username.FindControl("Toggle_Checkbox");//TODO: slider
+            TextBox user_name = (TextBox)input_naam.FindControl("TextInput");
+            TextBox user_surname = (TextBox)input_achternaam.FindControl("TextInput");
+            TextBox user_username = (TextBox)input_username.FindControl("TextInput");
+            TextBox user_password = (TextBox)input_password.FindControl("TextInput");
+            TextBox user_email = (TextBox)input_email.FindControl("TextInput");
+            CheckBox user_toeganglvl = (CheckBox)_admin.FindControl("Toggle_Checkbox");//TODO: slider
 
             int user_toegangswaarde = 0;
             if (user_toeganglvl.Checked)
@@ -141,30 +140,30 @@ namespace Domotica_ASP
             query5.Parameters.Add("gebruikersnaam", user_username.Text);
             query5.Parameters.Add("email", user_email.Text);
             query5.Parameters.Add("toeganglvl", user_toegangswaarde);
-            query5.Parameters.Add("wachtwoord", user_toeganglvl.Text);
+            query5.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash(user_password.Text));
 
             global.ExecuteReader(query5, out string error5, out bool errorInd5);
             if (errorInd5)
             {
-                Label lbl = new Label();
-                lbl.Text = error5;
-                UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
-                UpdatePanel1.DataBind();
-                
+                if (error5.Contains("Duplicate entry"))
+                {
+                    output.Text = "user already exists";
+                }
+                else
+                {
+                    output.Text = error5;
+                }
                 /*do something with the error*/
             }
             else
             {
-                Label lbl = new Label();
-                lbl.Text = "kaas";
-                UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
-                UpdatePanel1.DataBind();
-
-
-
+                output.Text = string.Format("User: {0} toegevoegd", user_username.Text);
             }
-        } 
+        }
 
-
+        protected void Button1_Click(object sender, EventArgs e)
+        {
+            Label1.Text = "update!";
+        }
     }
 }

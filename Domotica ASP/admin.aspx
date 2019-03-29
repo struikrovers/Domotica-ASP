@@ -14,8 +14,25 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server"></asp:UpdatePanel>
-        
+        <asp:UpdatePanel ID="outputUpdatePanel" runat="server">
+            <ContentTemplate>
+                <div id="update_panel_div" class="updateNotifier">
+                    <asp:Label ID="output" runat="server"></asp:Label>
+                </div>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+            <ContentTemplate>
+                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+            <ContentTemplate>
+                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
         <Wid:Widget ID="Register" name="Registratie" comment="Beheer gebruikers" setting="true" overlayID="Register_overlay" runat="server" toggle="False" />
         <Wid:Widget ID="GroupManage" name="Groepbeheer" comment="Beheer groepen" setting="true" overlayID="AddTo_Group" runat="server" toggle="False" />
         <Wid:Widget ID="DeviceManage" name="Apparaatbeheer" comment="Beheer Apparaten" setting="true" overlayID="DeviceManager" runat="server" toggle="False" />
@@ -38,7 +55,7 @@
             </Content>
         </Wid:Overlay>
         <!-- User Overlay -->
-        
+
         <Wid:Overlay ID="Add_User" runat="server">
             <Content>
                 <Wid:Widget ID="user_naam" comment="Naam van gebruiker" name="Voornaam" runat="server">
@@ -69,6 +86,7 @@
                 <Wid:Widget ID="_admin" comment="maak de user een admin" name="admin" toggle="true" runat="server" />
             </Content>
         </Wid:Overlay>
+
         <Wid:Overlay ID="Remove_User" runat="server">
             <Content>
             </Content>
@@ -81,6 +99,7 @@
                 <Wid:Widget ID="DeleteGroup" comment="Verwijder groepen." name="Verwijderen" runat="server" setting="True" overlayID="DeleteGroupOID" />
             </Content>
         </Wid:Overlay>
+
         <!-- Group Overlay -->
         <Wid:Overlay ID="AddGroupOID" runat="server">
             <Content>
@@ -91,21 +110,16 @@
                     </Input>
                 </Wid:Widget>
 
-                <Wid:Widget ID="InsertUsers" comment="voeg hier de gebruikers er aan toe die toegang nodig hebben." name="Gebruiker" runat="server">
-                </Wid:Widget>
+                <Wid:Widget ID="InsertUsers" comment="voeg hier de gebruikers er aan toe die toegang nodig hebben." name="Gebruiker" runat="server" />
 
-                <Wid:Widget ID="InsertDevices" comment="voeg hier de Apparaten toe." name="Apparaat" runat="server">
-                </Wid:Widget>
+                <Wid:Widget ID="InsertDevices" comment="voeg hier de Apparaten toe." name="Apparaat" runat="server" />
             </Content>
         </Wid:Overlay>
         <Wid:Overlay ID="ManageGroupOID" runat="server">
             <Content>
-                <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
-                </Wid:Widget>
-                <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server">
-                </Wid:Widget>
-                <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server">
-                </Wid:Widget>
+                <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server" />
+                <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server" />
+                <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server" />
             </Content>
         </Wid:Overlay>
 
@@ -124,7 +138,6 @@
         <Wid:Overlay ID="DeviceManager" runat="server">
             <Content>
                 <Wid:Widget ID="AddDevice" comment="Voeg apparaat toe." name="Toevoegen" runat="server" setting="true" overlayID="AddDeviceOID" />
-                <!-- <Wid:Widget ID="ManageDevice" comment="Verander instellingen aan de apparaten." name="Wijzigen" runat="server" setting="True" overlayID="ManageDeviceOID" /> -->
                 <Wid:Widget ID="DeleteDevice" comment="Verwijder apparaten." name="Verwijderen" runat="server" setting="True" overlayID="DeleteDeviceOID" />
             </Content>
         </Wid:Overlay>
@@ -149,17 +162,7 @@
                 </Wid:Widget>
             </Content>
         </Wid:Overlay>
-       <!-- <Wid:Overlay ID="Overlay2" runat="server">
-            <Content>
-                <Wid:Widget ID="Widget4" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
-                </Wid:Widget>
-                <Wid:Widget ID="Widget5" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server">
-                </Wid:Widget>
-                <Wid:Widget ID="Widget6" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server">
-                </Wid:Widget>
-            </Content>
-        </Wid:Overlay>
-           -->
+
         <Wid:Overlay ID="DeleteDeviceOID" runat="server">
             <Content>
                 <Wid:Widget ID="Widget7" comment="Verwijder hier de apparaten." name="verwijder apparaat" runat="server">
@@ -169,7 +172,7 @@
                     </Input>
 
                 </Wid:Widget>
-               </Content>
-              </Wid:Overlay>
+            </Content>
+        </Wid:Overlay>
     </div>
 </asp:Content>

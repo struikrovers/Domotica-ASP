@@ -154,6 +154,7 @@ form {
   z-index: 4;
   top: -10em;
   transition: 1s top ease-out;
+  z-index: 99;
 }
 
 .updateNotifier {
