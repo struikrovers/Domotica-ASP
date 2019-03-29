@@ -63,10 +63,24 @@ namespace Domotica_ASP
                 Submit_Remove_User.name = "verstuur";
                 Remove_User.Content.Controls.Add(Submit_Remove_User);
 
+
+                Widget Submit_DeleteGroupOID = (Widget)LoadControl("Widget.ascx");
+                Submit_DeleteGroupOID.ID = " Submit_DeleteGroupOID";
+                Submit_DeleteGroupOID.submittable = true;
+                Submit_DeleteGroupOID.name = "verstuur";
+                DeleteGroupOID.Content.Controls.Add(Submit_DeleteGroupOID);
+
+                Widget Submit_DeleteDeviceOID = (Widget)LoadControl("Widget.ascx");
+                Submit_DeleteDeviceOID.ID = "Submit_DeleteDeviceOID";
+                Submit_DeleteDeviceOID.submittable = true;
+                Submit_DeleteDeviceOID.name = "verstuur";
+                DeleteDeviceOID.Content.Controls.Add(Submit_DeleteDeviceOID);
+
                 Widget Submit_Add_User = (Widget)LoadControl("Widget.ascx");
                 Submit_Add_User.ID = "SubmitWidget";
                 Submit_Add_User.submittable = true;
                 Submit_Add_User.name = "verstuur";
+                Submit_Add_User.submit_function = MakeUser;
                 Add_User.Content.Controls.Add(Submit_Add_User);
 
                 Widget Submit_AddGroupOID = (Widget)LoadControl("Widget.ascx");
@@ -81,23 +95,14 @@ namespace Domotica_ASP
                 Submit_ManageGroupOID.name = "verstuur";
                 ManageGroupOID.Content.Controls.Add(Submit_ManageGroupOID);
 
-                Widget Submit_DeleteGroupOID = (Widget)LoadControl("Widget.ascx");
-                Submit_DeleteGroupOID.ID = " Submit_DeleteGroupOID";
-                Submit_DeleteGroupOID.submittable = true;
-                Submit_DeleteGroupOID.name = "verstuur";
-                DeleteGroupOID.Content.Controls.Add(Submit_DeleteGroupOID);
-
+                
                 Widget Submit_AddDeviceOID = (Widget)LoadControl("Widget.ascx");
                 Submit_AddDeviceOID.ID = "Submit_AddDeviceOID";
                 Submit_AddDeviceOID.submittable = true;
                 Submit_AddDeviceOID.name = "verstuur";
                 AddDeviceOID.Content.Controls.Add(Submit_AddDeviceOID);
 
-                Widget Submit_DeleteDeviceOID = (Widget)LoadControl("Widget.ascx");
-                Submit_DeleteDeviceOID.ID = "Submit_DeleteDeviceOID";
-                Submit_DeleteDeviceOID.submittable = true;
-                Submit_DeleteDeviceOID.name = "verstuur";
-                DeleteDeviceOID.Content.Controls.Add(Submit_DeleteDeviceOID);
+                
 
                 /*PlaceHolder phInput = new PlaceHolder();
                phInput.ID = "placeholder";
@@ -114,5 +119,52 @@ namespace Domotica_ASP
             }
 
         }
+        public void MakeUser(object sender, EventArgs e)
+        {
+            TextBox user_name = (TextBox)input_naam.FindControl("Textinput");
+            TextBox user_surname = (TextBox)input_achternaam.FindControl("Textinput");
+            TextBox user_username = (TextBox)input_username.FindControl("Textinput");
+            TextBox user_password = (TextBox)input_password.FindControl("Textinput");
+            TextBox user_email = (TextBox)input_email.FindControl("Textinput");
+            CheckBox user_toeganglvl = (CheckBox)input_username.FindControl("Toggle_Checkbox");//TODO: slider
+
+            int user_toegangswaarde = 0;
+            if (user_toeganglvl.Checked)
+            {
+                user_toegangswaarde = 50;
+
+            }
+
+            MySqlCommand query5 = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES (:voornaam, :achternaam, :gebruikersnaam, :wachtwoord, :email, :toeganglvl)");
+            query5.Parameters.Add("voornaam", user_name.Text);
+            query5.Parameters.Add("achternaam", user_surname.Text);
+            query5.Parameters.Add("gebruikersnaam", user_username.Text);
+            query5.Parameters.Add("email", user_email.Text);
+            query5.Parameters.Add("toeganglvl", user_toegangswaarde);
+            query5.Parameters.Add("wachtwoord", user_toeganglvl.Text);
+
+            global.ExecuteReader(query5, out string error5, out bool errorInd5);
+            if (errorInd5)
+            {
+                Label lbl = new Label();
+                lbl.Text = error5;
+                UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
+                UpdatePanel1.DataBind();
+                
+                /*do something with the error*/
+            }
+            else
+            {
+                Label lbl = new Label();
+                lbl.Text = "kaas";
+                UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
+                UpdatePanel1.DataBind();
+
+
+
+            }
+        } 
+
+
     }
 }

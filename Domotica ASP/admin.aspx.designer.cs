@@ -22,6 +22,15 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
         /// Register control.
         /// </summary>
         /// <remarks>
@@ -110,6 +119,24 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Domotica_ASP.InputFields input_naam;
+        
+        /// <summary>
+        /// user_achternaam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget user_achternaam;
+        
+        /// <summary>
+        /// input_achternaam control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields input_achternaam;
         
         /// <summary>
         /// email control.

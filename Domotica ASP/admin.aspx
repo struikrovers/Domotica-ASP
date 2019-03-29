@@ -14,6 +14,8 @@
 			not sure why this occurs.
 		-->
         <!-- NOTE: for any widget with a setting create an overlay! -->
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server"></asp:UpdatePanel>
+        
         <Wid:Widget ID="Register" name="Registratie" comment="Beheer gebruikers" setting="true" overlayID="Register_overlay" runat="server" toggle="False" />
         <Wid:Widget ID="GroupManage" name="Groepbeheer" comment="Beheer groepen" setting="true" overlayID="AddTo_Group" runat="server" toggle="False" />
         <Wid:Widget ID="DeviceManage" name="Apparaatbeheer" comment="Beheer Apparaten" setting="true" overlayID="DeviceManager" runat="server" toggle="False" />
@@ -36,11 +38,17 @@
             </Content>
         </Wid:Overlay>
         <!-- User Overlay -->
+        
         <Wid:Overlay ID="Add_User" runat="server">
             <Content>
-                <Wid:Widget ID="user_naam" comment="Naam van gebruiker" name="naam" runat="server">
+                <Wid:Widget ID="user_naam" comment="Naam van gebruiker" name="Voornaam" runat="server">
                     <Input>
-                        <Wid:Input ID="input_naam" in_type="text" stantext="naam" runat="server" />
+                        <Wid:Input ID="input_naam" in_type="text" stantext="Voornaam" runat="server" />
+                    </Input>
+                </Wid:Widget>
+                <Wid:Widget ID="user_achternaam" comment="Achternaam van gebruiker" name="Achternaam" runat="server">
+                    <Input>
+                        <Wid:Input ID="input_achternaam" in_type="text" stantext="Achternaam" runat="server" />
                     </Input>
                 </Wid:Widget>
                 <Wid:Widget ID="email" comment="email van gebruiker" name="email" runat="server">
