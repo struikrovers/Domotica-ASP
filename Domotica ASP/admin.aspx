@@ -144,21 +144,36 @@
         <!-- Apparaten Overlay -->
         <Wid:Overlay ID="AddDeviceOID" runat="server">
             <Content>
-
                 <Wid:Widget ID="DeviceName" comment="Voer hier de apparaatnaam in." name="Apparaatnaam" runat="server">
                     <Input>
-                        <Wid:Input ID="input_devicename" in_type="text" stantext="new group" runat="server" />
+                        <Wid:Input ID="input_devicename" in_type="text" stantext="apparaat naam" runat="server" />
                     </Input>
                 </Wid:Widget>
 
                 <Wid:Widget ID="DeviceType" comment="Kies uw apparaat." name="Type" runat="server">
+                    <Input>
+                        <Wid:Input ID="input_devicetype" in_type="DropDownList" runat="server">
+                            <__DropList>
+                                <asp:dropdownlist ID="input_devicetype_list" runat="server">
+                                    
+                                </asp:dropdownlist>
+                            </__DropList>
+                        </Wid:Input>
+                    </Input>
                 </Wid:Widget>
 
-                <Wid:Widget ID="DevicePin" comment="Hoe is de device aangesloten" name="Aansluiting" runat="server">
+                <Wid:Widget ID="DevicePin" comment="Op welke pin is het apparaat aangesloten?" name="Aansluiting" runat="server">
+                    <Input>
+                        <Wid:Input ID="input_devicepin" in_type="DropDownList" runat="server">
+                            <__DropList>
+                                <asp:dropdownlist ID="input_devicepin_list" runat="server">
+                                    
+                                </asp:dropdownlist>
+                            </__DropList>
+                        </Wid:Input>
+                    </Input>
                 </Wid:Widget>
-
-                <Wid:Widget ID="DeviceNetwork" comment="is de device aangesloteen aan het netwerk?" name="Netwerk" runat="server">
-                </Wid:Widget>
+                <Wid:Widget ID="Submit_AddDeviceOID" submittable="true" name="verstuur" runat="server" />
             </Content>
         </Wid:Overlay>
 

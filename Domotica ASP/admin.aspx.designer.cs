@@ -454,6 +454,24 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget DeviceType;
         
         /// <summary>
+        /// input_devicetype control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields input_devicetype;
+        
+        /// <summary>
+        /// input_devicetype_list control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList input_devicetype_list;
+        
+        /// <summary>
         /// DevicePin control.
         /// </summary>
         /// <remarks>
@@ -463,13 +481,31 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget DevicePin;
         
         /// <summary>
-        /// DeviceNetwork control.
+        /// input_devicepin control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget DeviceNetwork;
+        protected global::Domotica_ASP.InputFields input_devicepin;
+        
+        /// <summary>
+        /// input_devicepin_list control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList input_devicepin_list;
+        
+        /// <summary>
+        /// Submit_AddDeviceOID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Submit_AddDeviceOID;
         
         /// <summary>
         /// DeleteDeviceOID control.

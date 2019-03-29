@@ -36,7 +36,17 @@ namespace Domotica_ASP
         };
         public static List<string> dingenDieGeenDatumInputMogen = new List<string>(){ "Verwarming" };
         public static List<string> dingenDieEenTimerHebben = new List<string>() { "Oven" };
-
+        public static List<string> pinnr = new List<string>();
+        public static void init_pinnr()
+        {
+            if (pinnr.Count == 0)
+            {
+                for (int i = 1; i < 21; i++)
+                {
+                    pinnr.Add("D" + i.ToString());
+                }
+            }
+        }
 
         /// <summary>
         /// Executs the mysqlcommand given, query generation should be done beforehand

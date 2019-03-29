@@ -84,8 +84,10 @@ function close_overlay(e, force) {
 
     back_button = 'close_overlay_back';
     close_button = 'close_overlay_icon';
-    if (force == "close" || force == "back" || !click_overlap(x, y, overlay_rect))
+    if (force == "close" || force == "back")
     {
+        closer();
+        /*
         if (force != "close" && force != "back") {
             if (!click_overlap(x, y, back_button) && !click_overlap(x, y, close_button)) {
                 closer();
@@ -94,6 +96,7 @@ function close_overlay(e, force) {
         else {
             closer();
         }
+        */
     }
 }
 

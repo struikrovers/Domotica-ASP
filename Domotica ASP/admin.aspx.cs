@@ -22,27 +22,16 @@ namespace Domotica_ASP
             "margin-left: -2px; " +
             "margin-bottom: 0.7em";
 
-            /*
-            MySqlCommand query5 = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES ('joost', 'visserman', 'joost', :wachtwoord, 'test3@hotmail.com', '50')");
-            query5.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash("admin123"));
-            global.ExecuteReader(query5, out string error5, out bool errorInd5);
-            if (errorInd5)
-            {
-                Label1.Text = error5;
-            }
-            */
             MySqlCommand userQuery = new MySqlCommand("SELECT gebruikersnaam, voornaam, achternaam FROM user WHERE gebruikersnaam != :gbnaam");
             userQuery.Parameters.Add("gbnaam", Session["user"]);
 
             List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
-            // List<List<string>> GroepenTabel = global.ExecuteReader(groupQuery, out string error_groep, out bool groupErrorYes);
             if (userErrorYes)
             {
                 Label label = new Label();
                 label.Text = error_gebruiker;
                 grid_parent.Controls.Add(label);
             }
-
             else
             {
                 foreach (List<string> row in GebruikersTabel)
@@ -61,6 +50,47 @@ namespace Domotica_ASP
                 Submit_Remove_User.submit_function = DeleteUser;
                 Remove_User_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_User);
             }
+
+            MySqlCommand get_busy_pins = new MySqlCommand("SELECT pinnr FROM pin");
+            List<List<string>> bezette_pins = global.ExecuteReader(get_busy_pins, out string error_get_pins, out bool error_pin_ind);
+            if (error_pin_ind)
+            {
+
+            }
+            else
+            {
+                global.init_pinnr();
+                foreach(string pinnr in global.pinnr)
+                {
+                    if (bezette_pins.Count != 0)
+                    {
+                        if (!bezette_pins[0].Contains(pinnr))
+                        {
+                            input_devicepin_list.Items.Add(pinnr);
+                        }
+                    }
+                    else
+                    {
+                        input_devicepin_list.Items.Add(pinnr);
+                    }
+                }
+            }
+
+            MySqlCommand getTypes = new MySqlCommand("SELECT `Type` FROM apparaattype");
+            List<List<string>> getTypes_result = global.ExecuteReader(getTypes, out string getTypes_error, out bool getTypes_error_ind);
+            if (getTypes_error_ind)
+            {
+
+            }
+            else
+            {
+                foreach(List<string> type in getTypes_result)
+                {
+                    input_devicetype_list.Items.Add(type[0]);
+                }
+            }
+
+            Submit_AddDeviceOID.submit_function = MakeApparaat;
 
             /* template widget
             Widget SubmitWidget = (Widget)LoadControl("Widget.ascx");
@@ -99,29 +129,7 @@ namespace Domotica_ASP
             Submit_ManageGroupOID.ID = "Submit_ManageGroupOID";
             Submit_ManageGroupOID.submittable = true;
             Submit_ManageGroupOID.name = "verstuur";
-            ManageGroupOID.Content.Controls.Add(Submit_ManageGroupOID);
-
-                
-            Widget Submit_AddDeviceOID = (Widget)LoadControl("Widget.ascx");
-            Submit_AddDeviceOID.ID = "Submit_AddDeviceOID";
-            Submit_AddDeviceOID.submittable = true;
-            Submit_AddDeviceOID.name = "verstuur";
-            AddDeviceOID.Content.Controls.Add(Submit_AddDeviceOID);
-
-                
-
-            /*PlaceHolder phInput = new PlaceHolder();
-            phInput.ID = "placeholder";
-
-            InputFields Input = (InputFields)LoadControl("InputFields.ascx");
-            Input.in_type = "radio";
-            Input.button_text = "submit";
-            Input.ID = "InputField";
-
-            phInput.Controls.Add(Input);
-
-            SubmitWidget.Input = phInput;
-            */
+            ManageGroupOID.Content.Controls.Add(Submit_ManageGroupOID); 
 
         }
         public void MakeUser(object sender, EventArgs e)
@@ -155,7 +163,7 @@ namespace Domotica_ASP
             {
                 if (error5.Contains("Duplicate entry"))
                 {
-                    output.Text = "user already exists";
+                    output.Text = "user bestaat al";
                 }
                 else
                 {
@@ -254,10 +262,64 @@ namespace Domotica_ASP
             }
         }
 
-
-        protected void Button1_Click(object sender, EventArgs e)
+        public void MakeApparaat(object sender, EventArgs e)
         {
-            Label1.Text = "update!";
+            TextBox Device_name = (TextBox)input_devicename.FindControl("TextInput");
+            string Device_type = input_devicetype_list.SelectedValue;
+            string Device_pin = input_devicepin_list.SelectedValue;
+
+            MySqlCommand query_getTypeID = new MySqlCommand("SELECT TypeID FROM apparaattype WHERE `type` = :type");
+            query_getTypeID.Parameters.Add("type", Device_type);
+            List<List<string>> getTypeID_result = global.ExecuteReader(query_getTypeID, out string getTypeID_error, out bool getTypeID_errorInd);
+            if (getTypeID_errorInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                MySqlCommand query_addapp = new MySqlCommand("INSERT INTO apparaat (`TypeID`, `naam`) VALUES (:type, :naam)");
+                query_addapp.Parameters.Add("type", getTypeID_result[0][0]);
+                query_addapp.Parameters.Add("naam", Device_name.Text);
+                if(!global.ExecuteChanger(query_addapp, out string error5))
+                {
+                    if (error5.Contains("Duplicate entry"))
+                    {
+                        output.Text = "apparaatnaam bestaat al";
+                    }
+                    else
+                    {
+                        output.Text = error5;
+                    }
+                }
+                else
+                { 
+                    MySqlCommand query_appid = new MySqlCommand("SELECT apparaatID FROM apparaat WHERE naam = :naam");
+                    query_appid.Parameters.Add("naam", Device_name.Text);
+                    List<List<string>> appid = global.ExecuteReader(query_appid, out string error6, out bool errorInd6);
+                    if (errorInd6)
+                    {
+                        /* do something with the error */
+                        output.Text = error6;
+                    }
+                    else
+                    {
+                        MySqlCommand query_addpin = new MySqlCommand("INSERT INTO pin VALUES (:appID, :pinnr)");
+                        query_addpin.Parameters.Add("appID", appid[0][0]);
+                        query_addpin.Parameters.Add("pinnr", Device_pin);
+                        if (!global.ExecuteChanger(query_addpin, out string error7))
+                        {
+                            /* do something with the error */
+                            output.Text = error7;
+                        }
+                        else
+                        {
+                            output.Text = string.Format("Apparaat: {0} toegevoegd", Device_name.Text);
+                            Response.Redirect(Request.Url.AbsolutePath, true);
+                        }
+                    }
+                }
+                
+            }
         }
 
 
