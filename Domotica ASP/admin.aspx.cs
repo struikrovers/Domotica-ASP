@@ -23,7 +23,9 @@ namespace Domotica_ASP
             }
             */
             MySqlCommand userQuery = new MySqlCommand("SELECT gebruikersnaam, voornaam, achternaam FROM user WHERE gebruikersnaam != :gbnaam");
-            userQuery.Parameters.Add("gbnaam", Session["user"]);
+            //userQuery.Parameters.Add("gbnaam", Session["user"]);
+            userQuery.Parameters.Add("gbnaam", "admin");
+            
             // MySqlCommand groupQuery = new MySqlCommand("SELECT GROUPID, groepsnaam FROM group");
             // groupQuery.Parameters.Add("gbnaam", Session["user"]);
 
@@ -45,8 +47,9 @@ namespace Domotica_ASP
                     widget.name = row[0];
                     widget.comment = string.Format("Dit is het account van: {0} {1}", row[1], row[2]);
                     widget.toggle = true;
+                    widget.ID = row[0];
                     Remove_User.Content.Controls.Add(widget);
-                }
+                    }
 
                 /* template widget
                 Widget SubmitWidget = (Widget)LoadControl("Widget.ascx");
@@ -60,6 +63,7 @@ namespace Domotica_ASP
                 Submit_Remove_User.ID = "Submit_Remove_User";
                 Submit_Remove_User.submittable = true;
                 Submit_Remove_User.name = "verstuur";
+                Submit_Remove_User.submit_function = DeleteUser;
                 Remove_User.Content.Controls.Add(Submit_Remove_User);
 
 
@@ -134,15 +138,17 @@ namespace Domotica_ASP
 
             }
 
-            MySqlCommand query5 = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES (:voornaam, :achternaam, :gebruikersnaam, :wachtwoord, :email, :toeganglvl)");
-            query5.Parameters.Add("voornaam", user_name.Text);
-            query5.Parameters.Add("achternaam", user_surname.Text);
-            query5.Parameters.Add("gebruikersnaam", user_username.Text);
-            query5.Parameters.Add("email", user_email.Text);
-            query5.Parameters.Add("toeganglvl", user_toegangswaarde);
-            query5.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash(user_password.Text));
+            MySqlCommand query_adduser = new MySqlCommand("INSERT INTO user (`voornaam`, `achternaam`, `gebruikersnaam`, `wachtwoord`, `email`, `toegangslevel`) VALUES (:voornaam, :achternaam, :gebruikersnaam, :wachtwoord, :email, :toeganglvl)");
+            query_adduser.Parameters.Add("voornaam", user_name.Text);
+            query_adduser.Parameters.Add("achternaam", user_surname.Text);
+            query_adduser.Parameters.Add("gebruikersnaam", user_username.Text);
+            query_adduser.Parameters.Add("email", user_email.Text);
+            query_adduser.Parameters.Add("toeganglvl", user_toegangswaarde);
+            query_adduser.Parameters.Add("wachtwoord", SecurePasswordHasher.Hash(user_password.Text));
 
-            global.ExecuteReader(query5, out string error5, out bool errorInd5);
+
+
+            global.ExecuteReader(query_adduser, out string error5, out bool errorInd5);
             if (errorInd5)
             {
                 if (error5.Contains("Duplicate entry"))
@@ -161,9 +167,49 @@ namespace Domotica_ASP
             }
         }
 
+        public void DeleteUser(object sender, EventArgs e)
+        {
+
+            MySqlCommand userQuery = new MySqlCommand("SELECT gebruikersnaam, voornaam, achternaam FROM user WHERE gebruikersnaam != ''");
+            userQuery.Parameters.Add("gbnaam", Session["user"]);
+
+            
+            List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
+
+            if (userErrorYes)
+            {
+                Label1.Text = error_gebruiker;
+            }
+            else
+            {
+
+                string sql_statement = "DELETE FROM USER WHERE ";
+
+                for (int i = 0; i < GebruikersTabel.Count; i++)
+                {
+                    
+                    Widget removeUser = (Widget)Remove_User.FindControl(GebruikersTabel[i][0]);
+                    CheckBox removable_user = (CheckBox)removeUser.FindControl("Toggle_Checkbox");
+                    if (removable_user.Checked)
+                    {
+                       sql_statement += @"OR naam = {" + i.ToString() + @"} ";
+
+
+                    }
+                    
+                }
+                Label1.Text = sql_statement;
+            }
+            
+
+        }
+
+
         protected void Button1_Click(object sender, EventArgs e)
         {
             Label1.Text = "update!";
         }
+
+
     }
 }
