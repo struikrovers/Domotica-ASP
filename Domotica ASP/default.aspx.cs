@@ -554,6 +554,12 @@ namespace Domotica_ASP
             ScheduleDisplayer.RowDataBound += hide_hidden;
             ScheduleDisplayer.RowDeleting += Schedule_delete;
             ScheduleDisplayer.DataBind();
+
+            if (ViewState["test"] != null)
+            {
+                testlbl.Text = ViewState["test"].ToString();
+            }
+
         }
 
         protected void hide_hidden(object sender, GridViewRowEventArgs e)
@@ -571,7 +577,10 @@ namespace Domotica_ASP
 
         protected void Schedule_delete (object sender, GridViewDeleteEventArgs e)
         {
+            ViewState["test"] = "updatepanel partial render?";
             Label lbl = new Label();
+            lbl.Text = "yes!";
+            /*
             if(sender.GetType() == typeof(GridView))
             {
                 GridView GR = (GridView)sender;
@@ -582,19 +591,19 @@ namespace Domotica_ASP
                 removeSchedule.Parameters.Add("tijd", Convert.ToDateTime(DC[5].Text));
                 if (global.ExecuteChanger(removeSchedule, out string error))
                 {
-                    /* do something with the error */
+                    /* do something with the error 
                     lbl.Text = error;
                 }
                 else
                 {
-                    lbl.Text += DC[1].Text + " om " + DC[2].Text + " verwijdert";
+                    lbl.Text = DC[1].Text + " om " + DC[2].Text + " verwijdert";
                     GR.Rows[e.RowIndex].Visible = false;
                     GR.DataBind();
                 }
             }
+            */
             //ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
             ScheduleUpdatePanel.Controls.Add(lbl);
-            ScheduleUpdatePanel.DataBind();
         }
     }
 }

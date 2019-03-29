@@ -23,6 +23,7 @@
         </asp:UpdatePanel>
     </div>
     <div ID="ScheduleUpdatePanel" runat="server">
+        <asp:Label ID="testlbl" runat="server"></asp:Label>
         <asp:GridView ID="ScheduleDisplayer" runat="server">
 
             <Columns>
@@ -31,19 +32,6 @@
 
         </asp:GridView>
     </div>
-
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-        <ContentTemplate>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False">
-                <Columns>
-                    <asp:ButtonField ButtonType="Button" Text="Button" CausesValidation="False" />
-                    <asp:BoundField HeaderText="col1" />
-                    <asp:BoundField HeaderText="col2" />
-                    <asp:BoundField HeaderText="col3" />
-                </Columns>
-            </asp:GridView>
-        </ContentTemplate>
-    </asp:UpdatePanel>
 
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">
         <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">
