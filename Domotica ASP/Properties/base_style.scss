@@ -145,11 +145,12 @@ $widget_border_radius: 3px;
 
 .grid_child_header {
 	font-family: 'Roboto Slab', sans-serif;
+	font-size: 0.8em;
 	background: #10264542;
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #1c363b;
 	box-shadow: inset 0px 1px 1px 0 #00000073;
-	height: 1.1em;
+	height: 1.5em;
 	//top: 0;
 }
 
@@ -626,6 +627,11 @@ $transform: 0.5em;
 	grid-gap: 0.5em;
 	margin-left: -2px; 
 	margin-bottom: 0.7em;
+}
+
+.ajaxContent{
+	display: inline-block;
+	width: 100%;
 }
 
 .overlay_closer{

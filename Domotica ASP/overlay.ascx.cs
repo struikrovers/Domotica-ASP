@@ -12,10 +12,12 @@ namespace Domotica_ASP
         [PersistenceMode(PersistenceMode.InnerProperty)]
         public PlaceHolder Content { get; set; }
         public string widget_parent { get; set; } = "";
+        public string cssClass { get; set; } = "overlay_content";
         protected void Page_Load(object sender, EventArgs e)
         {
             base.OnInit(e);
             _Content.Controls.Add(Content);
+            overlay_content.Attributes["class"] = cssClass;
         }
     }
 }

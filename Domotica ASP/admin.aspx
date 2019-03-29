@@ -21,21 +21,15 @@
                 </div>
             </ContentTemplate>
         </asp:UpdatePanel>
-
         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
             <ContentTemplate>
-                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-            </ContentTemplate>
-        </asp:UpdatePanel>
-        <asp:UpdatePanel ID="UpdatePanel2" runat="server">
-            <ContentTemplate>
-                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
+                <asp:Label ID="Label1" runat="server"></asp:Label>
             </ContentTemplate>
         </asp:UpdatePanel>
 
         <Wid:Widget ID="Register" name="Registratie" comment="Beheer gebruikers" setting="true" overlayID="Register_overlay" runat="server" toggle="False" />
         <Wid:Widget ID="GroupManage" name="Groepbeheer" comment="Beheer groepen" setting="true" overlayID="AddTo_Group" runat="server" toggle="False" />
-        <Wid:Widget ID="DeviceManage" name="Apparaatbeheer" comment="Beheer Apparaten" setting="true" overlayID="DeviceManager" runat="server" toggle="False" />
+        <Wid:Widget ID="DeviceManage" name="App Beheer" comment="Beheer Apparaten" setting="true" overlayID="DeviceManager" runat="server" toggle="False" />
     </div>
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">
         <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">
@@ -87,10 +81,15 @@
             </Content>
         </Wid:Overlay>
 
-        <Wid:Overlay ID="Remove_User" runat="server">
+        <Wid:Overlay ID="Remove_User" runat="server" cssClass="overlay_content ajaxContent">
             <Content>
+                <asp:UpdatePanel ID="Remove_User_UP" runat="server">
+                    <ContentTemplate>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </Content>
         </Wid:Overlay>
+
 
         <Wid:Overlay ID="AddTo_Group" runat="server">
             <Content>

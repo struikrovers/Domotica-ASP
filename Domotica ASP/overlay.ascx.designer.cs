@@ -22,6 +22,15 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl overlay_child;
         
         /// <summary>
+        /// overlay_content control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl overlay_content;
+        
+        /// <summary>
         /// _Content control.
         /// </summary>
         /// <remarks>
