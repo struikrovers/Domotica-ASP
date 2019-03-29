@@ -22,16 +22,15 @@
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
-    <div ID="ScheduleUpdatePanel" runat="server">
-        <asp:Label ID="testlbl" runat="server"></asp:Label>
-        <asp:GridView ID="ScheduleDisplayer" runat="server">
-
-            <Columns>
-                <asp:CommandField ButtonType="Button" HeaderText="Verwijderen" ShowDeleteButton="True" ShowHeader="True" />
-            </Columns>
-
-        </asp:GridView>
-    </div>
+    <asp:UpdatePanel ID="ScheduleUpdatePanel" runat="server">
+        <ContentTemplate>
+            <asp:GridView ID="ScheduleDisplayer" runat="server">
+                <Columns>
+                    <asp:CommandField ButtonType="Button" HeaderText="Verwijderen" ShowDeleteButton="True" ShowHeader="True" />
+                </Columns>
+            </asp:GridView>
+            </ContentTemplate>
+    </asp:UpdatePanel>
 
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">
         <div id="close_overlay_icon" class="overlay_closer" onclick="close_overlay(event, 'close', this)">

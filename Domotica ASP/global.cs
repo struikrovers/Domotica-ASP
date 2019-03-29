@@ -5,6 +5,9 @@ using System.Web;
 using System.Configuration;
 using Devart.Data.MySql;
 using System.Security.Cryptography;
+using System.Data;
+using System.Web.UI;
+using System.Web.SessionState;
 
 namespace Domotica_ASP
 {
@@ -127,6 +130,218 @@ namespace Domotica_ASP
             }
             return returned;
         }
+
+        public static DataTable GetScheduleTable(HttpSessionState Session)
+        {
+            // gridview 
+            DataTable dt = new DataTable("ScheduleTable");
+            DataRow dr = null;
+            dt.Columns.Add(new DataColumn("apparaat", typeof(string)));
+            dt.Columns.Add(new DataColumn("tijd", typeof(string)));
+            dt.Columns.Add(new DataColumn("stand", typeof(string)));
+            dt.Columns.Add(new DataColumn("temp", typeof(string)));
+            dt.Columns.Add(new DataColumn("hidden", typeof(DateTime)));
+
+            // get the devices with multiple values
+            MySqlCommand getSchedule;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule = new MySqlCommand("SELECT naam, tijd, temperatuur, `stand` " +
+                    "FROM temp " +
+                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule = new MySqlCommand(
+                    "SELECT naam, tijd, temperatuur, `stand` " +
+                    "FROM temp " +
+                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID");
+            }
+            List<List<string>> getSchedule_result = global.ExecuteReader(getSchedule, out string getSchedule_error, out bool getSchedule_errorInd);
+            if (getSchedule_errorInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["temp"] = row[2].ToString();
+                    dr["stand"] = row[3].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            // get the devices with single temp value
+            MySqlCommand getSchedule_single_temp;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
+                    "FROM temp " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN(" +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
+                    "AND apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule_single_temp.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
+                    "FROM temp " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
+            }
+            List<List<string>> getSchedule_single_temp_result = global.ExecuteReader(getSchedule_single_temp, out string getSchedule_single_temp_error, out bool getSchedule_single_temp_errorInd);
+            if (getSchedule_single_temp_errorInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_single_temp_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["temp"] = row[2].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            // get the devices with single stand value
+            MySqlCommand getSchedule_single_stand;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
+                    "FROM stand INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
+                    "AND apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule_single_stand.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
+                    "FROM stand " +
+                    "INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
+            }
+            List<List<string>> getSchedule_single_stand_result = global.ExecuteReader(getSchedule_single_stand, out string getSchedule_single_stand_error, out bool getSchedule_single_standInd);
+            if (getSchedule_single_standInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_single_stand_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["stand"] = row[2].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            dt.DefaultView.Sort = "tijd asc";
+            dt = dt.DefaultView.ToTable();
+            return dt;
+        }
+        public static bool show_delete_btn = true;
+
 
         public static bool checkUserCookie(HttpCookie verkade, out string error)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -209,6 +210,26 @@ namespace Domotica_ASP
                 }
             }
             output.DataBind();
+
+            GridView ScheduleDisplayer = (GridView)Parent.FindControl("ScheduleDisplayer");
+            DataTable dt = global.GetScheduleTable(Session);
+            if (dt.Rows.Count == 0)
+            {
+                DataRow emp_dr = dt.NewRow();
+                emp_dr["apparaat"] = "Currently";
+                emp_dr["tijd"] = "No";
+                emp_dr["stand"] = "Devices";
+                emp_dr["temp"] = "Scheduled";
+                emp_dr["hidden"] = DateTime.Now;
+                dt.Rows.Add(emp_dr);
+                global.show_delete_btn = false;
+            }
+            else
+            {
+                global.show_delete_btn = true;
+            }
+            ScheduleDisplayer.DataSource = dt;
+            ScheduleDisplayer.DataBind();
         }
     }
 }
