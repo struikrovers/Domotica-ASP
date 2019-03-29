@@ -28,7 +28,8 @@ namespace Domotica_ASP
             {
                 if ((bool)Session["LoggedIn"] == true)
                 {
-                    WelcomeLabel.Text = "Welcome " + (string)Session["user"];
+                    Welcome.Text = "welkom ";
+                    WelcomeLabel.Text = (string)Session["user"];
                     LoginButton.Visible = false;
                     LogoutButton.Visible = true;
                 }

@@ -1,6 +1,7 @@
 ﻿using Devart.Data.MySql;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -22,8 +23,14 @@ namespace Domotica_ASP
             #endregion
         }
 
+        public void delete_row(string naam)
+        {
+
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            outputUpdatePanel.Attributes["class"] = "updateNotifierParent";
             //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
             //WHERE h.GROUPID IN(
             //    SELECT `GROUPID` FROM neemtdeelaan
@@ -36,8 +43,8 @@ namespace Domotica_ASP
 
             if (Session["LoggedIn"] != null)
             {
-                
-                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID WHERE h.GROUPID IN(SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `userid` FROM user WHERE `gebruikersnaam` = :gbnaam))");
+
+                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam, atype.`Type` FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID WHERE h.GROUPID IN( SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `userid` FROM user WHERE `gebruikersnaam` = :gbnaam))");
                 apparaatquery.Parameters.Add("gbnaam", Session["user"]);
                 List<List<string>> result = global.ExecuteReader(apparaatquery, out string apparaatError, out bool apparaatErrorInd);
                 if (apparaatErrorInd)
@@ -78,9 +85,11 @@ namespace Domotica_ASP
                                 Widget widget = (Widget)LoadControl("Widget.ascx");
                                 widget.ID = row[1];
                                 widget.name = row[1];
-                                widget.timeField = true;
+                                if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
+                                {
+                                    widget.timeField = true;
+                                }
                                 widget.submittable = true;
-                                widget.input_types = new string[]{ "ver_slider", "DropDownList" };
 
                                 // create the <Input> place holder
                                 PlaceHolder InputPlaceHolder = new PlaceHolder();
@@ -92,34 +101,57 @@ namespace Domotica_ASP
                                 slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
                                 slider.stanvalue = int.Parse(overlayQueryResult[0][0]); // change this to value in database
                                 slider.ID = "ver_slider";
-
-                                // dropdown list Inputfields usercontrol for in the input place holder
-                                InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
-                                dropdownlist.in_type = "DropDownList";
-                                dropdownlist.ID = "DropDownList";
-
-                                // create the <__DropList> place holder
-                                PlaceHolder ddlPH = new PlaceHolder();
-                                // create the drop down list
-                                DropDownList DDlist = new DropDownList();
-                                // add the items for on the dropdown list
-                                foreach (List<string> ddlRow in overlayQueryResult)
-                                {
-                                    // add a way to set the currently active state in database as selected
-                                    DDlist.Items.Add(ddlRow[2]);
-                                }
-                                // set the dropdown list class ( this is to counter conflicting styling )
-                                DDlist.CssClass = "dropDownMulti";
-                                DDlist.ID = "DropDownListInput";
-
-                                // add the dropdownlist to the <__DropList> place holder
-                                ddlPH.Controls.Add(DDlist);
-                                // set the dropdownlist <__DropList> place holder to previously created one
-                                dropdownlist.__DropList = ddlPH;
-
-                                // add the InputField controls to the <Input> place holder
+                                // add the slider to the <Input> place holder
                                 InputPlaceHolder.Controls.Add(slider);
-                                InputPlaceHolder.Controls.Add(dropdownlist);
+
+                                if (overlayQueryResult[0].Contains("toggle"))
+                                {
+                                    widget.toggle = true;
+                                    widget.input_types = new string[] { "Toggle", "ver_slider" };
+                                }
+                                else
+                                {
+                                    widget.input_types = new string[] { "ver_slider", "DropDownList", "number" };
+                                    // dropdown list Inputfields usercontrol for in the input place holder
+                                    InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
+                                    dropdownlist.in_type = "DropDownList";
+                                    dropdownlist.ID = "DropDownList";
+
+                                    // create the <__DropList> place holder
+                                    PlaceHolder ddlPH = new PlaceHolder();
+                                    // create the drop down list
+                                    DropDownList DDlist = new DropDownList();
+                                    // add the items for on the dropdown list
+                                    foreach (List<string> ddlRow in overlayQueryResult)
+                                    {
+                                        // add a way to set the currently active state in database as selected
+                                        DDlist.Items.Add(ddlRow[2]);
+                                    }
+                                    // set the dropdown list class ( this is to counter conflicting styling )
+                                    DDlist.CssClass = "dropDownMulti";
+                                    DDlist.ID = "DropDownListInput";
+
+                                    // add the dropdownlist to the <__DropList> place holder
+                                    ddlPH.Controls.Add(DDlist);
+                                    // set the dropdownlist <__DropList> place holder to previously created one
+                                    dropdownlist.__DropList = ddlPH;
+                                    // add the dropdownlist
+                                    InputPlaceHolder.Controls.Add(dropdownlist);
+                                }
+
+                                if (global.dingenDieEenTimerHebben.Contains(row[2]))
+                                {
+                                    InputFields num = (InputFields)LoadControl("InputFields.ascx");
+                                    num.in_type = "number";
+                                    num.minvalue = 0;
+                                    num.maxvalue = 60;
+                                    num.ID = "number";
+                                    TextBox numb = (TextBox)num.FindControl("NumberInput");
+                                    numb.Attributes["onchange"] = "fixValue(this)";
+                                    numb.Attributes["class"] = "inputTimer";
+
+                                    InputPlaceHolder.Controls.Add(num);
+                                }
 
                                 // set the <Input> place holder from the widget to the created place holder
                                 widget.Input = InputPlaceHolder;
@@ -149,12 +181,15 @@ namespace Domotica_ASP
                                 {
                                     // create widget
                                     Widget widget = (Widget)LoadControl("Widget.ascx");
-                                    widget.timeField = true;
+                                    if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
+                                    {
+                                        widget.timeField = true;
+                                    }
                                     widget.name = row[1];
                                     widget.ID = row[1];
                                     widget.toggle = true;
                                     widget.submittable = true;
-                                    widget.input_types = new string[] { input_type[1]};
+                                    widget.input_types = new string[] { input_type[1] };
 
                                     // ajax:
                                     // create the updatepanel
@@ -174,7 +209,10 @@ namespace Domotica_ASP
                                 {
                                     // create widget
                                     Widget widget = (Widget)LoadControl("Widget.ascx");
-                                    widget.timeField = true;
+                                    if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
+                                    {
+                                        widget.timeField = true;
+                                    }
                                     widget.submittable = true;
                                     widget.name = row[1];
                                     widget.ID = row[1];
@@ -305,6 +343,270 @@ namespace Domotica_ASP
                     }
                 }
             }
+
+            // gridview 
+            DataTable dt = new DataTable("ScheduleTable");
+            DataRow dr = null;
+            dt.Columns.Add(new DataColumn("apparaat", typeof(string)));
+            dt.Columns.Add(new DataColumn("tijd", typeof(string)));
+            dt.Columns.Add(new DataColumn("stand", typeof(string)));
+            dt.Columns.Add(new DataColumn("temp", typeof(string)));
+            dt.Columns.Add(new DataColumn("hidden", typeof(DateTime)));
+
+            // get the devices with multiple values
+            MySqlCommand getSchedule;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule = new MySqlCommand("SELECT naam, tijd, temperatuur, `stand` " +
+                    "FROM temp " +
+                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule = new MySqlCommand(
+                    "SELECT naam, tijd, temperatuur, `stand` " +
+                    "FROM temp " +
+                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID");
+            }
+            List<List<string>> getSchedule_result = global.ExecuteReader(getSchedule, out string getSchedule_error, out bool getSchedule_errorInd);
+            if (getSchedule_errorInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["temp"] = row[2].ToString();
+                    dr["stand"] = row[3].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            // get the devices with single temp value
+            MySqlCommand getSchedule_single_temp;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
+                    "FROM temp " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN(" +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
+                    "AND apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule_single_temp.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
+                    "FROM temp " +
+                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
+            }
+            List<List<string>> getSchedule_single_temp_result = global.ExecuteReader(getSchedule_single_temp, out string getSchedule_single_temp_error, out bool getSchedule_single_temp_errorInd);
+            if (getSchedule_single_temp_errorInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_single_temp_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["temp"] = row[2].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            // get the devices with single stand value
+            MySqlCommand getSchedule_single_stand;
+            if (Session["LoggedIn"] != null)
+            {
+                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
+                    "FROM stand INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
+                    "AND apparaat.apparaatID IN (" +
+                        "SELECT DISTINCT h.APPARAATID " +
+                        "FROM heefttoegangtot AS h " +
+                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
+                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
+                        "WHERE h.GROUPID IN( " +
+                            "SELECT `GROUPID` " +
+                            "FROM neemtdeelaan " +
+                            "WHERE `userid` IN(" +
+                                "SELECT `userid` " +
+                                "FROM user " +
+                                "WHERE `gebruikersnaam` = :gbnaam)))");
+                getSchedule_single_stand.Parameters.Add("gbnaam", Session["user"].ToString());
+            }
+            else
+            {
+                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
+                    "FROM stand " +
+                    "INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
+                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
+                    "WHERE naam NOT IN ( " +
+                        "SELECT naam " +
+                        "FROM temp " +
+                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
+                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
+            }
+            List<List<string>> getSchedule_single_stand_result = global.ExecuteReader(getSchedule_single_stand, out string getSchedule_single_stand_error, out bool getSchedule_single_standInd);
+            if (getSchedule_single_standInd)
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                foreach (List<string> row in getSchedule_single_stand_result)
+                {
+                    dr = dt.NewRow();
+                    dr["apparaat"] = row[0].ToString();
+                    string date = "";
+                    if (row[1].Substring(4) == "-")
+                    {
+                        date = row[1].Substring(0, 3);
+                    }
+                    else
+                    {
+                        date = row[1].Substring(0, 4);
+                    }
+                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+                    dr["stand"] = row[2].ToString();
+                    dr["hidden"] = Convert.ToDateTime(row[1]);
+                    dt.Rows.Add(dr);
+                }
+            }
+
+            dt.DefaultView.Sort = "tijd asc";
+            dt = dt.DefaultView.ToTable();
+
+            GridView GR = new GridView();
+            GR.ID = "ScheduleDisplayer";
+            GR.DataSource = dt;
+            GR.RowDataBound += hide_hidden;
+            if (Session["LoggedIn"] != null)
+            {
+                CommandField remove = new CommandField();
+                remove.ButtonType = ButtonType.Button;
+                remove.HeaderText = "Verwijderen";
+                remove.ShowDeleteButton = true;
+                remove.ShowHeader = true;
+                remove.DeleteText = "Delete";
+
+                GR.Columns.Add(remove);
+                GR.RowDeleting += Schedule_Notify_delete;
+            }
+            ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(GR);
+            GR.DataBind();
+        }
+
+        protected void hide_hidden(object sender, GridViewRowEventArgs e)
+        {
+            if (Session["LoggedIn"] != null)
+            {
+                e.Row.Cells[5].Visible = false;
+            }
+            else
+            {
+                e.Row.Cells[4].Visible = false;
+            }
+        }
+
+        protected void Schedule_Notify_delete (object sender, GridViewDeleteEventArgs e)
+        {
+            Label lbl = new Label();
+            if(sender.GetType() == typeof(GridView))
+            {
+                GridView GR = (GridView)sender;
+                GR.SelectRow(e.RowIndex);
+                TableCellCollection DC = GR.SelectedRow.Cells;
+                MySqlCommand removeSchedule = new MySqlCommand("DELETE FROM schakelschema WHERE apparaatid IN (SELECT apparaatid FROM apparaat WHERE naam = :naam) AND tijd = :tijd");
+                removeSchedule.Parameters.Add("naam", DC[1].Text);
+                removeSchedule.Parameters.Add("tijd", Convert.ToDateTime(DC[5].Text));
+                if (global.ExecuteChanger(removeSchedule, out string error))
+                {
+                    /* do something with the error */
+                    lbl.Text = error;
+                }
+                else
+                {
+                    lbl.Text += DC[1].Text + " om " + DC[2].Text + " verwijdert";
+                    GR.DeleteRow(e.RowIndex);
+                    GR.DataBind();
+                }
+            }
+            ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
+            ScheduleUpdatePanel.DataBind();
         }
     }
 }

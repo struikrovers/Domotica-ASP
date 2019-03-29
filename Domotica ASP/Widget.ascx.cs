@@ -65,8 +65,9 @@ namespace Domotica_ASP
         protected void submitBTN_Click(object sender, EventArgs e)
         {
             Label output = (Label)Parent.FindControl("output");
-            string[] UserInput = new string[2];
+            string[] UserInput = new string[3];
             output.Text = "";
+            int Timer = 999;
             for(int i = 0; i < input_types.Length; i++)
             {
                 if (input_types[i] == "Toggle")
@@ -105,7 +106,15 @@ namespace Domotica_ASP
                                 case 4:
                                     // number
                                     TextBox num = (TextBox)InputField.FindControl("NumberInput");
-                                    UserInput[i] = num.Text;
+                                    if (i == 2)
+                                    {
+                                        // the timer input
+                                        Timer = int.Parse(num.Text);
+                                    }
+                                    else
+                                    {
+                                        UserInput[i] = num.Text;
+                                    }
                                     break;
 
                                 case 5:
@@ -157,26 +166,36 @@ namespace Domotica_ASP
                 schedule = new DateTime(DateTime.Now.Year, Month.Month, int.Parse(timeInput.Text.Substring(timeInput.Text.Length - subtractor, subtractor)), int.Parse(timeInput.Text.Substring(0, 2)), int.Parse(timeInput.Text.Substring(3, 2)), DateTime.Now.Second);
             }
 
-            global.updateDevices(UserInput, schedule, name, out string error);
-            //output.Text += error;
-            string time = schedule.ToShortDateString() + " " + schedule.ToShortTimeString();
-            if(schedule.DayOfYear > DateTime.Now.DayOfYear)
+            global.updateDevices(UserInput, schedule, Timer, name, out string error);
+            if (error != "")
             {
-                if(schedule.DayOfYear - DateTime.Now.DayOfYear > 1)
-                {
-                    time = string.Format("voor {0}-{1}", schedule.Day, schedule.Month);
-                }
-                else
-                {
-                    time = string.Format("voor morgen");
-                }
-                time += string.Format(" om {0}", schedule.ToShortTimeString());
+                output.Text += error;
             }
             else
             {
-                time = string.Format("voor {0} vandaag", schedule.ToShortTimeString());
+                string time = schedule.ToShortDateString() + " " + schedule.ToShortTimeString();
+                if (schedule.DayOfYear > DateTime.Now.DayOfYear)
+                {
+                    if (schedule.DayOfYear - DateTime.Now.DayOfYear > 1)
+                    {
+                        time = string.Format("voor {0}-{1}", schedule.Day, schedule.Month);
+                    }
+                    else
+                    {
+                        time = string.Format("voor morgen");
+                    }
+                    time += string.Format(" om {0}", schedule.ToShortTimeString());
+                }
+                else
+                {
+                    time = string.Format("voor {0} vandaag", schedule.ToShortTimeString());
+                }
+                output.Text = string.Format("{0} toegevoegd {1}", name, time);
+                if (Timer != 999)
+                {
+                    output.Text += " voor " + Timer.ToString() + " Minuten";
+                }
             }
-            output.Text = string.Format("{0} toegevoegd {1}", name, time);
             output.DataBind();
         }
     }

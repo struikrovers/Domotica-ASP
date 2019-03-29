@@ -10,7 +10,7 @@
                 <p class="grid_child_comment" id="grid_child_comment" runat="server"></p>
             </div>
             <asp:TextBox ID="timeInput" runat="server" onclick="setTime(this)"></asp:TextBox>
-            <asp:Button ID="submitBTN" runat="server" Text="submit" CssClass="submitbutton" OnClick="submitBTN_Click" />
+            <asp:Button ID="submitBTN" runat="server" Text="submit" CssClass="submitbutton" OnClick="submitBTN_Click" OnClientClick="OpenUpdater()" />
 
             <div id="input" class="widget_input" runat="server">
                 <asp:PlaceHolder ID="_Input" runat="server"></asp:PlaceHolder>

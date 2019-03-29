@@ -62,7 +62,7 @@ namespace Domotica_ASP
                     Range_Display.Attributes["max"] = maxvalue.ToString();
                     Range_Input.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Display').value = document.getElementById('" + ClientID + "_Range_Input').value";
                     Range_Display.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Input').value = document.getElementById('" + ClientID + "_Range_Display').value";
-                    Range_Display.Attributes["onchange"] = "checkuserinput('" + ClientID + "','" + maxvalue + "','" + minvalue + "')";
+                    Range_Display.Attributes["onchange"] = "checkuserinput('" + ClientID + "')";
                     break;
                 case 2:
                     // vertical slider
@@ -77,7 +77,7 @@ namespace Domotica_ASP
                     Range_Display_Vert.Attributes["max"] = maxvalue.ToString();
                     Range_Input_Vert.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Display_Vert').value = document.getElementById('" + ClientID + "_Range_Input_Vert').value";
                     Range_Display_Vert.Attributes["oninput"] = "document.getElementById('" + ClientID + "_Range_Input_Vert').value = document.getElementById('" + ClientID + "_Range_Display_Vert').value";
-                    Range_Display_Vert.Attributes["onchange"] = "checkuserinput('" + ClientID + "','" + maxvalue + "','" + minvalue + "')";
+                    Range_Display_Vert.Attributes["onchange"] = "checkuserinput('" + ClientID + "')";
                     break;
                 case 3:
                     // Text input
@@ -90,6 +90,8 @@ namespace Domotica_ASP
                     Number.Visible = true;
                     NumberInput.Attributes["type"] = "number";
                     NumberInput.Attributes["value"] = stanvalue.ToString();
+                    NumberInput.Attributes["min"] = minvalue.ToString();
+                    NumberInput.Attributes["max"] = maxvalue.ToString();
                     break;
                 case 5:
                     // radio button

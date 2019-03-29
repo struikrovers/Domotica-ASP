@@ -27,9 +27,13 @@ namespace Domotica_ASP
 
     public class global
     {
+        // dictrionaries & Lists ( static data )
         public static Dictionary<string, int> listTypes { get; set; } = new Dictionary<string, int>() {
             { "hor_slider", 1 }, { "ver_slider", 2 }, { "text", 3 }, { "number", 4 }, { "radio", 5 }, { "checkbox", 6 }, { "DropDownList", 7 }
         };
+        public static List<string> dingenDieGeenDatumInputMogen = new List<string>(){ "Verwarming" };
+        public static List<string> dingenDieEenTimerHebben = new List<string>() { "Oven" };
+
 
         /// <summary>
         /// Executs the mysqlcommand given, query generation should be done beforehand
@@ -160,7 +164,7 @@ namespace Domotica_ASP
             return num;
         }
 
-        public static void updateDevices(string[] userInput, DateTime schedule, string name, out string error)
+        public static void updateDevices(string[] userInput, DateTime schedule, int Timer, string name, out string error)
         {
             error = "";
             // query looks like: INSERT INTO schakelschema (`apparaatid`, `tijd`) VALUES('apparaatid', 'tijd');
@@ -197,6 +201,17 @@ namespace Domotica_ASP
                     }
                     else
                     {
+                        if(Timer != 999)
+                        {
+                            MySqlCommand setTimer = new MySqlCommand("INSERT INTO timer(schakelid, uit_tijd) VALUES(:schakelid, :tijd)");
+                            setTimer.Parameters.Add(":schakelid", schakelid[0][0]);
+                            setTimer.Parameters.Add(":tijd", schedule.AddMinutes(Timer));
+                            if(!ExecuteChanger(setTimer, out string setTimerError)){
+                                /* do something with the error */
+                                error = "setTimer error: " + setTimerError;
+                            }
+                            
+                        }
                         //schakelid = schakelid[0][0];
                         foreach (string input in userInput)
                         {

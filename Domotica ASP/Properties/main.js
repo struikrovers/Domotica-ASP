@@ -3,6 +3,7 @@
 window.onload = function (event) {
     getEMValue("em_calc");
     // makes the overlays content render correctly
+    // window location source: https://stackoverflow.com/a/3154568
     setTimeout(function () {
         if (window.location.href.match('default.aspx') || window.location.href.match('admin.aspx')) {
             document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "none";
@@ -165,7 +166,7 @@ function timeValidator(input) {
     }
 }
 
-function checkuserinput(ClientID, maxvalue, minvalue) {
+function checkuserinput(ClientID) {
     extension = '_Range_Display';
     extension2 = '_Range_Input';
     if(document.getElementById(ClientID + '_Range_Display_Vert') != null){
@@ -173,18 +174,47 @@ function checkuserinput(ClientID, maxvalue, minvalue) {
         extension2 = '_Range_Input_Vert';
     }
     numberInput = document.getElementById(ClientID + extension)
-    if(parseInt(numberInput.value) > parseInt(maxvalue)){
+    if(parseInt(numberInput.value) > parseInt(numberInput.max)){
         numberInput.value = maxvalue
     }
-    if(parseInt(numberInput.value) < parseInt(minvalue)){
+    if(parseInt(numberInput.value) < parseInt(numberInput.min)){
         numberInput.value = minvalue
     }
     document.getElementById(ClientID + extension2).value = numberInput.value;
 }
 
+function fixValue(el){
+    if(el.value > el.max){
+        el.value = el.max;
+    }
+    if(el.value < el.min){
+        el.value = el.min
+    }
+}
+
 function setTime(el) {
     var d = new Date();
     if (el.value == "") {
-        el.value = d.getHours() + ":" + d.getMinutes() + "-" + d.getDate();
+        min = d.getMinutes();
+        hour = d.getHours()
+        hour_ = "";
+        min_ = "";
+        if(min < 10){
+            min_ = "0";
+        }
+        if(hour < 10){
+            hour = "0";
+        }
+        el.value =  hour_ + hour+ ":" + min_ + min + "-" + d.getDate();
     }
+}
+
+function OpenUpdater(){
+    panel = document.getElementById('ContentPlaceHolder1_outputUpdatePanel')
+    setTimeout(() => {
+        panel.style.top = "1em";
+    }, 500);
+    setTimeout(() => {
+        panel.style.top = "-10em";
+    }, 3000);
 }

@@ -16,6 +16,7 @@ namespace Domotica_ASP
             // logout
             if(Request.QueryString["Logout"] == "t")
             {
+                //source: https://stackoverflow.com/a/6635426
                 Session.Clear();
             }
 
