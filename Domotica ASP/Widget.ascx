@@ -4,13 +4,13 @@
     <ContentTemplate>
         <div class="grid_child" id="grid_child" runat="server">
             <div class="grid_child_header">
-                <p id="grid_child_name" class="grid_child_name" runat="server"></p>
+                <asp:Label ID="grid_child_name" runat="server" Text="Label" CssClass="grid_child_name"></asp:Label>
             </div>
             <div class="grid_child_commenter" id="grid_child_commenter" runat="server">
                 <p class="grid_child_comment" id="grid_child_comment" runat="server"></p>
             </div>
             <asp:TextBox ID="timeInput" runat="server" onclick="setTime(this)"></asp:TextBox>
-            <asp:Button ID="submitBTN" runat="server" Text="submit" CssClass="submitbutton" OnClick="submitBTN_Click" OnClientClick="OpenUpdater()" />
+            <asp:Button ID="submitBTN" runat="server" Text="submit" CssClass="submitbutton" OnClientClick="OpenUpdater()" />
 
             <div id="input" class="widget_input" runat="server">
                 <asp:PlaceHolder ID="_Input" runat="server"></asp:PlaceHolder>

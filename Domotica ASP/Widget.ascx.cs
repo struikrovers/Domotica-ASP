@@ -18,13 +18,14 @@ namespace Domotica_ASP
         public bool timeField { get; set; } = false;
         public bool submittable { get; set; } = false;
         public string[] input_types { get; set; } = { };
-
+        public Action<object, EventArgs> submit_function { get; set; } = null;
+        public bool show_notifier { get; set; } = true;
         // NOTE: input fields
         [PersistenceMode(PersistenceMode.InnerProperty)]
         public PlaceHolder Input { get; set; } = null;
 
         protected void Page_Load(object sender, EventArgs e)
-        {
+        {           
             if (Input != null)
             {
                 base.OnInit(e);
@@ -44,7 +45,7 @@ namespace Domotica_ASP
 
             toggable.Visible = toggle;
             settings.Visible = setting;
-            grid_child_name.InnerHtml = name;
+            grid_child_name.Text = name;
             grid_child_comment.InnerHtml = comment;
             settings_icon.Attributes["onclick"] = "open_overlay(event, '" + overlayID + "_overlay_child');";
             Toggle_Checkbox.InputAttributes["class"] = "Toggle_Checkbox";
@@ -58,8 +59,19 @@ namespace Domotica_ASP
             {
                 ToggleLabel.Attributes["style"] = "right: 30px";
             }
+            if(submit_function != null)
+            {
+                submitBTN.Click += new EventHandler(submit_function);
+            }
+            else
+            {
+                submitBTN.Command += submitBTN_Click;
 
-
+            }
+            if (!show_notifier)
+            {
+                submitBTN.OnClientClick = "";
+            }
         }
 
         protected void submitBTN_Click(object sender, EventArgs e)

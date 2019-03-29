@@ -37,7 +37,7 @@ namespace Domotica_ASP {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_child_name;
+        protected global::System.Web.UI.WebControls.Label grid_child_name;
         
         /// <summary>
         /// grid_child_commenter control.

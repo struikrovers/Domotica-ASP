@@ -24,7 +24,7 @@
     </div>
     <asp:UpdatePanel ID="ScheduleUpdatePanel" runat="server">
         <ContentTemplate>
-            
+            <asp:GridView ID="ScheduleDisplayer" runat="server"></asp:GridView>
         </ContentTemplate>
     </asp:UpdatePanel>
 

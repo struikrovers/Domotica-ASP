@@ -550,10 +550,8 @@ namespace Domotica_ASP
             dt.DefaultView.Sort = "tijd asc";
             dt = dt.DefaultView.ToTable();
 
-            GridView GR = new GridView();
-            GR.ID = "ScheduleDisplayer";
-            GR.DataSource = dt;
-            GR.RowDataBound += hide_hidden;
+            ScheduleDisplayer.DataSource = dt;
+            //ScheduleDisplayer.RowDataBound += hide_hidden;
             if (Session["LoggedIn"] != null)
             {
                 CommandField remove = new CommandField();
@@ -563,11 +561,27 @@ namespace Domotica_ASP
                 remove.ShowHeader = true;
                 remove.DeleteText = "Delete";
 
-                GR.Columns.Add(remove);
-                GR.RowDeleting += Schedule_Notify_delete;
+                ScheduleDisplayer.Columns.Add(remove);
+                ScheduleDisplayer.RowDeleting += Schedule_Notify_delete;
             }
-            ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(GR);
-            GR.DataBind();
+            ScheduleDisplayer.DataBind();
+
+            Widget test = (Widget)LoadControl("Widget.ascx");
+            test.name = "test";
+            test.submit_function = handler;
+            test.submittable = true;
+            test.show_notifier = false;
+            grid_parent.Controls.Add(test);
+        }
+
+        public void handler(object sender, EventArgs e)
+        {
+            output.Text = "button clicked boio!";
+            Label lbl = new Label();
+            Button act = (Button)sender;
+            Label lbl2 = (Label)act.Parent.FindControl("grid_child_name");
+            lbl.Text = lbl2.Text;
+            UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
         }
 
         protected void hide_hidden(object sender, GridViewRowEventArgs e)
@@ -606,7 +620,7 @@ namespace Domotica_ASP
                 }
             }
             ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
-            ScheduleUpdatePanel.DataBind();
+            //ScheduleUpdatePanel.DataBind();
         }
     }
 }
