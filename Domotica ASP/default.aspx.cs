@@ -551,37 +551,9 @@ namespace Domotica_ASP
             dt = dt.DefaultView.ToTable();
 
             ScheduleDisplayer.DataSource = dt;
-            //ScheduleDisplayer.RowDataBound += hide_hidden;
-            if (Session["LoggedIn"] != null)
-            {
-                CommandField remove = new CommandField();
-                remove.ButtonType = ButtonType.Button;
-                remove.HeaderText = "Verwijderen";
-                remove.ShowDeleteButton = true;
-                remove.ShowHeader = true;
-                remove.DeleteText = "Delete";
-
-                ScheduleDisplayer.Columns.Add(remove);
-                ScheduleDisplayer.RowDeleting += Schedule_Notify_delete;
-            }
+            ScheduleDisplayer.RowDataBound += hide_hidden;
+            ScheduleDisplayer.RowDeleting += Schedule_delete;
             ScheduleDisplayer.DataBind();
-
-            Widget test = (Widget)LoadControl("Widget.ascx");
-            test.name = "test";
-            test.submit_function = handler;
-            test.submittable = true;
-            test.show_notifier = false;
-            grid_parent.Controls.Add(test);
-        }
-
-        public void handler(object sender, EventArgs e)
-        {
-            output.Text = "button clicked boio!";
-            Label lbl = new Label();
-            Button act = (Button)sender;
-            Label lbl2 = (Label)act.Parent.FindControl("grid_child_name");
-            lbl.Text = lbl2.Text;
-            UpdatePanel1.ContentTemplateContainer.Controls.Add(lbl);
         }
 
         protected void hide_hidden(object sender, GridViewRowEventArgs e)
@@ -592,11 +564,12 @@ namespace Domotica_ASP
             }
             else
             {
+                e.Row.Cells[0].Visible = false;
                 e.Row.Cells[4].Visible = false;
             }
         }
 
-        protected void Schedule_Notify_delete (object sender, GridViewDeleteEventArgs e)
+        protected void Schedule_delete (object sender, GridViewDeleteEventArgs e)
         {
             Label lbl = new Label();
             if(sender.GetType() == typeof(GridView))
@@ -615,12 +588,13 @@ namespace Domotica_ASP
                 else
                 {
                     lbl.Text += DC[1].Text + " om " + DC[2].Text + " verwijdert";
-                    GR.DeleteRow(e.RowIndex);
+                    GR.Rows[e.RowIndex].Visible = false;
                     GR.DataBind();
                 }
             }
-            ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
-            //ScheduleUpdatePanel.DataBind();
+            //ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
+            ScheduleUpdatePanel.Controls.Add(lbl);
+            ScheduleUpdatePanel.DataBind();
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Domotica_ASP {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel ScheduleUpdatePanel;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl ScheduleUpdatePanel;
         
         /// <summary>
         /// ScheduleDisplayer control.
