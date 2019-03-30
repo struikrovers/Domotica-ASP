@@ -130,103 +130,31 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.overlay Add_User;
         
         /// <summary>
-        /// user_naam control.
+        /// CreateUserWizard1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget user_naam;
+        protected global::System.Web.UI.WebControls.CreateUserWizard CreateUserWizard1;
         
         /// <summary>
-        /// input_naam control.
+        /// CreateUserWizardStep1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.InputFields input_naam;
+        protected global::System.Web.UI.WebControls.CreateUserWizardStep CreateUserWizardStep1;
         
         /// <summary>
-        /// user_achternaam control.
+        /// CompleteWizardStep1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget user_achternaam;
-        
-        /// <summary>
-        /// input_achternaam control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input_achternaam;
-        
-        /// <summary>
-        /// email control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.Widget email;
-        
-        /// <summary>
-        /// input_email control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input_email;
-        
-        /// <summary>
-        /// username control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.Widget username;
-        
-        /// <summary>
-        /// input_username control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input_username;
-        
-        /// <summary>
-        /// password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.Widget password;
-        
-        /// <summary>
-        /// input_password control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input_password;
-        
-        /// <summary>
-        /// _admin control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.Widget _admin;
+        protected global::System.Web.UI.WebControls.CompleteWizardStep CompleteWizardStep1;
         
         /// <summary>
         /// Remove_User control.
@@ -328,6 +256,51 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget InsertDevices;
         
         /// <summary>
+        /// Submit_AddGroupOID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Submit_AddGroupOID;
+        
+        /// <summary>
+        /// InsertUsersOverlay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay InsertUsersOverlay;
+        
+        /// <summary>
+        /// InsertDevicesOverlay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay InsertDevicesOverlay;
+        
+        /// <summary>
+        /// test control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel test;
+        
+        /// <summary>
+        /// GroupDDlist control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList GroupDDlist;
+        
+        /// <summary>
         /// ManageGroupOID control.
         /// </summary>
         /// <remarks>
@@ -344,6 +317,15 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Domotica_ASP.Widget CurrentGroup;
+        
+        /// <summary>
+        /// GroupDDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.InputFields GroupDDL;
         
         /// <summary>
         /// CurrentUsers control.
@@ -364,6 +346,51 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.Widget CurrentDevices;
         
         /// <summary>
+        /// Submit_ManageGroupOID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.Widget Submit_ManageGroupOID;
+        
+        /// <summary>
+        /// modifyUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay modifyUsers;
+        
+        /// <summary>
+        /// modifyUsers_UP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel modifyUsers_UP;
+        
+        /// <summary>
+        /// modifyDevices control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Domotica_ASP.overlay modifyDevices;
+        
+        /// <summary>
+        /// modifyDevices_UP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel modifyDevices_UP;
+        
+        /// <summary>
         /// DeleteGroupOID control.
         /// </summary>
         /// <remarks>
@@ -373,22 +400,13 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.overlay DeleteGroupOID;
         
         /// <summary>
-        /// RemoveGroup control.
+        /// DeleteGroup_UP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget RemoveGroup;
-        
-        /// <summary>
-        /// input_deletegroup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input_deletegroup;
+        protected global::System.Web.UI.UpdatePanel DeleteGroup_UP;
         
         /// <summary>
         /// DeviceManager control.
@@ -517,21 +535,12 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.overlay DeleteDeviceOID;
         
         /// <summary>
-        /// Widget7 control.
+        /// DeleteDevice_UP control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Domotica_ASP.Widget Widget7;
-        
-        /// <summary>
-        /// input2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Domotica_ASP.InputFields input2;
+        protected global::System.Web.UI.UpdatePanel DeleteDevice_UP;
     }
 }

@@ -212,7 +212,7 @@ namespace Domotica_ASP
             output.DataBind();
 
             GridView ScheduleDisplayer = (GridView)Parent.FindControl("ScheduleDisplayer");
-            DataTable dt = global.GetScheduleTable(Session);
+            DataTable dt = global.GetScheduleTable();
             if (dt.Rows.Count == 0)
             {
                 DataRow emp_dr = dt.NewRow();

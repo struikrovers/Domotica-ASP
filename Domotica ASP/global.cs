@@ -6,8 +6,7 @@ using System.Configuration;
 using Devart.Data.MySql;
 using System.Security.Cryptography;
 using System.Data;
-using System.Web.UI;
-using System.Web.SessionState;
+using System.Web.Security;
 
 namespace Domotica_ASP
 {
@@ -141,7 +140,7 @@ namespace Domotica_ASP
             return returned;
         }
 
-        public static DataTable GetScheduleTable(HttpSessionState Session)
+        public static DataTable GetScheduleTable()
         {
             // gridview 
             DataTable dt = new DataTable("ScheduleTable");
@@ -154,7 +153,7 @@ namespace Domotica_ASP
 
             // get the devices with multiple values
             MySqlCommand getSchedule;
-            if (Session["LoggedIn"] != null)
+            if (Membership.GetUser() != null)
             {
                 getSchedule = new MySqlCommand("SELECT naam, tijd, temperatuur, `stand` " +
                     "FROM temp " +
@@ -171,9 +170,9 @@ namespace Domotica_ASP
                             "FROM neemtdeelaan " +
                             "WHERE `userid` IN(" +
                                 "SELECT `userid` " +
-                                "FROM user " +
-                                "WHERE `gebruikersnaam` = :gbnaam)))");
-                getSchedule.Parameters.Add("gbnaam", Session["user"].ToString());
+                                "FROM users " +
+                                "WHERE `username` = :gbnaam)))");
+                getSchedule.Parameters.Add("gbnaam", Membership.GetUser().UserName);
             }
             else
             {
@@ -214,7 +213,7 @@ namespace Domotica_ASP
 
             // get the devices with single temp value
             MySqlCommand getSchedule_single_temp;
-            if (Session["LoggedIn"] != null)
+            if (Membership.GetUser() != null)
             {
                 getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
                     "FROM temp " +
@@ -236,9 +235,9 @@ namespace Domotica_ASP
                             "FROM neemtdeelaan " +
                             "WHERE `userid` IN(" +
                                 "SELECT `userid` " +
-                                "FROM user " +
-                                "WHERE `gebruikersnaam` = :gbnaam)))");
-                getSchedule_single_temp.Parameters.Add("gbnaam", Session["user"].ToString());
+                                "FROM users " +
+                                "WHERE `username` = :gbnaam)))");
+                getSchedule_single_temp.Parameters.Add("gbnaam", Membership.GetUser().UserName);
             }
             else
             {
@@ -282,7 +281,7 @@ namespace Domotica_ASP
 
             // get the devices with single stand value
             MySqlCommand getSchedule_single_stand;
-            if (Session["LoggedIn"] != null)
+            if (Membership.GetUser() != null)
             {
                 getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
                     "FROM stand INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
@@ -302,9 +301,9 @@ namespace Domotica_ASP
                             "FROM neemtdeelaan " +
                             "WHERE `userid` IN(" +
                                 "SELECT `userid` " +
-                                "FROM user " +
-                                "WHERE `gebruikersnaam` = :gbnaam)))");
-                getSchedule_single_stand.Parameters.Add("gbnaam", Session["user"].ToString());
+                                "FROM users " +
+                                "WHERE `username` = :gbnaam)))");
+                getSchedule_single_stand.Parameters.Add("gbnaam", Membership.GetUser().UserName);
             }
             else
             {
@@ -355,7 +354,7 @@ namespace Domotica_ASP
 
         public static bool checkUserCookie(HttpCookie verkade, out string error)
         {
-            MySqlCommand UserIDQuery = new MySqlCommand("SELECT USERID FROM `user` WHERE gebruikersnaam = :gbnaam");
+            MySqlCommand UserIDQuery = new MySqlCommand("SELECT USERID FROM `user` WHERE username = :gbnaam");
             UserIDQuery.Parameters.Add("gbnaam", verkade["username"]);
             List<List<string>> UserIDqueryResult = ExecuteReader(UserIDQuery, out string UserIDQueryError, out bool UserIDQueryErrorInd);
             if (UserIDQueryErrorInd)

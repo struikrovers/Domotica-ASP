@@ -8,6 +8,9 @@ window.onload = function (event) {
         if (window.location.href.match('default.aspx') || window.location.href.match('admin.aspx')) {
             document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "none";
             document.getElementById('ContentPlaceHolder1_grid_overlay').style.visibility = "visible";
+            if (window.location.href.match('admin.aspx')) {
+                document.getElementById('ContentPlaceHolder1_Add_User_CreateUserWizard1_CreateUserStepContainer_Password').autocomplete = "new-password";
+            }
         }
     }, 50);
     setTimeout(function () {
@@ -70,7 +73,7 @@ function close_overlay(e, force) {
             // close the grid_overlay if there is only 1 overlay open at the time of closing.
             if (open_overlays.length == 1 || force == "close") {
                 document.getElementById('ContentPlaceHolder1_grid_overlay').style.display = "none";
-                open_overlays.pop();
+                open_overlays.length = 0;
                 document.getElementById("masterForm").style.overflowY = "scroll";
             }
             // close the overlay_child that is currently open. remove it from open_overlays. show next latest overlay.

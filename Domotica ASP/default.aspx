@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="Domotica_ASP._default" %>
 
-<%@ Register TagPrefix="Wid" TagName="Widget" Src="Widget.ascx" %>
-<%@ Register TagPrefix="Wid" TagName="Overlay" Src="overlay.ascx" %>
-<%@ Register TagPrefix="Wid" TagName="Input" Src="InputFields.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Widget" Src="UserControls/Widget.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Overlay" Src="UserControls/overlay.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Input" Src="UserControls/InputFields.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>

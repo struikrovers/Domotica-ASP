@@ -27,9 +27,26 @@
     <form runat="server" id="masterForm">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div id="Header" class="header" runat="server">
-            <div class="WelcomeContainer"><asp:Label ID="Welcome" runat="server"></asp:Label><asp:Label ID="WelcomeLabel" runat="server"></asp:Label></div>
-            <input type="button" ID="LoginButton" runat="server" value="Login" onclick="document.location.href='Login.aspx';"/>
-            <input type="button" ID="LogoutButton" runat="server" value="Logout" onclick="document.location.href='Login.aspx?Logout=t';" visible="false"/>
+            <asp:LoginView ID="MasterLogin" runat="server">
+                <AnonymousTemplate>
+                    <input type="button" ID="LoginButton" runat="server" value="Inloggen" onclick="document.location.href='Login.aspx';"/>
+                </AnonymousTemplate>
+                <LoggedInTemplate>
+                    <div class="WelcomeContainer"><asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server"></asp:Label></div>
+                    <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" onclick="LogoutButton_Click"/>
+                </LoggedInTemplate>
+                <RoleGroups>
+                    <asp:RoleGroup Roles="admins">
+                        <ContentTemplate>
+                            <div class="WelcomeContainer">
+                                <asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server" CssClass="WelcomeLabel"></asp:Label>
+                            </div>
+                            <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" OnClick="LogoutButton_Click" />
+                            <asp:Button type="button" ID="AdminButton" runat="server" Text="Admin" PostBackUrl="~/admin.aspx" />
+                        </ContentTemplate>
+                    </asp:RoleGroup>
+                </RoleGroups>
+            </asp:LoginView>
         </div>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         </asp:ContentPlaceHolder>

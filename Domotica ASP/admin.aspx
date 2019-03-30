@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="admin.aspx.cs" Inherits="Domotica_ASP.admin" %>
 
-<%@ Register TagPrefix="Wid" TagName="Widget" Src="Widget.ascx" %>
-<%@ Register TagPrefix="Wid" TagName="Overlay" Src="overlay.ascx" %>
-<%@ Register TagPrefix="Wid" TagName="Input" Src="InputFields.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Widget" Src="~/UserControls/Widget.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Overlay" Src="~/UserControls/overlay.ascx" %>
+<%@ Register TagPrefix="Wid" TagName="Input" Src="~/UserControls/InputFields.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <title>Administration </title>
@@ -52,32 +52,72 @@
 
         <Wid:Overlay ID="Add_User" runat="server">
             <Content>
-                <Wid:Widget ID="user_naam" comment="Naam van gebruiker" name="Voornaam" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_naam" in_type="text" stantext="Voornaam" runat="server" />
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="user_achternaam" comment="Achternaam van gebruiker" name="Achternaam" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_achternaam" in_type="text" stantext="Achternaam" runat="server" />
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="email" comment="email van gebruiker" name="email" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_email" in_type="text" stantext="email" runat="server" />
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="username" comment="gebruikersnaam van gebruiker" name="gebruikersnaam" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_username" in_type="text" stantext="gebruikersnaam" runat="server" />
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="password" comment="wachtwoord van account" name="wachtwoord" runat="server">
-                    <Input>
-                        <Wid:Input ID="input_password" in_type="text" stantext="wachtwoord" runat="server" />
-                    </Input>
-                </Wid:Widget>
-                <Wid:Widget ID="_admin" comment="maak de user een admin" name="admin" toggle="true" runat="server" />
+                <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" LoginCreatedUser="False" EmailRegularExpression="^(.{1,})+@(.{1,})\.+(.{3,5})$" autocomplete="off" OnCreatedUser="CreateUserWizard1_CreatedUser">
+                    <WizardSteps>
+                        <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server">
+                            <ContentTemplate>
+                                <table>
+                                    <tr>
+                                        <td align="center" colspan="2">Sign Up for Your New Account</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">
+                                            <asp:Label ID="UserNameLabel" runat="server" AssociatedControlID="UserName">User Name:</asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="UserName" runat="server"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="UserNameRequired" runat="server" ControlToValidate="UserName" ErrorMessage="User Name is required." ToolTip="User Name is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">
+                                            <asp:Label ID="PasswordLabel" runat="server" AssociatedControlID="Password">Password:</asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="Password" runat="server" TextMode="Password"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="PasswordRequired" runat="server" ControlToValidate="Password" ErrorMessage="Password is required." ToolTip="Password is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">
+                                            <asp:Label ID="ConfirmPasswordLabel" runat="server" AssociatedControlID="ConfirmPassword">Confirm Password:</asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="ConfirmPassword" runat="server" TextMode="Password"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="ConfirmPasswordRequired" runat="server" ControlToValidate="ConfirmPassword" ErrorMessage="Confirm Password is required." ToolTip="Confirm Password is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">
+                                            <asp:Label ID="EmailLabel" runat="server" AssociatedControlID="Email">E-mail:</asp:Label>
+                                        </td>
+                                        <td>
+                                            <asp:TextBox ID="Email" runat="server"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="EmailRequired" runat="server" ControlToValidate="Email" ErrorMessage="E-mail is required." ToolTip="E-mail is required." ValidationGroup="CreateUserWizard1">*</asp:RequiredFieldValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="2">
+                                            <asp:CompareValidator ID="PasswordCompare" runat="server" ControlToCompare="Password" ControlToValidate="ConfirmPassword" Display="Dynamic" ErrorMessage="The Password and Confirmation Password must match." ValidationGroup="CreateUserWizard1"></asp:CompareValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="2">
+                                            <asp:RegularExpressionValidator ID="EmailRegExp" runat="server" ControlToValidate="Email" Display="Dynamic" ErrorMessage="Please enter a different e-mail." ValidationExpression="^(.{1,})+@(.{1,})\.+(.{3,5})$" ValidationGroup="CreateUserWizard1"></asp:RegularExpressionValidator>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center" colspan="2" style="color:Red;">
+                                            <asp:Literal ID="ErrorMessage" runat="server" EnableViewState="False"></asp:Literal>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ContentTemplate>
+                        </asp:CreateUserWizardStep>
+                        <asp:CompleteWizardStep ID="CompleteWizardStep1" runat="server">
+                        </asp:CompleteWizardStep>
+                    </WizardSteps>
+                </asp:CreateUserWizard>
             </Content>
         </Wid:Overlay>
 
@@ -109,28 +149,71 @@
                     </Input>
                 </Wid:Widget>
 
-                <Wid:Widget ID="InsertUsers" comment="voeg hier de gebruikers er aan toe die toegang nodig hebben." name="Gebruiker" runat="server" />
-
-                <Wid:Widget ID="InsertDevices" comment="voeg hier de Apparaten toe." name="Apparaat" runat="server" />
+                <Wid:Widget ID="InsertUsers" comment="voeg hier de gebruikers toe aan de groep." name="Gebruiker" setting="true" overlayID="InsertUsersOverlay" runat="server" />
+                <Wid:Widget ID="InsertDevices" comment="voeg hier de Apparaten toe waartoe de groep toegang heeft." setting="true" overlayID="InsertDevicesOverlay" name="Apparaat" runat="server" />
+                <Wid:Widget ID="Submit_AddGroupOID" name="verstuur" submittable="true" runat="server" show_notifier="False" />
             </Content>
         </Wid:Overlay>
+
+        <Wid:Overlay ID="InsertUsersOverlay" runat="server">
+            <Content>
+
+            </Content>
+        </Wid:Overlay>
+        <Wid:Overlay ID="InsertDevicesOverlay" runat="server">
+            <Content>
+
+            </Content>
+        </Wid:Overlay>
+
+        <asp:UpdatePanel ID="test" runat="server">
+            <ContentTemplate>
+                <asp:DropDownList ID="GroupDDlist" runat="server" OnSelectedIndexChanged="changeActiveGroup" CausesValidation="true">
+
+                </asp:DropDownList>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+
         <Wid:Overlay ID="ManageGroupOID" runat="server">
             <Content>
-                <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server" />
-                <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="Gebruiker" runat="server" />
-                <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten" runat="server" />
-            </Content>
-        </Wid:Overlay>
-
-        <Wid:Overlay ID="DeleteGroupOID" runat="server">
-            <Content>
-                <Wid:Widget ID="RemoveGroup" comment="Verwijder hier de groep." name="verwijder groep" runat="server">
+                <Wid:Widget ID="CurrentGroup" comment="Selecteer de groep die u aan wilt passen." name="Groep" runat="server">
                     <Input>
-                        <Wid:Input ID="input_deletegroup" in_type="DropDownList" runat="server">
+                        <Wid:Input ID="GroupDDL" in_type="DropDownList" runat="server">
+                            <__DropList>
+                                
+                            </__DropList>
                         </Wid:Input>
                     </Input>
                 </Wid:Widget>
+                <Wid:Widget ID="CurrentUsers" comment="delete/voeg gebruikers toe." name="Gebruiker" setting="true" overlayID="modifyUsers" runat="server" />
+                <Wid:Widget ID="CurrentDevices" comment="delete/voeg Apparaten toe." name="Apparaten" setting="true" overlayID="modifyDevices" runat="server" />
+                <Wid:Widget ID="Submit_ManageGroupOID" name="verstuur" submittable="true" runat="server"/>
+            </Content>
+        </Wid:Overlay>
 
+        <Wid:Overlay ID="modifyUsers" runat="server">
+            <Content>
+                <asp:UpdatePanel ID="modifyUsers_UP" runat="server">
+                    <ContentTemplate>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </Content>
+        </Wid:Overlay>
+         <Wid:Overlay ID="modifyDevices" runat="server">
+            <Content>
+                <asp:UpdatePanel ID="modifyDevices_UP" runat="server">
+                    <ContentTemplate>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </Content>
+        </Wid:Overlay>
+
+        <Wid:Overlay ID="DeleteGroupOID" runat="server" cssClass="overlay_content ajaxContent">
+            <Content>
+                <asp:UpdatePanel ID="DeleteGroup_UP" runat="server">
+                    <ContentTemplate>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </Content>
         </Wid:Overlay>
 
@@ -177,15 +260,12 @@
             </Content>
         </Wid:Overlay>
 
-        <Wid:Overlay ID="DeleteDeviceOID" runat="server">
+        <Wid:Overlay ID="DeleteDeviceOID" runat="server" cssClass="overlay_content ajaxContent">
             <Content>
-                <Wid:Widget ID="Widget7" comment="Verwijder hier de apparaten." name="verwijder apparaat" runat="server">
-                    <Input>
-                        <Wid:Input ID="input2" in_type="DropDownList" runat="server">
-                        </Wid:Input>
-                    </Input>
-
-                </Wid:Widget>
+                <asp:UpdatePanel ID="DeleteDevice_UP" runat="server">
+                    <ContentTemplate>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </Content>
         </Wid:Overlay>
     </div>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -36,11 +37,11 @@ namespace Domotica_ASP
             //)
             // query to get the device id's and names of the devices the user has access to.
 
-            if (Session["LoggedIn"] != null)
+            if (Membership.GetUser() != null)
             {
 
-                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam, atype.`Type` FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID WHERE h.GROUPID IN( SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `userid` FROM user WHERE `gebruikersnaam` = :gbnaam))");
-                apparaatquery.Parameters.Add("gbnaam", Session["user"]);
+                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam, atype.`Type` FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID WHERE h.GROUPID IN( SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `userid` FROM users WHERE `username` = :gbnaam))");
+                apparaatquery.Parameters.Add("gbnaam", Membership.GetUser().UserName);
                 List<List<string>> result = global.ExecuteReader(apparaatquery, out string apparaatError, out bool apparaatErrorInd);
                 if (apparaatErrorInd)
                 {
@@ -77,7 +78,7 @@ namespace Domotica_ASP
                             else
                             {
                                 // create the widget
-                                Widget widget = (Widget)LoadControl("Widget.ascx");
+                                Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
                                 widget.ID = row[1];
                                 widget.name = row[1];
                                 if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
@@ -90,7 +91,7 @@ namespace Domotica_ASP
                                 PlaceHolder InputPlaceHolder = new PlaceHolder();
 
                                 // horizontal slider InputFields Usercontrol for in the Input place holder
-                                InputFields slider = (InputFields)LoadControl("InputFields.ascx");
+                                InputFields slider = (InputFields)LoadControl("~/UserControls/InputFields.ascx");
                                 slider.in_type = "ver_slider";
                                 slider.minvalue = int.Parse(overlayQueryResult[0][0]);
                                 slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
@@ -108,7 +109,7 @@ namespace Domotica_ASP
                                 {
                                     widget.input_types = new string[] { "ver_slider", "DropDownList", "number" };
                                     // dropdown list Inputfields usercontrol for in the input place holder
-                                    InputFields dropdownlist = (InputFields)LoadControl("InputFields.ascx");
+                                    InputFields dropdownlist = (InputFields)LoadControl("~/UserControls/InputFields.ascx");
                                     dropdownlist.in_type = "DropDownList";
                                     dropdownlist.ID = "DropDownList";
 
@@ -136,7 +137,7 @@ namespace Domotica_ASP
 
                                 if (global.dingenDieEenTimerHebben.Contains(row[2]))
                                 {
-                                    InputFields num = (InputFields)LoadControl("InputFields.ascx");
+                                    InputFields num = (InputFields)LoadControl("~/UserControls/InputFields.ascx");
                                     num.in_type = "number";
                                     num.minvalue = 0;
                                     num.maxvalue = 60;
@@ -175,7 +176,7 @@ namespace Domotica_ASP
                                 if (input_type[1] == "Toggle")
                                 {
                                     // create widget
-                                    Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
                                     if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
                                     {
                                         widget.timeField = true;
@@ -191,19 +192,14 @@ namespace Domotica_ASP
                                     UpdatePanel UpdatePanelWidget = new UpdatePanel();
                                     UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
                                     UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
-                                    UpdateProgress UpdateProgressControl = new UpdateProgress();
-                                    // create updateprogress control
-                                    UpdateProgressControl.ID = "UpdateProgress_" + row[1];
-                                    UpdateProgressControl.AssociatedUpdatePanelID = "UpdatePanel_" + row[1];
                                     // add the widget to the grid
                                     grid_parent.Controls.Add(UpdatePanelWidget);
-                                    grid_parent.Controls.Add(UpdateProgressControl);
                                 }
                                 // create a widget with a special input type
                                 else
                                 {
                                     // create widget
-                                    Widget widget = (Widget)LoadControl("Widget.ascx");
+                                    Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
                                     if (!global.dingenDieGeenDatumInputMogen.Contains(row[2]))
                                     {
                                         widget.timeField = true;
@@ -217,7 +213,7 @@ namespace Domotica_ASP
                                     PlaceHolder inputPH = new PlaceHolder();
 
                                     // create InputFields user control
-                                    InputFields input = (InputFields)LoadControl("InputFields.ascx");
+                                    InputFields input = (InputFields)LoadControl("~/UserControls/InputFields.ascx");
                                     input.ID = input_type[1]; //input_type[1] + "_" + 
 
                                     int type; // the type index from the dictionary
@@ -342,7 +338,7 @@ namespace Domotica_ASP
             ScheduleDisplayer.RowDataBound += hide_hidden;
             ScheduleDisplayer.RowDeleting += Schedule_delete;
 
-            DataTable dt = global.GetScheduleTable(Session);
+            DataTable dt = global.GetScheduleTable();
             if (dt.Rows.Count == 0)
             {
                 DataRow emp_dr = dt.NewRow();
@@ -365,15 +361,18 @@ namespace Domotica_ASP
         protected void hide_hidden(object sender, GridViewRowEventArgs e)
         {
             e.Row.Cells[5].Visible = false;
-            if (Session["LoggedIn"] == null || !global.show_delete_btn)
+            if (Membership.GetUser() == null || !global.show_delete_btn)
             {
                 e.Row.Cells[0].Visible = false;
+            }
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                ((Button)e.Row.Cells[0].Controls[0]).OnClientClick = "OpenUpdater();"; // add any JS you want here
             }
         }
 
         protected void Schedule_delete (object sender, GridViewDeleteEventArgs e)
         {
-            Label lbl = new Label();
             if(sender.GetType() == typeof(GridView))
             {
                 GridView GR = (GridView)sender;
@@ -385,12 +384,11 @@ namespace Domotica_ASP
                 if (!global.ExecuteChanger(removeSchedule, out string error))
                 {
                     /* do something with the error */
-                    lbl.Text = error;
                 }
                 else
                 {
-                    lbl.Text = DC[1].Text + " om " + DC[2].Text + " verwijdert";
-                    DataTable dt = global.GetScheduleTable(Session);
+                    output.Text = DC[1].Text + " om " + DC[2].Text + " verwijdert";
+                    DataTable dt = global.GetScheduleTable();
                     if (dt.Rows.Count == 0)
                     {
                         DataRow emp_dr = dt.NewRow();
@@ -410,7 +408,6 @@ namespace Domotica_ASP
                     ScheduleDisplayer.DataBind();
                 }
             }
-            ScheduleUpdatePanel.ContentTemplateContainer.Controls.Add(lbl);
         }
     }
 }
