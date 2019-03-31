@@ -19,40 +19,38 @@ namespace Domotica_ASP
                 {
                     outputUpdatePanel.Attributes["class"] = "updateNotifierParent";
                     Remove_User_UP.Attributes["style"] =
-                    "display: grid; " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                    "justify-content: center; " +
-                    "grid-gap: 0.5em; " +
-                    "margin-left: -2px; " +
-                    "margin-bottom: 0.7em";
+                        "display: grid; " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
+                        "justify-content: center; " +
+                        "grid-gap: 0.5em; " +
+                        "margin-left: -2px; " +
+                        "margin-bottom: 0.7em";
 
                     DeleteDevice_UP.Attributes["style"] =
-                    "display: grid; " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                    "justify-content: center; " +
-                    "grid-gap: 0.5em; " +
-                    "margin-left: -2px; " +
-                    "margin-bottom: 0.7em";
+                        "display: grid; " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
+                        "justify-content: center; " +
+                        "grid-gap: 0.5em; " +
+                        "margin-left: -2px; " +
+                        "margin-bottom: 0.7em";
 
                     DeleteGroup_UP.Attributes["style"] =
-                    "display: grid; " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                    "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                    "justify-content: center; " +
-                    "grid-gap: 0.5em; " +
-                    "margin-left: -2px; " +
-                    "margin-bottom: 0.7em";
+                        "display: grid; " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
+                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
+                        "justify-content: center; " +
+                        "grid-gap: 0.5em; " +
+                        "margin-left: -2px; " +
+                        "margin-bottom: 0.7em";
 
                     MySqlCommand userQuery = new MySqlCommand("SELECT username FROM users");
-
-                    List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
-                    if (userErrorYes)
+                    List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker);
+                    if (error_gebruiker != "")
                     {
-                        Label label = new Label();
-                        label.Text = error_gebruiker;
-                        grid_parent.Controls.Add(label);
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(error_gebruiker);
                     }
                     else
                     {
@@ -60,6 +58,7 @@ namespace Domotica_ASP
                         {
                             if (row[0] != Membership.GetUser().UserName)
                             {
+                                // Remove user overlay
                                 Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
                                 widget.name = row[0];
                                 widget.comment = string.Format("Dit is het account van: {0}", row[0]);
@@ -67,12 +66,14 @@ namespace Domotica_ASP
                                 widget.ID = row[0];
                                 Remove_User_UP.ContentTemplateContainer.Controls.Add(widget);
                             }
+                            // insert into group overlay
                             Widget widget2 = (Widget)LoadControl("~/UserControls/Widget.ascx");
                             widget2.name = row[0];
                             widget2.comment = string.Format("Dit is het account van: {0}", row[0]);
                             widget2.toggle = true;
                             widget2.ID = row[0];
                             InsertUsersOverlay.Content.Controls.Add(widget2);
+                            // modify users in group overlay
                             Widget widget3 = (Widget)LoadControl("~/UserControls/Widget.ascx");
                             widget3.name = row[0];
                             widget3.comment = string.Format("Dit is het account van: {0}", row[0]);
@@ -89,10 +90,11 @@ namespace Domotica_ASP
                     }
 
                     MySqlCommand get_busy_pins = new MySqlCommand("SELECT pinnr FROM pin");
-                    List<List<string>> bezette_pins = global.ExecuteReader(get_busy_pins, out string error_get_pins, out bool error_pin_ind);
-                    if (error_pin_ind)
+                    List<List<string>> bezette_pins = global.ExecuteReader(get_busy_pins, out string error_get_pins);
+                    if (error_get_pins != "")
                     {
-
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(error_get_pins);
                     }
                     else
                     {
@@ -114,10 +116,11 @@ namespace Domotica_ASP
                     }
 
                     MySqlCommand getTypes = new MySqlCommand("SELECT `Type` FROM apparaattype");
-                    List<List<string>> getTypes_result = global.ExecuteReader(getTypes, out string getTypes_error, out bool getTypes_error_ind);
-                    if (getTypes_error_ind)
+                    List<List<string>> getTypes_result = global.ExecuteReader(getTypes, out string getTypes_error);
+                    if (getTypes_error != "")
                     {
-
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(getTypes_error);
                     }
                     else
                     {
@@ -128,28 +131,31 @@ namespace Domotica_ASP
                     }
 
                     MySqlCommand DeviceQuery = new MySqlCommand("SELECT naam FROM apparaat");
-                    List<List<string>> DeviceTable = global.ExecuteReader(DeviceQuery, out string DeviceQueryError, out bool DeviceQueryErrorInd);
-                    if (DeviceQueryErrorInd)
+                    List<List<string>> DeviceTable = global.ExecuteReader(DeviceQuery, out string DeviceQueryError);
+                    if (DeviceQueryError != "")
                     {
                         /* do something with the error */
+                        global.generic_QueryErrorHandler(DeviceQueryError);
                     }
                     else
                     {
-                        DeleteDevice_UP.ContentTemplateContainer.Controls.Clear();
                         foreach (List<string> row in DeviceTable)
                         {
+                            // Delete Device Overlay
                             Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
                             widget.name = row[0];
                             widget.comment = string.Format("Dit is apparaat: {0}", row[0]);
                             widget.toggle = true;
                             widget.ID = row[0];
                             DeleteDevice_UP.ContentTemplateContainer.Controls.Add(widget);
+                            // Insert Device into Group overlay
                             Widget widget2 = (Widget)LoadControl("~/UserControls/Widget.ascx");
                             widget2.name = row[0];
                             widget2.comment = string.Format("Dit is apparaat: {0}", row[0]);
                             widget2.toggle = true;
                             widget2.ID = row[0];
                             InsertDevicesOverlay.Content.Controls.Add(widget2);
+                            // manage group overlay
                             Widget widget3 = (Widget)LoadControl("~/UserControls/Widget.ascx");
                             widget3.name = row[0];
                             widget3.comment = string.Format("Dit is apparaat: {0}", row[0]);
@@ -157,6 +163,7 @@ namespace Domotica_ASP
                             widget3.ID = row[0];
                             modifyDevices_UP.ContentTemplateContainer.Controls.Add(widget3);
                         }
+                        // delete device submit button
                         Widget Submit_Remove_Device = (Widget)LoadControl("~/UserControls/Widget.ascx");
                         Submit_Remove_Device.ID = "Submit_Remove_User";
                         Submit_Remove_Device.submittable = true;
@@ -166,10 +173,11 @@ namespace Domotica_ASP
                     }
 
                     MySqlCommand GroupQuery = new MySqlCommand("SELECT groepnaam FROM `group`");
-                    List<List<string>> GroupTable = global.ExecuteReader(GroupQuery, out string GroupQueryError, out bool GroupQueryErrorInd);
-                    if (GroupQueryErrorInd)
+                    List<List<string>> GroupTable = global.ExecuteReader(GroupQuery, out string GroupQueryError);
+                    if (GroupQueryError != "")
                     {
                         /* do something with the error */
+                        global.generic_QueryErrorHandler(GroupQueryError);
                     }
                     else
                     {
@@ -190,16 +198,11 @@ namespace Domotica_ASP
                         Submit_DeleteGroupOID.name = "verstuur";
                         Submit_DeleteGroupOID.submit_function = RemoveGroup;
                         DeleteGroup_UP.ContentTemplateContainer.Controls.Add(Submit_DeleteGroupOID);
+                        ModifyGroup_Selected(GroupDDlist.SelectedValue);
                     }
 
+                    Submit_AddDeviceOID.submit_function = MakeApparaat;
 
-                    /* template widget
-                    Widget SubmitWidget = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                    SubmitWidget.ID = "SubmitWidget";
-                    SubmitWidget.submittable = true;
-                    SubmitWidget.name = "verstuur";
-                    Remove_User.Content.Controls.Add(SubmitWidget);
-                    */
                     Submit_ManageGroupOID.submit_function = ModifyGroup;
 
                     Submit_AddGroupOID.submit_function = MakeGroup;
@@ -213,85 +216,70 @@ namespace Domotica_ASP
 
         public void DeleteUser(object sender, EventArgs e)
         {
+            List<string> users = new List<string>();
+            List<string> checked_users = new List<string>();
+            List<string> removed_users = new List<string>();
 
-            MySqlCommand userQuery = new MySqlCommand("SELECT username FROM users WHERE username != :gbnaam");
-            userQuery.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-            
-            List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker, out bool userErrorYes);
-
-            if (userErrorYes)
+            foreach (Control con in Remove_User_UP.ContentTemplateContainer.Controls)
             {
-                Label1.Text = error_gebruiker;
-            }
-            else
-            {
-                List<string> removed_users = new List<string>();
-                foreach (List<string> row in GebruikersTabel)
+                if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
-                    //Label1.Text += GebruikersTabel[i][0];
-                    if (Remove_User_UP.ContentTemplateContainer.FindControl(row[0]) != null)
+                    Widget wid = (Widget)con;
+                    users.Add(wid.name);
+                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                    if (ch_box.Checked)
                     {
-                        Widget removeUser = (Widget)Remove_User_UP.ContentTemplateContainer.FindControl(row[0]);
-                        CheckBox removable_user = (CheckBox)removeUser.FindControl("Toggle_Checkbox");
-                        if (removable_user.Checked)
-                        {
-                            using (MySqlCommand remove_user = new MySqlCommand("DELETE FROM users WHERE username = :gbnaam"))
-                            {
-                                remove_user.Parameters.Add("gbnaam", row[0]);
-                                if (!global.ExecuteChanger(remove_user, out string remove_user_error))
-                                {
-                                    /* do something with the error */
-                                    output.Text = remove_user_error;
-                                }
-                                else
-                                {
-                                    removed_users.Add(row[0]);
-                                }
-                            }
-                        }
+                        checked_users.Add(wid.name);
                     }
                 }
-                output.Text = "Verwijderde gebruikers: ";
-                for (int i = 0; i < removed_users.Count; i++)
+            }
+            
+            foreach (string username in checked_users)
+            {
+                using (MySqlCommand remove_user = new MySqlCommand("DELETE FROM users WHERE username = :gbnaam"))
                 {
-                    if (i < removed_users.Count - 1)
+                    remove_user.Parameters.Add("gbnaam", username);
+                    if (!global.ExecuteChanger(remove_user, out string remove_user_error))
                     {
-                        output.Text += removed_users[i] + ", ";
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(remove_user_error);
                     }
                     else
                     {
-                        output.Text += removed_users[i] + ".";
+                        removed_users.Add(username);
+                        users.Remove(username);
                     }
                 }
-
             }
-
-            MySqlCommand newUserQuery = new MySqlCommand("SELECT username FROM users WHERE username != :gbnaam");
-            newUserQuery.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-            List<List<string>> newUserTable = global.ExecuteReader(newUserQuery, out string newUserTable_error, out bool newUserTable_errorInd);
-            if (newUserTable_errorInd)
+            output.Text = "Verwijderde gebruikers: ";
+            for (int i = 0; i < removed_users.Count; i++)
             {
-                /* do something with the error */
-            }
-            else
-            {
-                Remove_User_UP.ContentTemplateContainer.Controls.Clear();
-                foreach (List<string> row in newUserTable)
+                if (i < removed_users.Count - 1)
                 {
-                    Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                    widget.name = row[0];
-                    widget.comment = string.Format("Dit is het account van: {0}", row[0]);
-                    widget.toggle = true;
-                    widget.ID = row[0];
-                    Remove_User_UP.ContentTemplateContainer.Controls.Add(widget);
+                    output.Text += removed_users[i] + ", ";
                 }
-                Widget Submit_Remove_User = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                Submit_Remove_User.ID = "Submit_Remove_User";
-                Submit_Remove_User.submittable = true;
-                Submit_Remove_User.name = "verstuur";
-                Submit_Remove_User.submit_function = DeleteUser;
-                Remove_User_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_User);
+                else
+                {
+                    output.Text += removed_users[i] + ".";
+                }
             }
+
+            Remove_User_UP.ContentTemplateContainer.Controls.Clear();
+            foreach (string username in users)
+            {
+                Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
+                widget.name = username;
+                widget.comment = string.Format("Dit is het account van: {0}", username);
+                widget.toggle = true;
+                widget.ID = username;
+                Remove_User_UP.ContentTemplateContainer.Controls.Add(widget);
+            }
+            Widget Submit_Remove_User = (Widget)LoadControl("~/UserControls/Widget.ascx");
+            Submit_Remove_User.ID = "Submit_Remove_User";
+            Submit_Remove_User.submittable = true;
+            Submit_Remove_User.name = "verstuur";
+            Submit_Remove_User.submit_function = DeleteUser;
+            Remove_User_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_User);
         }
 
         public void MakeApparaat(object sender, EventArgs e)
@@ -302,51 +290,57 @@ namespace Domotica_ASP
 
             MySqlCommand query_getTypeID = new MySqlCommand("SELECT TypeID FROM apparaattype WHERE `type` = :type");
             query_getTypeID.Parameters.Add("type", Device_type);
-            List<List<string>> getTypeID_result = global.ExecuteReader(query_getTypeID, out string getTypeID_error, out bool getTypeID_errorInd);
-            if (getTypeID_errorInd)
+            List<List<string>> getTypeID_result = global.ExecuteReader(query_getTypeID, out string getTypeID_error);
+            if (getTypeID_error != "")
             {
                 /* do something with the error */
+                global.generic_QueryErrorHandler(getTypeID_error);
             }
             else
             {
                 MySqlCommand query_addapp = new MySqlCommand("INSERT INTO apparaat (`TypeID`, `naam`) VALUES (:type, :naam)");
                 query_addapp.Parameters.Add("type", getTypeID_result[0][0]);
                 query_addapp.Parameters.Add("naam", Device_name.Text);
-                if(!global.ExecuteChanger(query_addapp, out string error5))
+                if(!global.ExecuteChanger(query_addapp, out string addapp_error))
                 {
-                    if (error5.Contains("Duplicate entry"))
+                    if (addapp_error.Contains("Duplicate entry"))
                     {
                         output.Text = "apparaatnaam bestaat al";
                     }
                     else
                     {
-                        output.Text = error5;
+                        global.generic_QueryErrorHandler(addapp_error);
                     }
                 }
                 else
                 { 
                     MySqlCommand query_appid = new MySqlCommand("SELECT apparaatID FROM apparaat WHERE naam = :naam");
                     query_appid.Parameters.Add("naam", Device_name.Text);
-                    List<List<string>> appid = global.ExecuteReader(query_appid, out string error6, out bool errorInd6);
-                    if (errorInd6)
+                    List<List<string>> appid = global.ExecuteReader(query_appid, out string query_appid_error);
+                    if (query_appid_error != "")
                     {
                         /* do something with the error */
-                        output.Text = error6;
+                        global.generic_QueryErrorHandler(query_appid_error);
                     }
                     else
                     {
                         MySqlCommand query_addpin = new MySqlCommand("INSERT INTO pin VALUES (:appID, :pinnr)");
                         query_addpin.Parameters.Add("appID", appid[0][0]);
                         query_addpin.Parameters.Add("pinnr", Device_pin);
-                        if (!global.ExecuteChanger(query_addpin, out string error7))
+                        if (!global.ExecuteChanger(query_addpin, out string query_addpin_error))
                         {
                             /* do something with the error */
-                            output.Text = error7;
+                            global.generic_QueryErrorHandler(query_addpin_error);
                         }
                         else
                         {
                             output.Text = string.Format("Apparaat: {0} toegevoegd", Device_name.Text);
                             Response.Redirect(Request.Url.AbsolutePath, true);
+                            Page.ClientScript.RegisterStartupScript(
+                                GetType(),
+                                "show_output",
+                                "OpenUpdater();",
+                                true);
                         }
                     }
                 }
@@ -356,84 +350,71 @@ namespace Domotica_ASP
 
         public void RemoveDevice(object sender, EventArgs e)
         {
-
-            MySqlCommand ApparaatQuery = new MySqlCommand("SELECT naam FROM apparaat");
-
-            List<List<string>> ApparaatTable = global.ExecuteReader(ApparaatQuery, out string error_apparaat, out bool apparaatErrorInd);
-
-            if (apparaatErrorInd)
+            List<string> devices = new List<string>();
+            List<string> checked_devices = new List<string>();
+            List<string> RemovedDevices = new List<string>();
+            foreach (Control con in DeleteDevice_UP.ContentTemplateContainer.Controls)
             {
-                Label1.Text = error_apparaat;
-            }
-            else
-            {
-                List<string> RemovedDevices = new List<string>();
-                foreach (List<string> row in ApparaatTable)
+                if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
-                    //Label1.Text += GebruikersTabel[i][0];
-                    if (DeleteDevice_UP.ContentTemplateContainer.FindControl(row[0]) != null)
+                    Widget wid = (Widget)con;
+                    devices.Add(wid.name);
+                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                    if (ch_box.Checked)
                     {
-                        Widget removeDevice = (Widget)DeleteDevice_UP.ContentTemplateContainer.FindControl(row[0]);
-                        CheckBox removable_device = (CheckBox)removeDevice.FindControl("Toggle_Checkbox");
-                        if (removable_device.Checked)
-                        {
-                            using (MySqlCommand remove_device = new MySqlCommand("DELETE FROM apparaat WHERE naam = :naam"))
-                            {
-                                remove_device.Parameters.Add("naam", row[0]);
-                                if (!global.ExecuteChanger(remove_device, out string remove_device_error))
-                                {
-                                    /* do something with the error */
-                                    output.Text = remove_device_error;
-                                }
-                                else
-                                {
-                                    RemovedDevices.Add(row[0]);
-                                }
-                            }
-                        }
+                        checked_devices.Add(wid.name);
                     }
                 }
+            }
 
-                output.Text = "Verwijderde gebruikers: ";
-                for (int i = 0; i < RemovedDevices.Count; i++)
+            
+            foreach (string device in checked_devices)
+            {
+                using (MySqlCommand remove_device = new MySqlCommand("DELETE FROM apparaat WHERE naam = :naam"))
                 {
-                    if (i < RemovedDevices.Count - 1)
+                    remove_device.Parameters.Add("naam", device);
+                    if (!global.ExecuteChanger(remove_device, out string remove_device_error))
                     {
-                        output.Text += RemovedDevices[i] + ", ";
+                        /* do something with the error */
+                        output.Text = remove_device_error;
                     }
                     else
                     {
-                        output.Text += RemovedDevices[i] + ".";
+                        RemovedDevices.Add(device);
+                        devices.Remove(device);
                     }
                 }
-
             }
 
-            MySqlCommand newDeviceQuery = new MySqlCommand("SELECT naam FROM apparaat");
-            List<List<string>> newDeviceTable = global.ExecuteReader(newDeviceQuery, out string newDeviceQueryError, out bool newDeviceQueryErrorInd);
-            if (newDeviceQueryErrorInd)
+            output.Text = "Verwijderde apparaten: ";
+            for (int i = 0; i < RemovedDevices.Count; i++)
             {
-                /* do something with the error */
-            }
-            else
-            {
-                DeleteDevice_UP.ContentTemplateContainer.Controls.Clear();
-                foreach (List<string> row in newDeviceTable)
+                if (i < RemovedDevices.Count - 1)
                 {
-                    Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                    widget.name = row[0];
-                    widget.comment = string.Format("Dit is apparaat: {0}", row[0]);
-                    widget.toggle = true;
-                    widget.ID = row[0];
-                    DeleteDevice_UP.ContentTemplateContainer.Controls.Add(widget);
+                    output.Text += RemovedDevices[i] + ", ";
                 }
-                Widget Submit_Remove_Device = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                Submit_Remove_Device.ID = "Submit_Remove_Device";
-                Submit_Remove_Device.submittable = true;
-                Submit_Remove_Device.name = "verstuur";
-                Submit_Remove_Device.submit_function = RemoveDevice;
-                DeleteDevice_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_Device);
+                else
+                {
+                    output.Text += RemovedDevices[i] + ".";
+                }
             }
+            
+            DeleteDevice_UP.ContentTemplateContainer.Controls.Clear();
+            foreach (string device in devices)
+            {
+                Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
+                widget.name = device;
+                widget.comment = string.Format("Dit is apparaat: {0}", device);
+                widget.toggle = true;
+                widget.ID = device;
+                DeleteDevice_UP.ContentTemplateContainer.Controls.Add(widget);
+            }
+            Widget Submit_Remove_Device = (Widget)LoadControl("~/UserControls/Widget.ascx");
+            Submit_Remove_Device.ID = "Submit_Remove_Device";
+            Submit_Remove_Device.submittable = true;
+            Submit_Remove_Device.name = "verstuur";
+            Submit_Remove_Device.submit_function = RemoveDevice;
+            DeleteDevice_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_Device);
         }
 
         public void MakeGroup(object sender, EventArgs e)
@@ -444,7 +425,8 @@ namespace Domotica_ASP
             foreach(Control con in InsertUsersOverlay.Content.Controls)
             {
                 Widget wid = (Widget)con;
-                if (wid.toggle)
+                CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                if (ch_box.Checked)
                 {
                     users.Add(wid.name);
                 }
@@ -452,7 +434,8 @@ namespace Domotica_ASP
             foreach (Control con in InsertDevicesOverlay.Content.Controls)
             {
                 Widget wid = (Widget)con;
-                if (wid.toggle)
+                CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                if (ch_box.Checked)
                 {
                     devices.Add(wid.name);
                 }
@@ -466,10 +449,10 @@ namespace Domotica_ASP
             {
                 MySqlCommand get_GPid = new MySqlCommand("SELECT GROUPID FROM `group` WHERE groepnaam = :gpnaam");
                 get_GPid.Parameters.Add("gpnaam", GroupName.Text);
-                List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error, out bool get_GPnaamInd);
-                if (get_GPnaamInd) {
-                    finished = false;
-                    error = get_GPnaam_error;
+                List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error);
+                if (get_GPnaam_error != "") {
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(get_GPnaam_error);
                 }
                 else
                 {
@@ -477,8 +460,8 @@ namespace Domotica_ASP
                     {
                         MySqlCommand get_userID = new MySqlCommand("SELECT id FROM users WHERE username = :naam");
                         get_userID.Parameters.Add("naam", user);
-                        List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error, out bool get_userIDInd);
-                        if (get_userIDInd) {
+                        List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error);
+                        if (get_userID_error != "") {
                             finished = false;
                             error = get_userID_error;
                         }
@@ -497,8 +480,8 @@ namespace Domotica_ASP
                     {
                         MySqlCommand get_appID = new MySqlCommand("SELECT APPARAATID FROM apparaat WHERE naam = :naam");
                         get_appID.Parameters.Add("naam", device);
-                        List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error, out bool get_appIDInd);
-                        if (get_appIDInd) {
+                        List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error);
+                        if (get_appID_error != "") {
                             finished = false;
                             error = get_appID_error;
                         }
@@ -533,93 +516,92 @@ namespace Domotica_ASP
             {
                 output.Text = string.Format("Groep: {0} toegevoegd", GroupName.Text);
                 Response.Redirect(Request.Url.AbsolutePath, true);
+                Page.ClientScript.RegisterStartupScript(
+                    GetType(),
+                    "show_output",
+                    "OpenUpdater();",
+                    true);
             }
             else
             {
-                output.Text = error;
+                if (error != "apparaatnaam bestaat al")
+                {
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(error);
+                }
+                else
+                {
+                    output.Text = error;
+                }
             }
         }
 
         public void RemoveGroup(object sender, EventArgs e)
         {
+            List<string> groups = new List<string>();
+            List<string> checked_groups = new List<string>();
+            List<string> removed_groups = new List<string>();
 
-            MySqlCommand GroupQuery = new MySqlCommand("SELECT groepnaam FROM `group`");
-
-            List<List<string>> GroupTable = global.ExecuteReader(GroupQuery, out string error_GroupQuery, out bool GroupQueryErrorInd);
-
-            if (GroupQueryErrorInd)
+            foreach (Control con in Remove_User_UP.ContentTemplateContainer.Controls)
             {
-                Label1.Text = error_GroupQuery;
-            }
-            else
-            {
-                List<string> RemovedGroup = new List<string>();
-                foreach (List<string> row in GroupTable)
+                if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
-                    //Label1.Text += GebruikersTabel[i][0];
-                    if (DeleteGroup_UP.ContentTemplateContainer.FindControl(row[0]) != null)
+                    Widget wid = (Widget)con;
+                    groups.Add(wid.name);
+                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                    if (ch_box.Checked)
                     {
-                        Widget removeGroup = (Widget)DeleteGroup_UP.ContentTemplateContainer.FindControl(row[0]);
-                        CheckBox removable_Group = (CheckBox)removeGroup.FindControl("Toggle_Checkbox");
-                        if (removable_Group.Checked)
-                        {
-                            using (MySqlCommand remove_group = new MySqlCommand("DELETE FROM `group` WHERE groepnaam = :naam"))
-                            {
-                                remove_group.Parameters.Add("naam", row[0]);
-                                if (!global.ExecuteChanger(remove_group, out string remove_device_error))
-                                {
-                                    /* do something with the error */
-                                    output.Text = remove_device_error;
-                                }
-                                else
-                                {
-                                    RemovedGroup.Add(row[0]);
-                                }
-                            }
-                        }
+                        checked_groups.Add(wid.name);
                     }
                 }
-
-                output.Text = "Verwijderde groepen: ";
-                for (int i = 0; i < RemovedGroup.Count; i++)
+            }
+            foreach (string group in checked_groups)
+            {
+                using (MySqlCommand remove_group = new MySqlCommand("DELETE FROM `group` WHERE groepnaam = :naam"))
                 {
-                    if (i < RemovedGroup.Count - 1)
+                    remove_group.Parameters.Add("naam", group);
+                    if (!global.ExecuteChanger(remove_group, out string remove_device_error))
                     {
-                        output.Text += RemovedGroup[i] + ", ";
+                        /* do something with the error */
+                        output.Text = remove_device_error;
                     }
                     else
                     {
-                        output.Text += RemovedGroup[i] + ".";
+                        removed_groups.Add(group);
+                        groups.Remove(group);
                     }
                 }
-
             }
 
-            MySqlCommand newGroupQuery = new MySqlCommand("SELECT groepnaam FROM `group`");
-            List<List<string>> newGroupTable = global.ExecuteReader(newGroupQuery, out string newGroupTableError, out bool newGroupTableErrorInd);
-            if (newGroupTableErrorInd)
+            output.Text = "Verwijderde groepen: ";
+            for (int i = 0; i < removed_groups.Count; i++)
             {
-                /* do something with the error */
-            }
-            else
-            {
-                DeleteGroup_UP.ContentTemplateContainer.Controls.Clear();
-                foreach (List<string> row in newGroupTable)
+                if (i < removed_groups.Count - 1)
                 {
-                    Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                    widget.name = row[0];
-                    widget.comment = string.Format("Dit is groep: {0}", row[0]);
-                    widget.toggle = true;
-                    widget.ID = row[0];
-                    DeleteGroup_UP.ContentTemplateContainer.Controls.Add(widget);
+                    output.Text += removed_groups[i] + ", ";
                 }
-                Widget Submit_Remove_Group = (Widget)LoadControl("~/UserControls/Widget.ascx");
-                Submit_Remove_Group.ID = "Submit_Remove_Group";
-                Submit_Remove_Group.submittable = true;
-                Submit_Remove_Group.name = "verstuur";
-                Submit_Remove_Group.submit_function = RemoveGroup;
-                DeleteGroup_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_Group);
+                else
+                {
+                    output.Text += removed_groups[i] + ".";
+                }
             }
+
+            DeleteGroup_UP.ContentTemplateContainer.Controls.Clear();
+            foreach (string group in groups)
+            {
+                Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
+                widget.name = group;
+                widget.comment = string.Format("Dit is groep: {0}", group);
+                widget.toggle = true;
+                widget.ID = group;
+                DeleteGroup_UP.ContentTemplateContainer.Controls.Add(widget);
+            }
+            Widget Submit_Remove_Group = (Widget)LoadControl("~/UserControls/Widget.ascx");
+            Submit_Remove_Group.ID = "Submit_Remove_Group";
+            Submit_Remove_Group.submittable = true;
+            Submit_Remove_Group.name = "verstuur";
+            Submit_Remove_Group.submit_function = RemoveGroup;
+            DeleteGroup_UP.ContentTemplateContainer.Controls.Add(Submit_Remove_Group);
         }
 
         public void ModifyGroup(object sender, EventArgs e)
@@ -633,20 +615,28 @@ namespace Domotica_ASP
             {
                 List<string> users = new List<string>();
                 List<string> devices = new List<string>();
-                foreach (Control con in modifyUsers.Content.Controls)
+                foreach (Control con in modifyUsers_UP.ContentTemplateContainer.Controls)
                 {
-                    Widget wid = (Widget)con;
-                    if (wid.toggle)
+                    if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                     {
-                        users.Add(wid.name);
+                        Widget wid = (Widget)con;
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (ch_box.Checked)
+                        {
+                            users.Add(wid.name);
+                        }
                     }
                 }
-                foreach (Control con in modifyDevices.Content.Controls)
+                foreach (Control con in modifyDevices_UP.ContentTemplateContainer.Controls)
                 {
-                    Widget wid = (Widget)con;
-                    if (wid.toggle)
+                    if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                     {
-                        devices.Add(wid.name);
+                        Widget wid = (Widget)con;
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (ch_box.Checked)
+                        {
+                            devices.Add(wid.name);
+                        }
                     }
                 }
                 
@@ -656,8 +646,8 @@ namespace Domotica_ASP
                 {
                     MySqlCommand get_GPid = new MySqlCommand("SELECT GROUPID FROM `group` WHERE groepnaam = :gpnaam");
                     get_GPid.Parameters.Add("gpnaam", GroupDDlist.SelectedValue);
-                    List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error, out bool get_GPnaamInd);
-                    if (get_GPnaamInd)
+                    List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error);
+                    if (get_GPnaam_error != "")
                     {
                         finished = false;
                         error = get_GPnaam_error;
@@ -668,8 +658,8 @@ namespace Domotica_ASP
                         {
                             MySqlCommand get_userID = new MySqlCommand("SELECT id FROM users WHERE username = :naam");
                             get_userID.Parameters.Add("naam", user);
-                            List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error, out bool get_userIDInd);
-                            if (get_userIDInd)
+                            List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error);
+                            if (get_userID_error != "")
                             {
                                 finished = false;
                                 error = get_userID_error;
@@ -690,8 +680,8 @@ namespace Domotica_ASP
                         {
                             MySqlCommand get_appID = new MySqlCommand("SELECT APPARAATID FROM apparaat WHERE naam = :naam");
                             get_appID.Parameters.Add("naam", device);
-                            List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error, out bool get_appIDInd);
-                            if (get_appIDInd)
+                            List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error);
+                            if (get_appID_error != "")
                             {
                                 finished = false;
                                 error = get_appID_error;
@@ -731,22 +721,93 @@ namespace Domotica_ASP
             if (finished)
             {
                 output.Text = string.Format("Groep: {0} Veranderd", GroupDDlist.SelectedValue);
-                Response.Redirect(Request.Url.AbsolutePath, true);
+                ModifyGroup_Selected(GroupDDlist.SelectedValue);
             }
             else
             {
-                output.Text = error;
+                if (error != "apparaatnaam bestaat al")
+                {
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(error);
+                }
+                else
+                {
+                    output.Text = error;
+                }
             }
         }
 
         protected void changeActiveGroup(object sender, EventArgs e)
         {
-            Label1.Text = "test";
-            //modifyUsers_UP.ContentTemplateContainer.Controls.Clear();
+            ModifyGroup_Selected(GroupDDlist.SelectedValue);
         }
 
-        protected void CreateUserWizard1_CreatedUser(object sender, EventArgs e)
+        protected void ModifyGroup_Selected(string group)
         {
+            MySqlCommand changeActiveGroup_query = new MySqlCommand("SELECT username, naam FROM apparaat " +
+                "INNER JOIN heefttoegangtot ON apparaat.APPARAATID = heefttoegangtot.APPARAATID " +
+                "INNER JOIN `group` ON `group`.GROUPID = heefttoegangtot.GROUPID " +
+                "INNER JOIN `neemtdeelaan` ON heefttoegangtot.GROUPID = `neemtdeelaan`.GROUPID " +
+                "INNER JOIN `users` ON `neemtdeelaan`.USERID = `users`.id " +
+                "WHERE groepnaam = :gpnaam");
+            changeActiveGroup_query.Parameters.Add("gpnaam", group);
+            List<List<string>> changeActiveGroup_result = global.ExecuteReader(changeActiveGroup_query, out string changeActiveGroup_error);
+            if (changeActiveGroup_error != "")
+            {
+                /* do something with the error */
+            }
+            else
+            {
+                List<string> users = new List<string>();
+                List<string> devices = new List<string>();
+                foreach (List<string> row in changeActiveGroup_result)
+                {
+                    users.Add(row[0]);
+                    devices.Add(row[1]);
+                }
+
+                // https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/concepts/linq/walkthrough-writing-queries-linq
+                // above is about queries on C# list objects
+                IEnumerable<string> usersdistinct = users.Distinct();
+                IEnumerable<string> devicesdistinct = devices.Distinct();
+                foreach (Control con in modifyUsers_UP.ContentTemplateContainer.Controls)
+                {
+                    if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
+                    {
+                        Widget wid = (Widget)con;
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (usersdistinct.Contains(wid.name))
+                        {
+                            ch_box.Checked = true;
+                        }
+                        else
+                        {
+                            ch_box.Checked = false;
+                        }
+                    }
+                }
+                foreach (Control con in modifyDevices_UP.ContentTemplateContainer.Controls)
+                {
+                    if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
+                    {
+                        Widget wid = (Widget)con;
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (devicesdistinct.Contains(wid.name))
+                        {
+                            ch_box.Checked = true;
+                        }
+                        else
+                        {
+                            ch_box.Checked = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        protected void ReloadPage(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.Url.AbsolutePath, true);
             output.Text = "Gebruiker aangemaakt";
             Page.ClientScript.RegisterStartupScript(
                         GetType(),
@@ -754,7 +815,5 @@ namespace Domotica_ASP
                         "OpenUpdater();",
                         true);
         }
-
-        
     }
 }

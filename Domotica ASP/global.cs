@@ -54,12 +54,11 @@ namespace Domotica_ASP
         /// <param name="error"> the error message </param>
         /// <param name="errorInd"> indicator of the error </param>
         /// <returns></returns>
-        public static List<List<string>> ExecuteReader(MySqlCommand query, out string error, out bool errorInd)
+        public static List<List<string>> ExecuteReader(MySqlCommand query, out string error)
         {
             MySqlConnection conn = new MySqlConnection(ConfigurationManager.ConnectionStrings["demotica_conn"].ToString());
             query.Connection = conn;
             error = "";
-            errorInd = false;
             
             List<List<string>> result = new List<List<string>>();
             try
@@ -94,11 +93,6 @@ namespace Domotica_ASP
                 // myReader.Close(); // < -nodig ?
                 // always call Close when done reading.
                 conn.Close();
-            }
-
-            if(error != "")
-            {
-                errorInd = true;
             }
             return result;
         }
@@ -183,10 +177,11 @@ namespace Domotica_ASP
                     "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
                     "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID");
             }
-            List<List<string>> getSchedule_result = global.ExecuteReader(getSchedule, out string getSchedule_error, out bool getSchedule_errorInd);
-            if (getSchedule_errorInd)
+            List<List<string>> getSchedule_result = global.ExecuteReader(getSchedule, out string getSchedule_error);
+            if (getSchedule_error != "")
             {
                 /* do something with the error */
+                global.generic_QueryErrorHandler(getSchedule_error);
             }
             else
             {
@@ -252,10 +247,11 @@ namespace Domotica_ASP
                         "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
                         "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
             }
-            List<List<string>> getSchedule_single_temp_result = global.ExecuteReader(getSchedule_single_temp, out string getSchedule_single_temp_error, out bool getSchedule_single_temp_errorInd);
-            if (getSchedule_single_temp_errorInd)
+            List<List<string>> getSchedule_single_temp_result = global.ExecuteReader(getSchedule_single_temp, out string getSchedule_single_temp_error);
+            if (getSchedule_single_temp_error != "")
             {
                 /* do something with the error */
+                global.generic_QueryErrorHandler(getSchedule_single_temp_error);
             }
             else
             {
@@ -318,10 +314,11 @@ namespace Domotica_ASP
                         "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
                         "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
             }
-            List<List<string>> getSchedule_single_stand_result = global.ExecuteReader(getSchedule_single_stand, out string getSchedule_single_stand_error, out bool getSchedule_single_standInd);
-            if (getSchedule_single_standInd)
+            List<List<string>> getSchedule_single_stand_result = global.ExecuteReader(getSchedule_single_stand, out string getSchedule_single_stand_error);
+            if (getSchedule_single_stand_error != "")
             {
                 /* do something with the error */
+                global.generic_QueryErrorHandler(getSchedule_single_stand_error);
             }
             else
             {
@@ -349,34 +346,13 @@ namespace Domotica_ASP
             dt = dt.DefaultView.ToTable();
             return dt;
         }
-        public static bool show_delete_btn = true;
+        public static bool show_delete_btn = false;
 
-
-        public static bool checkUserCookie(HttpCookie verkade, out string error)
+        public static void generic_QueryErrorHandler(string error)
         {
-            MySqlCommand UserIDQuery = new MySqlCommand("SELECT USERID FROM `user` WHERE username = :gbnaam");
-            UserIDQuery.Parameters.Add("gbnaam", verkade["username"]);
-            List<List<string>> UserIDqueryResult = ExecuteReader(UserIDQuery, out string UserIDQueryError, out bool UserIDQueryErrorInd);
-            if (UserIDQueryErrorInd)
-            {
-                /* do something if there is an error */
-                error = UserIDQueryError;
-                return false;
-            }
-            else {
-                error = "";
-                int userID = int.Parse(getValueFromList(UserIDqueryResult));
-                int username_num = global.stringToInt(verkade["username"]);
-                if (verkade["userkey"] == ((int.Parse(verkade["salt"]) * (userID * 10)) * username_num).ToString())
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            System.Diagnostics.Trace.WriteLine(error);
         }
+
         // https://stackoverflow.com/a/20044767
         public static int stringToInt(string text)
         {
@@ -394,8 +370,8 @@ namespace Domotica_ASP
             // query looks like: INSERT INTO schakelschema (`apparaatid`, `tijd`) VALUES('apparaatid', 'tijd');
             MySqlCommand get_appid = new MySqlCommand("SELECT apparaatid FROM apparaat WHERE naam = :naam");
             get_appid.Parameters.Add(":naam", name);
-            List<List<string>> appid = ExecuteReader(get_appid, out string get_appid_error, out bool get_appid_error_ind);
-            if (get_appid_error_ind)
+            List<List<string>> appid = ExecuteReader(get_appid, out string get_appid_error);
+            if (get_appid_error != "")
             {
                 /* do something with the error */
                 error = "get_app_id error: " + get_appid_error;
@@ -417,8 +393,8 @@ namespace Domotica_ASP
                     MySqlCommand get_schakelid = new MySqlCommand("SELECT schakelid FROM schakelschema WHERE apparaatid = :appid AND tijd = :tijd");
                     get_schakelid.Parameters.Add(":appid", appid[0][0]);
                     get_schakelid.Parameters.Add(":tijd", schedule);
-                    List<List<string>> schakelid = ExecuteReader(get_schakelid, out string get_schakelid_error, out bool get_schakelid_error_ind);
-                    if (get_schakelid_error_ind)
+                    List<List<string>> schakelid = ExecuteReader(get_schakelid, out string get_schakelid_error);
+                    if (get_schakelid_error != "")
                     {
                         /* do something with the error */
                         error = "get_schakelid error: " + get_schakelid_error;

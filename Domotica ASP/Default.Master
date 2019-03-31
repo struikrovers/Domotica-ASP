@@ -32,7 +32,9 @@
                     <input type="button" ID="LoginButton" runat="server" value="Inloggen" onclick="document.location.href='Login.aspx';"/>
                 </AnonymousTemplate>
                 <LoggedInTemplate>
-                    <div class="WelcomeContainer"><asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server"></asp:Label></div>
+                    <div class="WelcomeContainer">
+                        <asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server" CssClass="WelcomeLabel"></asp:Label>
+                    </div>
                     <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" onclick="LogoutButton_Click"/>
                 </LoggedInTemplate>
                 <RoleGroups>

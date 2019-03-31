@@ -40,24 +40,6 @@ namespace Domotica_ASP {
         protected global::System.Web.UI.WebControls.Label output;
         
         /// <summary>
-        /// UpdatePanel1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
-        
-        /// <summary>
-        /// Label1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
-        
-        /// <summary>
         /// Register control.
         /// </summary>
         /// <remarks>
@@ -283,24 +265,6 @@ namespace Domotica_ASP {
         protected global::Domotica_ASP.overlay InsertDevicesOverlay;
         
         /// <summary>
-        /// test control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel test;
-        
-        /// <summary>
-        /// GroupDDlist control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList GroupDDlist;
-        
-        /// <summary>
         /// ManageGroupOID control.
         /// </summary>
         /// <remarks>
@@ -326,6 +290,15 @@ namespace Domotica_ASP {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Domotica_ASP.InputFields GroupDDL;
+        
+        /// <summary>
+        /// GroupDDlist control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList GroupDDlist;
         
         /// <summary>
         /// CurrentUsers control.

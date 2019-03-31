@@ -182,7 +182,8 @@ namespace Domotica_ASP
             global.updateDevices(UserInput, schedule, Timer, name, out string error);
             if (error != "")
             {
-                output.Text += error;
+                /* do something with the error */
+                global.generic_QueryErrorHandler(error);
             }
             else
             {

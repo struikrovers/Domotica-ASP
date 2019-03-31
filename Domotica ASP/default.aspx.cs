@@ -40,15 +40,13 @@ namespace Domotica_ASP
             if (Membership.GetUser() != null)
             {
 
-                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam, atype.`Type` FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID WHERE h.GROUPID IN( SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `userid` FROM users WHERE `username` = :gbnaam))");
+                MySqlCommand apparaatquery = new MySqlCommand("SELECT DISTINCT h.APPARAATID, a.naam, atype.`Type` FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID WHERE h.GROUPID IN( SELECT `GROUPID` FROM neemtdeelaan WHERE `userid` IN ( SELECT `id` FROM users WHERE `username` = :gbnaam))");
                 apparaatquery.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-                List<List<string>> result = global.ExecuteReader(apparaatquery, out string apparaatError, out bool apparaatErrorInd);
-                if (apparaatErrorInd)
+                List<List<string>> result = global.ExecuteReader(apparaatquery, out string apparaatError);
+                if (apparaatError != "")
                 {
-                    /* do something if there is an error */
-                    Label label = new Label();
-                    label.Text = apparaatError;
-                    grid_parent.Controls.Add(label);
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(apparaatError);
                 }
                 else
                 {
@@ -56,8 +54,12 @@ namespace Domotica_ASP
 
                     List<string> apparaatIDSmetOverlayList = new List<string>();
                     MySqlCommand apparatIDSMetOverlay = new MySqlCommand("SELECT DISTINCT kantemp.apparaatID, kanstand.apparaatID FROM kantemp, kanstand WHERE kantemp.apparaatID = kanstand.apparaatID");
-                    List<List<string>> apparaatIDSmetOverlayResult = global.ExecuteReader(apparatIDSMetOverlay, out string IDError, out bool IDErrorInd);
-                    if (IDErrorInd) { /* do something if there is an error */ }
+                    List<List<string>> apparaatIDSmetOverlayResult = global.ExecuteReader(apparatIDSMetOverlay, out string IDError);
+                    if (IDError != "")
+                    { 
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(IDError);
+                    }
                     else
                     {
                         foreach (List<string> row in apparaatIDSmetOverlayResult)
@@ -73,8 +75,12 @@ namespace Domotica_ASP
                             // get multiple values
                             MySqlCommand overlayQuery = new MySqlCommand("SELECT `min`, `max`, `stand` FROM kanstand INNER JOIN kantemp ON kanstand.APPARAATID = kantemp.APPARAATID WHERE kanstand.APPARAATID = :appID");
                             overlayQuery.Parameters.Add("appID", row[0]);
-                            List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError, out bool overlayQueryErrorInd);
-                            if (overlayQueryErrorInd) { /* do something if there is an error */ }
+                            List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError);
+                            if (overlayQueryError != "")
+                            { 
+                                /* do something with the error */
+                                global.generic_QueryErrorHandler(overlayQueryError);
+                            }
                             else
                             {
                                 // create the widget
@@ -166,8 +172,12 @@ namespace Domotica_ASP
                         {
                             MySqlCommand InputTypeQuery = new MySqlCommand("SELECT apparaatID, InputType, TypeWaarde FROM apparaattype AS appType INNER JOIN apparaat AS app ON appType.TypeID = app.TypeID WHERE app.apparaatid = :appID");
                             InputTypeQuery.Parameters.Add("appID", row[0]);
-                            List<List<string>> inputTypeQueryResult = global.ExecuteReader(InputTypeQuery, out string InputQueryError, out bool InputQueryErrorInd);
-                            if (InputQueryErrorInd) { /* do something if there is an error */ }
+                            List<List<string>> inputTypeQueryResult = global.ExecuteReader(InputTypeQuery, out string InputQueryError);
+                            if (InputQueryError != "")
+                            {
+                                /* do something with the error */
+                                global.generic_QueryErrorHandler(InputQueryError);
+                            }
                             else
                             {
                                 List<string> input_type = inputTypeQueryResult[0];
@@ -232,8 +242,12 @@ namespace Domotica_ASP
                                         }
                                         getAppSpec.Parameters.Add("apparaatid", input_type[0]);
                                         // get the apparaat specs
-                                        List<List<string>> appSpec = global.ExecuteReader(getAppSpec, out string appSpecError, out bool appSpecErrorInd);
-                                        if (appSpecErrorInd) { /* do something if there is an error */}
+                                        List<List<string>> appSpec = global.ExecuteReader(getAppSpec, out string appSpecError);
+                                        if (appSpecError != "")
+                                        {
+                                            /* do something with the error */
+                                            global.generic_QueryErrorHandler(appSpecError);
+                                        }
                                         else
                                         {
                                             // create the <__radio> or <__DropList> placeholder
@@ -373,7 +387,8 @@ namespace Domotica_ASP
 
         protected void Schedule_delete (object sender, GridViewDeleteEventArgs e)
         {
-            if(sender.GetType() == typeof(GridView))
+            output.Text = "";
+            if (sender.GetType() == typeof(GridView))
             {
                 GridView GR = (GridView)sender;
                 GR.SelectRow(e.RowIndex);
