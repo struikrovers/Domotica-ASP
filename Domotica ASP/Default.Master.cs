@@ -12,11 +12,6 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // do not show the login header at the login page. source: https://stackoverflow.com/a/3215399
-            if (ContentPlaceHolder1.Page.GetType().BaseType.Name == "Login")
-            {
-                Header.Visible = false;
-            }
 
             if(Membership.GetUser() != null)
             {
@@ -25,9 +20,12 @@ namespace Domotica_ASP
                 username.Text = " " + Membership.GetUser().UserName;
                 if (ContentPlaceHolder1.Page.GetType().BaseType.Name == "admin")
                 {
-                    Button adminpage = (Button)MasterLogin.FindControl("AdminButton");
-                    adminpage.Text = "user";
-                    adminpage.PostBackUrl = "~/default.aspx";
+                    if (Roles.GetRolesForUser().Contains("admins"))
+                    {
+                        Button adminpage = (Button)MasterLogin.FindControl("AdminButton");
+                        adminpage.Text = "user";
+                        adminpage.PostBackUrl = "~/default.aspx";
+                    }
                 }
             }
         }

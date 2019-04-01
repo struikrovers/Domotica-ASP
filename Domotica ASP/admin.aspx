@@ -8,6 +8,41 @@
     <title>Administration </title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:LoginView ID="Login" runat="server">
+        <AnonymousTemplate>
+            <asp:Label ID="lbl" runat="server">
+                Obi-Wan: These aren't the droids you're looking for. <br><br>
+
+                Stormtrooper: These aren't the droids we're looking for. <br><br>
+
+
+                Obi-Wan: He can go about his business. <br><br>
+
+
+                Stormtrooper: You can go about your business. <br><br>
+
+
+                Obi-Wan: Move along. <br><br>
+
+
+                Stormtrooper: Move along...move along.
+                <script>
+                    setTimeout(function () { window.location.replace('login.aspx') }, 5000);
+                </script>
+            </asp:Label>
+        </AnonymousTemplate>
+        <RoleGroups>
+            <asp:RoleGroup Roles="users">
+                <ContentTemplate>
+                    <asp:Label ID="lbl" runat="server">
+                        Het ziet er naar uit dat U bij de admin interface probeert te komen maar niet de rechten daarvoor heeft, <br>
+                        als dit een fout is, neem dan contact op met uw systeembeheerder.
+                    </asp:Label><br />
+                    <asp:Button id="btn" PostBackUrl="~/default.aspx" runat="server" Text="Terug"/>
+                </ContentTemplate>
+            </asp:RoleGroup>
+        </RoleGroups>
+    </asp:LoginView>
     <div class="grid_parent" id="grid_parent" runat="server">
         <!-- DEBUG: needs at least 3 items next to each other. 
 			else the grid-gap adds an extra border.

@@ -181,7 +181,6 @@ namespace Domotica_ASP
                     }
                     else
                     {
-                        DeleteDevice_UP.ContentTemplateContainer.Controls.Clear();
                         foreach (List<string> row in GroupTable)
                         {
                             Widget widget = (Widget)LoadControl("~/UserControls/Widget.ascx");
@@ -208,9 +207,15 @@ namespace Domotica_ASP
                     Submit_AddGroupOID.submit_function = MakeGroup;
                 }
                 else
-                {
-
+                {                    
+                    grid_parent.Controls.Clear();
+                    grid_overlay.Controls.Clear();
                 }
+            }
+            else
+            {
+                grid_parent.Controls.Clear();
+                grid_overlay.Controls.Clear();
             }
         }
 

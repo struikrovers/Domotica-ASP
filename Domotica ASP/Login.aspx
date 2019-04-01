@@ -9,15 +9,8 @@
             </asp:Login>
         </AnonymousTemplate>
         <LoggedInTemplate>
-            <asp:LoginStatus ID="LoginStatus1" runat="server" />
+            
         </LoggedInTemplate>
-        <RoleGroups>
-            <asp:RoleGroup Roles="admin">
-                <ContentTemplate>
-                    Welkom admin!
-                </ContentTemplate>
-            </asp:RoleGroup>
-        </RoleGroups>
     </asp:LoginView>
     
 </asp:Content>
