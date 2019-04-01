@@ -820,5 +820,10 @@ namespace Domotica_ASP
                         "OpenUpdater();",
                         true);
         }
+
+        protected void btn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/default.aspx");
+        }
     }
 }

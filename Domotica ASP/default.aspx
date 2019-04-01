@@ -24,12 +24,12 @@
     </div>
     <asp:UpdatePanel ID="ScheduleUpdatePanel" runat="server">
         <ContentTemplate>
-            <asp:GridView ID="ScheduleDisplayer" runat="server">
+            <asp:GridView ID="ScheduleDisplayer" runat="server" CssClass="ScheduleGridView">
                 <Columns>
                     <asp:CommandField ButtonType="Button" HeaderText="Verwijderen" ShowDeleteButton="True" ShowHeader="True" />
                 </Columns>
             </asp:GridView>
-            </ContentTemplate>
+        </ContentTemplate>
     </asp:UpdatePanel>
 
     <div class="grid_overlay" id="grid_overlay" onclick="close_overlay(event, false, this)" runat="server">

@@ -38,7 +38,7 @@
                         Het ziet er naar uit dat U bij de admin interface probeert te komen maar niet de rechten daarvoor heeft, <br>
                         als dit een fout is, neem dan contact op met uw systeembeheerder.
                     </asp:Label><br />
-                    <asp:Button id="btn" PostBackUrl="~/default.aspx" runat="server" Text="Terug"/>
+                    <asp:Button id="btn" onclick="btn_Click" runat="server" Text="Terug"/>
                 </ContentTemplate>
             </asp:RoleGroup>
         </RoleGroups>

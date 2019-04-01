@@ -177,11 +177,11 @@ namespace Domotica_ASP
                     "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
                     "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID");
             }
-            List<List<string>> getSchedule_result = global.ExecuteReader(getSchedule, out string getSchedule_error);
+            List<List<string>> getSchedule_result = ExecuteReader(getSchedule, out string getSchedule_error);
             if (getSchedule_error != "")
             {
                 /* do something with the error */
-                global.generic_QueryErrorHandler(getSchedule_error);
+                generic_QueryErrorHandler(getSchedule_error);
             }
             else
             {
@@ -189,16 +189,19 @@ namespace Domotica_ASP
                 {
                     dr = dt.NewRow();
                     dr["apparaat"] = row[0].ToString();
-                    string date = "";
-                    if (row[1].Substring(4) == "-")
+                    DateTime date = Convert.ToDateTime(row[1]);
+                    string hour_add = "";
+                    string minute_add = "";
+                    if(date.Hour < 10)
                     {
-                        date = row[1].Substring(0, 3);
+                        hour_add = "0";
                     }
-                    else
+                    if(date.Minute < 10)
                     {
-                        date = row[1].Substring(0, 4);
+                        minute_add = "0";
                     }
-                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+
+                    dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
                     dr["temp"] = row[2].ToString();
                     dr["stand"] = row[3].ToString();
                     dr["hidden"] = Convert.ToDateTime(row[1]);
@@ -259,16 +262,19 @@ namespace Domotica_ASP
                 {
                     dr = dt.NewRow();
                     dr["apparaat"] = row[0].ToString();
-                    string date = "";
-                    if (row[1].Substring(4) == "-")
+                    DateTime date = Convert.ToDateTime(row[1]);
+                    string hour_add = "";
+                    string minute_add = "";
+                    if (date.Hour < 10)
                     {
-                        date = row[1].Substring(0, 3);
+                        hour_add = "0";
                     }
-                    else
+                    if (date.Minute < 10)
                     {
-                        date = row[1].Substring(0, 4);
+                        minute_add = "0";
                     }
-                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+
+                    dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
                     dr["temp"] = row[2].ToString();
                     dr["hidden"] = Convert.ToDateTime(row[1]);
                     dt.Rows.Add(dr);
@@ -326,16 +332,19 @@ namespace Domotica_ASP
                 {
                     dr = dt.NewRow();
                     dr["apparaat"] = row[0].ToString();
-                    string date = "";
-                    if (row[1].Substring(4) == "-")
+                    DateTime date = Convert.ToDateTime(row[1]);
+                    string hour_add = "";
+                    string minute_add = "";
+                    if (date.Hour < 10)
                     {
-                        date = row[1].Substring(0, 3);
+                        hour_add = "0";
                     }
-                    else
+                    if (date.Minute < 10)
                     {
-                        date = row[1].Substring(0, 4);
+                        minute_add = "0";
                     }
-                    dr["tijd"] = date + " om " + row[1].Substring(row[1].Length - 8, 5);
+
+                    dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
                     dr["stand"] = row[2].ToString();
                     dr["hidden"] = Convert.ToDateTime(row[1]);
                     dt.Rows.Add(dr);

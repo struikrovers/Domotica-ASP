@@ -34,6 +34,27 @@ body::-webkit-scrollbar {
   display: none;
 }
 
+input[type=submit], input[type=button] {
+  background-color: #f2ffffe3;
+  border: #c3e4f3 2px;
+  border-style: outset inset outset inset;
+  border-radius: 3px;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+  background-color: #ffffffed;
+  cursor: pointer;
+}
+
+input[type=text], input[type=password] {
+  background: rgba(255, 255, 255, 0.27);
+  border: none;
+  border-radius: 5px 5px 0 0;
+  border-bottom: 2px ridge #858585;
+  font-family: 'Roboto Slab', sans-serif;
+}
+
 .header {
   padding: 10px;
   background-color: #ffffffff;
@@ -44,7 +65,7 @@ body::-webkit-scrollbar {
   border-width: 0px 0px 1px 0px;
 }
 
-.header > input[type=submit] {
+.header > input[type=submit], .header input[type=button] {
   float: right;
   width: 5em;
   height: 1.7em;
@@ -57,7 +78,7 @@ body::-webkit-scrollbar {
   margin-left: 5px;
 }
 
-.header > input[type=submit]:hover {
+.header > input[type=submit]:hover, .header input[type=button]:hover {
   background-color: #ffffffed;
   cursor: pointer;
 }
@@ -510,6 +531,59 @@ form {
   top: -5.9em;
 }
 
+.ScheduleUpdatePanel {
+  justify-content: center;
+}
+
+.ScheduleUpdatePanel > div {
+  display: inline-block;
+}
+
+.ScheduleUpdatePanel > div > .ScheduleGridView > tbody {
+  border-color: #2f2f38;
+}
+
+.ScheduleUpdatePanel > div > .ScheduleGridView > tbody > tr:nth-child(1) {
+  background: #989ea6;
+  font-family: monospace;
+  box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+}
+
+.ScheduleUpdatePanel > div > .ScheduleGridView > tbody > tr {
+  background: rgba(97, 97, 97, 0.18);
+  font-family: roboto sans-serif;
+}
+
+.ScheduleUpdatePanel > div > .ScheduleGridView > tbody > tr > td > input[type=button] {
+  width: 100%;
+  height: 100%;
+  background-color: #f2ffffe3;
+  border: #c3e4f3 2px;
+  border-style: outset inset outset inset;
+  border-radius: 3px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.7em;
+}
+
+.ScheduleUpdatePanel > div > .ScheduleGridView > tbody > tr:nth-child(2n) {
+  background: rgba(97, 97, 97, 0.5);
+}
+
+.LoginView {
+  position: absolute;
+  left: calc(50% - 8em);
+  border-collapse: collapse;
+  width: 16em;
+  top: 3em;
+  background: rgba(173, 172, 172, 0.5);
+  border-radius: 5px;
+  box-shadow: 3px 3px 7px 1px #000000b5, 0 0 0px 3px #e4e4e4;
+}
+
+.LoginView > tbody {
+  border-collapse: unset;
+}
+
 .grid_child_toggable {
   background: radial-gradient(closest-side, #c8c8c8 0, #c8c8c8 58%, rgba(200, 200, 200, 0.87) 66%, rgba(200, 200, 200, 0.83) 74%, rgba(200, 200, 200, 0.76) 83%, rgba(200, 200, 200, 0.59) 92%, rgba(255, 255, 255, 0) 100%), linear-gradient(45deg, rgba(250, 250, 250, 0.2) 25%, rgba(0, 0, 0, 0) 25%, rgba(0, 0, 0, 0) 50%, rgba(250, 250, 250, 0.2) 50%, rgba(250, 250, 250, 0.2) 75%, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0) 0), #c8c8c8;
   background-position: 50% 50%, 0 0;
@@ -749,6 +823,9 @@ form {
   .widget_input div > .input_radio > table > tbody > tr > td > input[type=checkbox] {
     margin-top: -6px;
   }
+  .ScheduleGridView {
+    font-size: 0.8em;
+  }
 }
 
 @media only screen and (max-width: 360px) {
@@ -789,5 +866,8 @@ form {
   }
   .widget_input div > .input_radio > input[type=button], .widget_input div > .input_radio input[type=submit] {
     bottom: 2px;
+  }
+  .ScheduleGridView {
+    font-size: 0.8em;
   }
 }
