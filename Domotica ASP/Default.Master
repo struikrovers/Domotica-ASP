@@ -23,19 +23,21 @@
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
-<body>
+<body id="MasterBody" runat="server">
     <form runat="server" id="masterForm">
         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
         <div id="Header" class="header" runat="server">
             <asp:LoginView ID="MasterLogin" runat="server">
                 <AnonymousTemplate>
                     <input type="button" ID="LoginButton" runat="server" value="Inloggen" onclick="document.location.href='Login.aspx';"/>
+                    <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
                 </AnonymousTemplate>
                 <LoggedInTemplate>
                     <div class="WelcomeContainer">
                         <asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server" CssClass="WelcomeLabel"></asp:Label>
                     </div>
                     <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" onclick="LogoutButton_Click"/>
+                    <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
                 </LoggedInTemplate>
                 <RoleGroups>
                     <asp:RoleGroup Roles="admins">
@@ -45,6 +47,7 @@
                             </div>
                             <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" OnClick="LogoutButton_Click" />
                             <asp:Button type="button" ID="AdminButton" runat="server" Text="Admin" PostBackUrl="~/admin.aspx" />
+                            <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
                         </ContentTemplate>
                     </asp:RoleGroup>
                 </RoleGroups>

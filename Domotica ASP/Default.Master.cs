@@ -12,8 +12,13 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if(Membership.GetUser() != null)
+            if (ContentPlaceHolder1.Page.GetType().BaseType.Name == "Games")
+            {
+                Button Games = (Button)MasterLogin.FindControl("Games");
+                Games.Text = "user";
+                Games.PostBackUrl = "~/default.aspx";
+            }
+                if (Membership.GetUser() != null)
             {
                 // user is logged in
                 Label username = (Label)MasterLogin.FindControl("WelcomeLabel");
