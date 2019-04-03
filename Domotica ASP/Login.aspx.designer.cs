@@ -10,15 +10,24 @@
 namespace Domotica_ASP {
     
     
-    public partial class InputRadioCheck {
+    public partial class Login {
         
         /// <summary>
-        /// inputs control.
+        /// lbl2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl inputs;
+        protected global::System.Web.UI.WebControls.Label lbl2;
+        
+        /// <summary>
+        /// LoginView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LoginView LoginView1;
     }
 }

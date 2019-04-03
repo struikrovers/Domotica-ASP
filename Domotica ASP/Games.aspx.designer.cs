@@ -10,60 +10,51 @@
 namespace Domotica_ASP {
     
     
-    public partial class _default {
+    public partial class Games {
         
         /// <summary>
-        /// grid_parent control.
+        /// DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_parent;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
         
         /// <summary>
-        /// outputUpdatePanel control.
+        /// MultiView1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel outputUpdatePanel;
+        protected global::System.Web.UI.WebControls.MultiView MultiView1;
         
         /// <summary>
-        /// output control.
+        /// WordScrambler control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label output;
+        protected global::System.Web.UI.WebControls.View WordScrambler;
         
         /// <summary>
-        /// ScheduleUpdatePanel control.
+        /// Poker control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel ScheduleUpdatePanel;
+        protected global::System.Web.UI.WebControls.View Poker;
         
         /// <summary>
-        /// ScheduleDisplayer control.
+        /// snake control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView ScheduleDisplayer;
-        
-        /// <summary>
-        /// grid_overlay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl grid_overlay;
+        protected global::System.Web.UI.WebControls.View snake;
     }
 }

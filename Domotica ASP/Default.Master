@@ -1,0 +1,62 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Default.master.cs" Inherits="Domotica_ASP.Default" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta charset="utf-8" />
+	<title>Interface</title>
+
+	<!-- NOTE: jquery libraries:
+	<script type="text/javascript" src="//code.jquery.com/jquery-1.6.2.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.js"></script>-->
+
+	<script src="../Properties/main.js"></script>
+
+	<link rel="stylesheet" href="../Properties/base_style.css" />
+    <!-- https://fontawesome.com/v4.7.0/icons/ -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- https://fonts.google.com/specimen/Exo+2?selection.family=Exo+2:200|Open+Sans -->
+    <link href="https://fonts.googleapis.com/css?family=Exo+2:500|Roboto+Slab|Roboto:500" rel="stylesheet" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body id="MasterBody" runat="server">
+    <form runat="server" id="masterForm">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <div id="Header" class="header" runat="server">
+            <asp:LoginView ID="MasterLogin" runat="server">
+                <AnonymousTemplate>
+                    <input type="button" ID="LoginButton" runat="server" value="Inloggen" onclick="document.location.href='Login.aspx';"/>
+                    <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
+                </AnonymousTemplate>
+                <LoggedInTemplate>
+                    <div class="WelcomeContainer">
+                        <asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server" CssClass="WelcomeLabel"></asp:Label>
+                    </div>
+                    <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" onclick="LogoutButton_Click"/>
+                    <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
+                </LoggedInTemplate>
+                <RoleGroups>
+                    <asp:RoleGroup Roles="admins">
+                        <ContentTemplate>
+                            <div class="WelcomeContainer">
+                                <asp:Label ID="Welcome" runat="server" Text="Welkom"></asp:Label><asp:Label ID="WelcomeLabel" runat="server" CssClass="WelcomeLabel"></asp:Label>
+                            </div>
+                            <asp:Button type="button" ID="LogoutButton" runat="server" Text="Uitloggen" OnClick="LogoutButton_Click" />
+                            <asp:Button type="button" ID="AdminButton" runat="server" Text="Admin" PostBackUrl="~/admin.aspx" />
+                            <asp:Button type="button" ID="Games" runat="server" Text="Games" PostBackUrl="~/Games.aspx" />
+                        </ContentTemplate>
+                    </asp:RoleGroup>
+                </RoleGroups>
+            </asp:LoginView>
+        </div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        </asp:ContentPlaceHolder>
+    </form>
+	<!-- div to calculate em -->
+	<div id="em_calc" style="height:0;width:0;outline:none;border:none;padding:0;margin:0;"></div>
+</body>
+</html>

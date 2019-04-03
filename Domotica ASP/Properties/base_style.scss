@@ -1,7 +1,6 @@
 HTML{
-	font-size: 1.5em;
+	font-size: 150%;
 	font-family:"Trebuchet Ms",Helvetica,sans-serif;
-	overflow: hidden;
  	height: 100%;
  	width: 100%;
 	padding: 0px;
@@ -19,10 +18,9 @@ body{
 	padding: 0px;
 	margin-top: 0px;
 	margin: 0px;
-  	width: 100%;
-  	height: 100%;
- 	overflow: hidden;
-	text-align: center;
+	width: 100%;
+	height: 100%;
+	//text-align: center;
 
 	// https://enjoycss.com Ge denkt dat ik dit allemaal zelf ff bedenk?
 	background-image: -webkit-linear-gradient(-45deg, rgba(52,52,68,1) 0, #2b2b38 30%, #262631 56%, #1d1d21 100%);
@@ -35,6 +33,93 @@ body{
 	background-clip: border-box;
 	-webkit-background-size: auto auto;
 	background-size: auto auto;
+
+	// get rid of damn scrollbars https://stackoverflow.com/a/38994837
+	-ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+	&::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
+	}
+}
+
+input[type=submit], input[type=button]{
+	background-color: #f2ffffe3;
+	border: #c3e4f3 2px;
+	border-style: outset inset outset inset;
+	border-radius: 3px;
+	font-family: 'Roboto', sans-serif;
+	&:hover{
+		background-color: #ffffffed;
+		cursor: pointer;
+	}
+}
+
+select, .dropDownMulti {
+	background: rgba(255, 255, 255, 0.65);
+	border: none;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 2px ridge #858585;
+	font-family: 'Roboto Slab', sans-serif;
+	> option {
+		background: #d7d7d7;
+	}
+}
+
+input[type=text], input[type=password]{
+	background: rgba(255, 255, 255, 0.27);
+	border: none;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 2px ridge #858585;
+	font-family: 'Roboto Slab', sans-serif;
+}
+
+.header{
+	padding: 10px;
+	background-color: #ffffffff;
+	height: 3%;
+	background-color: #7d7d7d54;
+	box-shadow: 0px 2px 20px 2px rgba(0, 0, 0, 0.42), 8px -8px 9px 0px inset rgba(0, 0, 0, 0.19);
+	border: #15151554 solid;
+	border-width: 0px 0px 1px 0px;
+	> input[type=submit], input[type=button]{
+		float: right;
+    width: 5em;
+    height: 1.7em;
+    background-color: #f2ffffe3;
+    border: #c3e4f3 2px;
+    border-style: outset inset outset inset;
+    border-radius: 3px;
+    font-family: 'Roboto', sans-serif;
+		font-size: 0.7em;
+		margin-left: 5px;
+		&:hover{
+			background-color: #ffffffed;
+			cursor: pointer;
+		}
+	}
+	.WelcomeContainer{
+		display: inline-block;
+		position: relative;
+		float: left;
+		top: -5px;
+		background: #ffffff47;
+		padding: 5px;
+		border: 1px solid #9c9c9c;
+		border-radius: 5px 10px 5px 10px;
+		font-family: 'exo 2';
+		box-shadow: inset 0 0 7px 0 #4a4a4a, 0 0 4px 0 black;
+		> .WelcomeLabel{
+			color: #2b2bb5eb;
+		}
+	}
+	> span {
+		float: left;
+	}
+}
+
+form{
+	text-align: center;
+	height: 100%;
 }
 
 //NOTE: for using scss variables in calc() function you need to call them in #{}
@@ -61,8 +146,7 @@ $widget_border_radius: 3px;
 	position: relative;
 	background: #c8c8c8;
 	text-align: left;
-	min-width: 5em;
-	max-width: 7em;
+	width: 7em;
 	height: 6em;
 	border-radius: $widget_border_radius;
 	box-shadow: 0px 0px 12px 2px #00000094, inset 0px 0px 2px 2px #0000004a;
@@ -86,18 +170,19 @@ $widget_border_radius: 3px;
 		margin: 0px;
 		margin-left: 4px;
 		margin-top: 1px;
-		font-size: 0.8em;
+		font-size: 0.7em;
 		width: calc(100% - 8px);
 	}
 }
 
 .grid_child_header {
 	font-family: 'Roboto Slab', sans-serif;
+	font-size: 0.8em;
 	background: #10264542;
 	border-radius: 3px 3px 0 0;
 	border: solid 1px #1c363b;
 	box-shadow: inset 0px 1px 1px 0 #00000073;
-	height: 1.1em;
+	height: 1.5em;
 	//top: 0;
 }
 
@@ -107,10 +192,122 @@ $widget_border_radius: 3px;
 	height:58%;
 }
 
+.updateNotifierParent{
+	position: absolute;
+	left: calc(50% - 2.5em);
+	z-index: 4;
+	top: -10em;
+	transition: 1s top ease-out;
+	z-index: 99;
+}
+
+.updateNotifier{
+	position: relative;
+	width: 5em;
+	background: #eaeaeae0;
+	border: 2px solid #525252;
+	border-radius: 4px;
+	box-shadow: inset 0 0 2px 0px #000;
+	/* background-color: white; */
+	padding: 10px;
+}
+
+.UpdatePanelOverlay{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); 
+	grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); 
+	justify-content: center; 
+	grid-gap: 0.5em; 
+	margin-left: -2px; 
+	margin-bottom: 0.7em;
+}
+
+.timeInputField{
+	position: absolute;
+	top: 2.8em;
+	left: 0.4em;
+	width: 60%;
+	height: 1.5em;
+	background: rgba(167, 167, 167, 0.27);
+	border: none;
+	border-radius: 5px 5px 0 0;
+	border-bottom: 2px ridge #858585;
+	font-family: 'Roboto Slab', sans-serif;
+	z-index: 2;
+}
+
+.inputTimer{
+	position: absolute !important;
+	top: -10em !important;
+	right: 1.8em !important;
+	background: rgba(167, 167, 167, 0.27) !important;
+}
+
+.bounce {
+  outline: 0;
+  color: red;
+  animation-name: bounce;
+  animation-duration: .5s;
+  animation-delay: 0.25s;
+}
+
+@keyframes bounce {
+  0% {
+    transform: translateX(0px);
+    timing-function: ease-in;
+  }
+  37% {
+    transform: translateX(5px);
+    timing-function: ease-out;
+  }
+  55% {
+    transform: translateX(-5px);
+    timing-function: ease-in;
+  }
+  73% {
+    transform: translateX(4px);
+    timing-function: ease-out;
+  }
+  82% {
+    transform: translateX(-4px);
+    timing-function: ease-in;
+  }
+  91% {
+    transform: translateX(2px);
+    timing-function: ease-out;
+  }
+  96% {
+    transform: translateX(-2px);
+    timing-function: ease-in;
+  }
+  100% {
+    transform: translateX(0px);
+    timing-function: ease-in;
+  }
+}
+
+.submitbutton{
+	position: absolute;
+	bottom: 0.2em;
+	left: 0.2em;
+	background-color: #d2d2d2e3;
+	border: #d0d0d0 1.5px;
+	border-style: outset inset outset inset;
+	border-radius: 4px;
+	font-family: 'Roboto', sans-serif;
+	z-index: 3;
+	/* font-size: 0.6em; */
+	color: #383838;
+	&:hover {
+		background-color: #e2e2e2e3;
+		cursor: pointer;
+	}
+}
+
 .widget_input {
 	height: 1.2em;
-	form {
-    position: relative;
+	div {
+		position: relative;
 		z-index: 1;
 		height: 100%;
 		> .Horiz_range {
@@ -126,7 +323,7 @@ $widget_border_radius: 3px;
 				outline: 0;
 				position: absolute;
 				margin-left: 4px;
-				top: 0.8em;
+				top: -1.4em;
 				&::-webkit-slider-thumb {
 					-webkit-appearance: none;
 					background-color: #e9e9e9;
@@ -142,13 +339,13 @@ $widget_border_radius: 3px;
 			}
 			> input[type=number] {
 				width: 15%;
-				background: rgba(255, 255, 255, 0.27);
+				background: rgba(167, 167, 167, 0.27);;
 				border: none;
 				border-radius: 5px 5px 0 0;
 				border-bottom: 2px ridge #858585;
 				text-align: center;
 				position: absolute;
-				top: 0.3em;
+				top: -1.8em;
 				right: 5px;
 				font-family: 'Roboto Slab', sans-serif;
 				&::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
@@ -236,24 +433,116 @@ $widget_border_radius: 3px;
 		}
 		> .input_radio {
 			position: absolute;
-			top: -3.6em;
+			top: -3.4em;
 			bottom: 0;
 			left: 5px;
-			> .input_radiocheck {
-				font-size: 0.7em;
-				> input[type=radio] {
-					margin-top: -1px;
-					vertical-align: middle;
+			height: auto;
+    	display: inline-block;
+			> br {
+				margin: -10px 0;
+				display: block;
+				content: "";
+			}
+			> table {
+				font-size: 0.55em;
+				display: inline-block;
+				> tbody{
+					>tr {
+						>td {
+							> input[type=radio] {
+								margin-top: -3px;
+								vertical-align: middle;
+							}
+							> input[type=checkbox] {
+								margin-top: -1px;
+								vertical-align: middle;
+							}
+						}
+					}
 				}
 			}
 			> input[type=button], input[type=submit]{
+				bottom: 4px;
 				position: absolute;
-				bottom: 5px;
 			}
 		}
 		> .input_checkbox{
 
 		}
+		> div {
+			> select, .dropDownMulti {
+				position: absolute;
+				left: 0.3em;
+				height: 1.7em;
+				width: 75%;
+				background: rgba(162, 162, 162, 0.27);
+				border: none;
+				border-radius: 5px 5px 0 0;
+				border-bottom: 2px ridge #858585;
+				font-family: 'Roboto Slab', sans-serif;
+				> option {
+					background: #d7d7d7;
+				}
+			}
+			> select {
+				top: -3.8em;
+				
+			}
+			> .dropDownMulti {
+				top: -5.9em;
+
+			}
+		}
+	}
+}
+
+.ScheduleUpdatePanel{
+	justify-content: center;
+	> div{
+		display: inline-block;
+		> .ScheduleGridView{
+			> tbody{
+				border-color: #2f2f38;
+				> tr:nth-child(1){
+					background: #989ea6;
+					font-family: monospace;
+					box-shadow: inset 0px 0px 5px 0px rgba(0, 0, 0, 0.55);
+				}
+				> tr{
+					background: rgba(97, 97, 97, 0.18);
+					font-family: roboto sans-serif;
+					> td{
+						> input[type=button]{
+							width:100%;
+							height: 100%;
+							background-color: #f2ffffe3;
+							border: #c3e4f3 2px;
+							border-style: outset inset outset inset;
+							border-radius: 3px;
+							font-family: 'Roboto', sans-serif;
+							font-size: 0.7em;
+						}
+					}
+				}
+				> tr:nth-child(2n){
+					background: rgba(97, 97, 97, 0.5);				
+				}
+			}
+		}
+	}
+}
+
+.LoginView {
+	position: absolute;
+	left: calc(50% - 8em);
+	border-collapse: collapse;
+	width: 16em;
+	top: 3em;
+	background: rgba(173, 172, 172, 0.5);
+	border-radius: 5px;
+	box-shadow: 3px 3px 7px 1px #000000b5, 0 0 0px 3px #e4e4e4;
+	>tbody{
+		border-collapse: unset;
 	}
 }
 
@@ -309,17 +598,8 @@ $widget_border_radius: 3px;
     top: 5px;
     display: inline-block;
     width: 1.3em;
-    height: 0.8em;
-
-	input {
-		opacity: 0;
-		width: 0;
-		height: 0;
-	}
-}
-
-.Toggle_checkbox:checked ~ .toggableCheckbox_span{
-	box-shadow: 0px 0px 3px 3px #3f9d2f9e;
+		height: 0.8em;
+		z-index: 1;
 }
 
 /* The slider */
@@ -336,8 +616,8 @@ $widget_border_radius: 3px;
 	content: "";
 	height: 0.6em;
 	width: 0.6em;
-	left: 2px;
-	top: 2px;
+	left: 0.1em;
+	top: 0.08em;
 	background-color: white;
 	-webkit-transition: .4s;
 	transition: .4s;
@@ -345,13 +625,17 @@ $widget_border_radius: 3px;
 }
 
 $transform: 0.5em;
-.Toggle_checkbox:checked ~ .toggle_switch > .toggle_slider {
+.Toggle_Checkbox:checked ~ .toggle_switch > .toggle_slider {
 	background-color: #08a50eed;
 	&:before {
 		-webkit-transform: translateX($transform);
 		-ms-transform: translateX($transform);
 		transform: translateX($transform);
 	}
+}
+
+.Toggle_Checkbox:checked ~ .toggableCheckbox_span{
+	box-shadow: 0px 0px 3px 3px #3f9d2f9e;
 }
 
   /* Rounded sliders */
@@ -365,10 +649,10 @@ $transform: 0.5em;
 *:focus {outline:none !important}
 
 .settings{
-	display: inline-flex;
+	display: inline-block;
 	position: absolute;
+	top: 0px;
 	right: 5px;
-	bottom: 5px;
 	z-index: 5;
 	> .settings_icon {
 		width: 1em;
@@ -400,7 +684,7 @@ $transform: 0.5em;
 	display: inline-block;
   position: relative;
   width: 87%;
-  max-width: 15em;
+  max-width: 22.2em;
   margin-top: 1.5em;
   left: auto;
   height: 87%;
@@ -412,30 +696,47 @@ $transform: 0.5em;
 	padding-left: 10px;
 	padding-top: 10px;
 	text-align: left;
+	overflow: scroll;
+	overflow-x: hidden;
 	> .grid_child {
 		box-shadow: inset 0px 0px 0px 2px #000000ab;
     border-radius: 5px;
+	}
+	// get rid of damn scrollbars https://stackoverflow.com/a/38994837
+	-ms-overflow-style: none;  // IE 10+
+  overflow: -moz-scrollbars-none;  // Firefox
+	&::-webkit-scrollbar { 
+    display: none;  // Safari and Chrome
 	}
 }
 
 .overlay_content {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(7em, max-content));
+	grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content));
+	grid-template-columns: repeat(auto-fit, minmax(6em, max-content));
 	justify-content: center;
-	grid-gap: $grid_parent_gap; 
+	grid-gap: 0.5em;
+	margin-left: -2px; 
+	margin-bottom: 0.7em;
+}
+
+.ajaxContent{
+	display: inline-block;
+	width: 100%;
 }
 
 .overlay_closer{
-	position: absolute;
+	position: fixed;
 	display: inline-block;
 	background: #df1e1e;
 	width: 1em;
 	height: 1em;
-	right: -0.6em;
-	top: -0.6em;
+	right: 0.07em;
+	top: 1em;
 	border-radius: 48%;
 	border: 2px solid #e3e3e3e0;
 	box-shadow: inset 0 0 4px 1px #a6a5a582, -1px -1px 2px 0 #00000029;
+	z-index: 10;
 	&:hover{
 		background: #ba1c1c;
 		border: 2px solid #fffcfcdb;
@@ -457,10 +758,118 @@ $transform: 0.5em;
 }
 
 .icon_back {
-	left: -0.6em;
+	left: 0.07em;
 	right: auto;
 	background: #454545;
 	&:hover{
 		background: #787878;
+	}
+}
+
+@media only screen and (max-width: 600px){
+	.overlay_child {
+		max-width: 15em;
+	}
+}
+
+@media only screen and (max-width: 380px) {
+	HTML {
+		font-size: 140%;
+	}
+
+	.overlay_content {
+		grid-gap: 0.7em;
+	}
+
+	.widget_input div {
+		> .input_radio {
+			> table {
+				> tbody {
+					>tr {
+						>td {
+							> input[type=checkbox]{
+								margin-top: -6px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	.ScheduleGridView{
+		font-size: 0.8em;
+	}
+}
+
+@media only screen and (max-width: 360px) {
+	HTML {
+		font-size: 125%;
+	}
+
+	.overlay_content {
+		> .grid_child{
+			margin-left: -5px;
+		}
+		grid-gap: 0.7em;
+	}
+
+	.widget_input div {
+		> .Verti_range {
+			> input[type=range] {
+				top: -3.1em;
+				right: -1.6em;
+			}
+
+			> input[type=number]{
+				right: 3px;
+				top: 0em;
+			}
+		}
+
+		> .Horiz_range {
+			> input[type=range] {
+				top: 0.55em;
+
+			}
+			> input[type=number]{
+				right: 3px;
+				top: 0em;
+			}
+		}
+
+		> .input_number {
+			> input[type=number]{
+				right: 3px;
+				top: 0em;
+			}
+		}
+
+		> .input_text {
+			> input[type=text] {
+				top: -0.2em;
+				height: 70%;
+			}
+		}
+
+		> .input_radio {
+			> table {
+				> tbody {
+					>tr {
+						>td {
+							> input[type=checkbox]{
+								margin-top: -6px;
+							}
+						}
+					}
+				}
+			}
+			> input[type=button], input[type=submit]{
+				bottom: 2px;
+			}
+		}
+	}
+
+	.ScheduleGridView{
+		font-size: 0.8em;
 	}
 }
