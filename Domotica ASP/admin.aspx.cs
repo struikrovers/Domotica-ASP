@@ -18,39 +18,18 @@ namespace Domotica_ASP
                 if (Roles.GetRolesForUser().Contains("admins"))
                 {
                     outputUpdatePanel.Attributes["class"] = "updateNotifierParent";
-                    Remove_User_UP.Attributes["style"] =
-                        "display: grid; " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                        "justify-content: center; " +
-                        "grid-gap: 0.5em; " +
-                        "margin-left: -2px; " +
-                        "margin-bottom: 0.7em";
+                    Remove_User_UP.Attributes["class"] = "UpdatePanelOverlay";
 
-                    DeleteDevice_UP.Attributes["style"] =
-                        "display: grid; " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                        "justify-content: center; " +
-                        "grid-gap: 0.5em; " +
-                        "margin-left: -2px; " +
-                        "margin-bottom: 0.7em";
+                    DeleteDevice_UP.Attributes["class"] = "UpdatePanelOverlay";
 
-                    DeleteGroup_UP.Attributes["style"] =
-                        "display: grid; " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content)); " +
-                        "grid-template-columns: repeat(auto-fit, minmax(6em, max-content)); " +
-                        "justify-content: center; " +
-                        "grid-gap: 0.5em; " +
-                        "margin-left: -2px; " +
-                        "margin-bottom: 0.7em";
+                    DeleteGroup_UP.Attributes["class"] = "UpdatePanelOverlay";
 
                     MySqlCommand userQuery = new MySqlCommand("SELECT username FROM users");
                     List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker);
                     if (error_gebruiker != "")
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(error_gebruiker);
+                        global.generic_QueryErrorHandler(userQuery, error_gebruiker);
                     }
                     else
                     {
@@ -94,7 +73,7 @@ namespace Domotica_ASP
                     if (error_get_pins != "")
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(error_get_pins);
+                        global.generic_QueryErrorHandler(get_busy_pins, error_get_pins);
                     }
                     else
                     {
@@ -120,7 +99,7 @@ namespace Domotica_ASP
                     if (getTypes_error != "")
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(getTypes_error);
+                        global.generic_QueryErrorHandler(getTypes, getTypes_error);
                     }
                     else
                     {
@@ -135,7 +114,7 @@ namespace Domotica_ASP
                     if (DeviceQueryError != "")
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(DeviceQueryError);
+                        global.generic_QueryErrorHandler(DeviceQuery, DeviceQueryError);
                     }
                     else
                     {
@@ -177,7 +156,7 @@ namespace Domotica_ASP
                     if (GroupQueryError != "")
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(GroupQueryError);
+                        global.generic_QueryErrorHandler(GroupQuery, GroupQueryError);
                     }
                     else
                     {
@@ -247,7 +226,7 @@ namespace Domotica_ASP
                     if (!global.ExecuteChanger(remove_user, out string remove_user_error))
                     {
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(remove_user_error);
+                        global.generic_QueryErrorHandler(remove_user, remove_user_error);
                     }
                     else
                     {
@@ -293,63 +272,40 @@ namespace Domotica_ASP
             string Device_type = input_devicetype_list.SelectedValue;
             string Device_pin = input_devicepin_list.SelectedValue;
 
-            MySqlCommand query_getTypeID = new MySqlCommand("SELECT TypeID FROM apparaattype WHERE `type` = :type");
-            query_getTypeID.Parameters.Add("type", Device_type);
-            List<List<string>> getTypeID_result = global.ExecuteReader(query_getTypeID, out string getTypeID_error);
-            if (getTypeID_error != "")
+            MySqlCommand query_addapp = new MySqlCommand("INSERT INTO apparaat (`TypeID`, `naam`) SELECT typeID, :naam FROM apparaattype WHERE `type` = :type");
+            query_addapp.Parameters.Add("type", Device_type);
+            query_addapp.Parameters.Add("naam", Device_name.Text);
+            if(!global.ExecuteChanger(query_addapp, out string addapp_error))
             {
-                /* do something with the error */
-                global.generic_QueryErrorHandler(getTypeID_error);
-            }
-            else
-            {
-                MySqlCommand query_addapp = new MySqlCommand("INSERT INTO apparaat (`TypeID`, `naam`) VALUES (:type, :naam)");
-                query_addapp.Parameters.Add("type", getTypeID_result[0][0]);
-                query_addapp.Parameters.Add("naam", Device_name.Text);
-                if(!global.ExecuteChanger(query_addapp, out string addapp_error))
+                if (addapp_error.Contains("Duplicate entry"))
                 {
-                    if (addapp_error.Contains("Duplicate entry"))
-                    {
-                        output.Text = "apparaatnaam bestaat al";
-                    }
-                    else
-                    {
-                        global.generic_QueryErrorHandler(addapp_error);
-                    }
+                    output.Text = "apparaatnaam bestaat al";
                 }
                 else
-                { 
-                    MySqlCommand query_appid = new MySqlCommand("SELECT apparaatID FROM apparaat WHERE naam = :naam");
-                    query_appid.Parameters.Add("naam", Device_name.Text);
-                    List<List<string>> appid = global.ExecuteReader(query_appid, out string query_appid_error);
-                    if (query_appid_error != "")
-                    {
-                        /* do something with the error */
-                        global.generic_QueryErrorHandler(query_appid_error);
-                    }
-                    else
-                    {
-                        MySqlCommand query_addpin = new MySqlCommand("INSERT INTO pin VALUES (:appID, :pinnr)");
-                        query_addpin.Parameters.Add("appID", appid[0][0]);
-                        query_addpin.Parameters.Add("pinnr", Device_pin);
-                        if (!global.ExecuteChanger(query_addpin, out string query_addpin_error))
-                        {
-                            /* do something with the error */
-                            global.generic_QueryErrorHandler(query_addpin_error);
-                        }
-                        else
-                        {
-                            output.Text = string.Format("Apparaat: {0} toegevoegd", Device_name.Text);
-                            Response.Redirect(Request.Url.AbsolutePath, true);
-                            Page.ClientScript.RegisterStartupScript(
-                                GetType(),
-                                "show_output",
-                                "OpenUpdater();",
-                                true);
-                        }
-                    }
+                {
+                    global.generic_QueryErrorHandler(query_addapp, addapp_error);
                 }
-                
+            }
+            else
+            { 
+                MySqlCommand query_addpin = new MySqlCommand("INSERT INTO pin (`apparaatID`, `pinnr`) SELECT APPARAATID, :pinnr FROM apparaat WHERE naam = :naam");
+                query_addpin.Parameters.Add("naam", Device_name.Text);
+                query_addpin.Parameters.Add("pinnr", Device_pin);
+                if (!global.ExecuteChanger(query_addpin, out string query_addpin_error))
+                {
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(query_addpin, query_addpin_error);
+                }
+                else
+                {
+                    output.Text = string.Format("Apparaat: {0} toegevoegd", Device_name.Text);
+                    Response.Redirect(Request.Url.AbsolutePath, true);
+                    Page.ClientScript.RegisterStartupScript(
+                        GetType(),
+                        "show_output",
+                        "OpenUpdater();",
+                        true);
+                }
             }
         }
 
@@ -381,7 +337,7 @@ namespace Domotica_ASP
                     if (!global.ExecuteChanger(remove_device, out string remove_device_error))
                     {
                         /* do something with the error */
-                        output.Text = remove_device_error;
+                        global.generic_QueryErrorHandler(remove_device, remove_device_error);
                     }
                     else
                     {
@@ -447,75 +403,47 @@ namespace Domotica_ASP
             }
 
             bool finished = true;
-            string error = "";
             MySqlCommand create_group = new MySqlCommand("INSERT INTO `group` (`groepnaam`) VALUES (:gpnaam)");
             create_group.Parameters.Add("gpnaam", GroupName.Text);
-            if (global.ExecuteChanger(create_group, out string create_group_error))
-            {
-                MySqlCommand get_GPid = new MySqlCommand("SELECT GROUPID FROM `group` WHERE groepnaam = :gpnaam");
-                get_GPid.Parameters.Add("gpnaam", GroupName.Text);
-                List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error);
-                if (get_GPnaam_error != "") {
-                    /* do something with the error */
-                    global.generic_QueryErrorHandler(get_GPnaam_error);
-                }
-                else
-                {
-                    foreach (string user in users)
-                    {
-                        MySqlCommand get_userID = new MySqlCommand("SELECT id FROM users WHERE username = :naam");
-                        get_userID.Parameters.Add("naam", user);
-                        List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error);
-                        if (get_userID_error != "") {
-                            finished = false;
-                            error = get_userID_error;
-                        }
-                        else
-                        {
-                            MySqlCommand set_users_ingroup = new MySqlCommand("INSERT INTO neemtdeelaan(`USERID`, `GROUPID`) VALUES(:userid, :gpid)");
-                            set_users_ingroup.Parameters.Add("userid", UserID[0][0]);
-                            set_users_ingroup.Parameters.Add("gpid", GPid[0][0]);
-                            if (!global.ExecuteChanger(set_users_ingroup, out string set_users_error)){
-                                finished = false;
-                                error = set_users_error;
-                            }
-                        }
-                    }
-                    foreach (string device in devices)
-                    {
-                        MySqlCommand get_appID = new MySqlCommand("SELECT APPARAATID FROM apparaat WHERE naam = :naam");
-                        get_appID.Parameters.Add("naam", device);
-                        List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error);
-                        if (get_appID_error != "") {
-                            finished = false;
-                            error = get_appID_error;
-                        }
-                        else
-                        {
-                            MySqlCommand set_devices_access = new MySqlCommand("INSERT INTO heefttoegangtot VALUES(:gpid, :appid, :bit)");
-                            set_devices_access.Parameters.Add("gpid", GPid[0][0]);
-                            set_devices_access.Parameters.Add("appid", appID[0][0]);
-                            set_devices_access.Parameters.Add("bit", true);
-                            if (!global.ExecuteChanger(set_devices_access, out string set_devices_error))
-                            {
-                                finished = false;
-                                error = set_devices_error;
-                            }
-                        }
-                    }
-                }
-            }
-            else
+            if (!global.ExecuteChanger(create_group, out string create_group_error))
             {
                 if (create_group_error.Contains("Duplicate entry"))
                 {
-                    error = "apparaatnaam bestaat al";
+                    output.Text = "groepnaam bestaat al";
                 }
                 else
                 {
-                    error = create_group_error;
+                    /* do something with the error */
+                    global.generic_QueryErrorHandler(create_group, create_group_error);
                 }
                 finished = false;
+            }
+            else
+            {
+                foreach (string user in users)
+                {
+                    MySqlCommand set_users_ingroup = new MySqlCommand("INSERT INTO neemtdeelaan(`USERID`, `GROUPID`) SELECT users.id, `group`.GROUPID FROM users, `group` WHERE groepnaam = :gpnaam AND users.username = :username");
+                    set_users_ingroup.Parameters.Add("username", user);
+                    set_users_ingroup.Parameters.Add("gpnaam", GroupName.Text);
+                    if (!global.ExecuteChanger(set_users_ingroup, out string set_users_error)){
+                        finished = false;
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(set_users_ingroup, set_users_error);
+                    }
+                }
+                foreach (string device in devices)
+                {
+                    MySqlCommand set_devices_access = new MySqlCommand("INSERT INTO heefttoegangtot SELECT `group`.GROUPID, `apparaat`.apparaatid, :bit FROM `group`, apparaat WHERE `group`.groepnaam = :gpnaam AND apparaat.naam = :naam");
+                    set_devices_access.Parameters.Add("gpnaam", GroupName.Text);
+                    set_devices_access.Parameters.Add("naam", device);
+                    set_devices_access.Parameters.Add("bit", true);
+                    if (!global.ExecuteChanger(set_devices_access, out string set_devices_error))
+                    {
+                        finished = false;
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(set_devices_access, set_devices_error);
+                    }
+                }
             }
             if (finished)
             {
@@ -526,18 +454,6 @@ namespace Domotica_ASP
                     "show_output",
                     "OpenUpdater();",
                     true);
-            }
-            else
-            {
-                if (error != "apparaatnaam bestaat al")
-                {
-                    /* do something with the error */
-                    global.generic_QueryErrorHandler(error);
-                }
-                else
-                {
-                    output.Text = error;
-                }
             }
         }
 
@@ -568,7 +484,7 @@ namespace Domotica_ASP
                     if (!global.ExecuteChanger(remove_group, out string remove_device_error))
                     {
                         /* do something with the error */
-                        output.Text = remove_device_error;
+                        global.generic_QueryErrorHandler(remove_group, remove_device_error);
                     }
                     else
                     {
@@ -614,9 +530,13 @@ namespace Domotica_ASP
             string selected_group = GroupDDlist.SelectedValue;
             MySqlCommand delete_group = new MySqlCommand("DELETE FROM `group` WHERE groepnaam = :gpnaam");
             delete_group.Parameters.Add("gpnaam", selected_group);
-            string error = "";
             bool finished = true;
-            if (global.ExecuteChanger(delete_group, out string delete_group_error))
+            if (!global.ExecuteChanger(delete_group, out string delete_group_error))
+            {
+                /* do something with the error */
+                global.generic_QueryErrorHandler(delete_group, delete_group_error);
+            }
+            else
             {
                 List<string> users = new List<string>();
                 List<string> devices = new List<string>();
@@ -647,98 +567,52 @@ namespace Domotica_ASP
                 
                 MySqlCommand create_group = new MySqlCommand("INSERT INTO `group` (`groepnaam`) VALUES (:gpnaam)");
                 create_group.Parameters.Add("gpnaam", GroupDDlist.SelectedValue);
-                if (global.ExecuteChanger(create_group, out string create_group_error))
-                {
-                    MySqlCommand get_GPid = new MySqlCommand("SELECT GROUPID FROM `group` WHERE groepnaam = :gpnaam");
-                    get_GPid.Parameters.Add("gpnaam", GroupDDlist.SelectedValue);
-                    List<List<string>> GPid = global.ExecuteReader(get_GPid, out string get_GPnaam_error);
-                    if (get_GPnaam_error != "")
-                    {
-                        finished = false;
-                        error = get_GPnaam_error;
-                    }
-                    else
-                    {
-                        foreach (string user in users)
-                        {
-                            MySqlCommand get_userID = new MySqlCommand("SELECT id FROM users WHERE username = :naam");
-                            get_userID.Parameters.Add("naam", user);
-                            List<List<string>> UserID = global.ExecuteReader(get_userID, out string get_userID_error);
-                            if (get_userID_error != "")
-                            {
-                                finished = false;
-                                error = get_userID_error;
-                            }
-                            else
-                            {
-                                MySqlCommand set_users_ingroup = new MySqlCommand("INSERT INTO neemtdeelaan(`USERID`, `GROUPID`) VALUES(:userid, :gpid)");
-                                set_users_ingroup.Parameters.Add("userid", UserID[0][0]);
-                                set_users_ingroup.Parameters.Add("gpid", GPid[0][0]);
-                                if (!global.ExecuteChanger(set_users_ingroup, out string set_users_error))
-                                {
-                                    finished = false;
-                                    error = set_users_error;
-                                }
-                            }
-                        }
-                        foreach (string device in devices)
-                        {
-                            MySqlCommand get_appID = new MySqlCommand("SELECT APPARAATID FROM apparaat WHERE naam = :naam");
-                            get_appID.Parameters.Add("naam", device);
-                            List<List<string>> appID = global.ExecuteReader(get_appID, out string get_appID_error);
-                            if (get_appID_error != "")
-                            {
-                                finished = false;
-                                error = get_appID_error;
-                            }
-                            else
-                            {
-                                MySqlCommand set_devices_access = new MySqlCommand("INSERT INTO heefttoegangtot VALUES(:gpid, :appid, :bit)");
-                                set_devices_access.Parameters.Add("gpid", GPid[0][0]);
-                                set_devices_access.Parameters.Add("appid", appID[0][0]);
-                                set_devices_access.Parameters.Add("bit", true);
-                                if (!global.ExecuteChanger(set_devices_access, out string set_devices_error))
-                                {
-                                    finished = false;
-                                    error = set_devices_error;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
+                if (!global.ExecuteChanger(create_group, out string create_group_error))
                 {
                     if (create_group_error.Contains("Duplicate entry"))
                     {
-                        error = "apparaatnaam bestaat al";
+                        output.Text = "groepnaam bestaat al";
                     }
                     else
                     {
-                        error = create_group_error;
+                        /* do something with the error */
+                        global.generic_QueryErrorHandler(create_group, create_group_error);
                     }
                     finished = false;
                 }
-            }
-            else
-            {
-                error = delete_group_error;
+                else
+                {
+                    foreach (string user in users)
+                    {
+                        MySqlCommand set_users_ingroup = new MySqlCommand("INSERT INTO neemtdeelaan(`USERID`, `GROUPID`) SELECT users.id, `group`.GROUPID FROM users, `group` WHERE groepnaam = :gpnaam AND users.username = :username");
+                        set_users_ingroup.Parameters.Add("username", user);
+                        set_users_ingroup.Parameters.Add("gpnaam", GroupDDlist.SelectedValue);
+                        if (!global.ExecuteChanger(set_users_ingroup, out string set_users_error))
+                        {
+                            finished = false;
+                            /* do something with the error */
+                            global.generic_QueryErrorHandler(set_users_ingroup, set_users_error);
+                        }
+                    }
+                    foreach (string device in devices)
+                    {
+                        MySqlCommand set_devices_access = new MySqlCommand("INSERT INTO heefttoegangtot SELECT `group`.GROUPID, `apparaat`.apparaatid, :bit FROM `group`, apparaat WHERE `group`.groepnaam = :gpnaam AND apparaat.naam = :naam");
+                        set_devices_access.Parameters.Add("gpnaam", GroupDDlist.SelectedValue);
+                        set_devices_access.Parameters.Add("naam", device);
+                        set_devices_access.Parameters.Add("bit", true);
+                        if (!global.ExecuteChanger(set_devices_access, out string set_devices_error))
+                        {
+                            finished = false;
+                            /* do something with the error */
+                            global.generic_QueryErrorHandler(set_devices_access, set_devices_error);
+                        }
+                    }
+                }
             }
             if (finished)
             {
                 output.Text = string.Format("Groep: {0} Veranderd", GroupDDlist.SelectedValue);
                 ModifyGroup_Selected(GroupDDlist.SelectedValue);
-            }
-            else
-            {
-                if (error != "apparaatnaam bestaat al")
-                {
-                    /* do something with the error */
-                    global.generic_QueryErrorHandler(error);
-                }
-                else
-                {
-                    output.Text = error;
-                }
             }
         }
 
@@ -759,6 +633,7 @@ namespace Domotica_ASP
             List<List<string>> changeActiveGroup_result = global.ExecuteReader(changeActiveGroup_query, out string changeActiveGroup_error);
             if (changeActiveGroup_error != "")
             {
+                global.generic_QueryErrorHandler(changeActiveGroup_query, changeActiveGroup_error);
                 /* do something with the error */
             }
             else

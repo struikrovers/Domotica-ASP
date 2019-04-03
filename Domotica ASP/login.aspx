@@ -3,21 +3,16 @@
     <title>Login page</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <asp:Label ID="lbl2" runat="server"></asp:Label>
     <asp:LoginView ID="LoginView1" runat="server">
         <AnonymousTemplate>
-            <asp:Login ID="Login1" runat="server">
+            <asp:Login ID="Login1" runat="server" CssClass="LoginView" EnableTheming="False" DestinationPageUrl="~/default.aspx">
             </asp:Login>
         </AnonymousTemplate>
         <LoggedInTemplate>
-            <asp:LoginStatus ID="LoginStatus1" runat="server" />
+            <asp:label ID="lbl" Text="U bent al ingelogt, ga verder naar de standaard pagina:" runat="server"></asp:label>
+            <asp:Button ID="btn" Text="Terug" OnClick="btn_Click" runat="server" />
         </LoggedInTemplate>
-        <RoleGroups>
-            <asp:RoleGroup Roles="admin">
-                <ContentTemplate>
-                    Welkom admin!
-                </ContentTemplate>
-            </asp:RoleGroup>
-        </RoleGroups>
     </asp:LoginView>
     
 </asp:Content>

@@ -12,31 +12,10 @@ namespace Domotica_ASP
 {
     public partial class _default : System.Web.UI.Page
     {
-
-        // source: http://www.alexandre-gomes.com/?p=137
-        private class ProgressTemplate : ITemplate
-        {
-            #region ITemplate Members
-
-            public void InstantiateIn(Control container)
-            { }
-
-            #endregion
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
             outputUpdatePanel.Attributes["class"] = "updateNotifierParent";
             ScheduleUpdatePanel.Attributes["class"] = "ScheduleUpdatePanel";
-            //SELECT DISTINCT h.APPARAATID, a.naam FROM heefttoegangtot AS h INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID
-            //WHERE h.GROUPID IN(
-            //    SELECT `GROUPID` FROM neemtdeelaan
-
-            //    WHERE `userid` IN (
-            //        SELECT `userid` FROM user WHERE `gebruikersnaam` = :gbnaam
-            // )
-            //)
-            // query to get the device id's and names of the devices the user has access to.
 
             if (Membership.GetUser() != null)
             {
@@ -47,7 +26,7 @@ namespace Domotica_ASP
                 if (apparaatError != "")
                 {
                     /* do something with the error */
-                    global.generic_QueryErrorHandler(apparaatError);
+                    global.generic_QueryErrorHandler(apparaatquery, apparaatError);
                 }
                 else
                 {
@@ -59,7 +38,7 @@ namespace Domotica_ASP
                     if (IDError != "")
                     { 
                         /* do something with the error */
-                        global.generic_QueryErrorHandler(IDError);
+                        global.generic_QueryErrorHandler(apparatIDSMetOverlay, IDError);
                     }
                     else
                     {
@@ -80,7 +59,7 @@ namespace Domotica_ASP
                             if (overlayQueryError != "")
                             { 
                                 /* do something with the error */
-                                global.generic_QueryErrorHandler(overlayQueryError);
+                                global.generic_QueryErrorHandler(overlayQuery, overlayQueryError);
                             }
                             else
                             {
@@ -102,7 +81,7 @@ namespace Domotica_ASP
                                 slider.in_type = "ver_slider";
                                 slider.minvalue = int.Parse(overlayQueryResult[0][0]);
                                 slider.maxvalue = int.Parse(overlayQueryResult[0][1]);
-                                slider.stanvalue = int.Parse(overlayQueryResult[0][0]); // change this to value in database
+                                slider.stanvalue = int.Parse(overlayQueryResult[0][0]);
                                 slider.ID = "ver_slider";
                                 // add the slider to the <Input> place holder
                                 InputPlaceHolder.Controls.Add(slider);
@@ -159,12 +138,6 @@ namespace Domotica_ASP
                                 // set the <Input> place holder from the widget to the created place holder
                                 widget.Input = InputPlaceHolder;
 
-                                // ajax:
-                                // create the updatepanel
-                                //UpdatePanel UpdatePanelWidget = new UpdatePanel();
-                                //UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
-                                //UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
-
                                 // add the widget to the grid
                                 grid_parent.Controls.Add(widget);
                             }
@@ -177,7 +150,7 @@ namespace Domotica_ASP
                             if (InputQueryError != "")
                             {
                                 /* do something with the error */
-                                global.generic_QueryErrorHandler(InputQueryError);
+                                global.generic_QueryErrorHandler(InputTypeQuery, InputQueryError);
                             }
                             else
                             {
@@ -198,13 +171,8 @@ namespace Domotica_ASP
                                     widget.submittable = true;
                                     widget.input_types = new string[] { input_type[1] };
 
-                                    // ajax:
-                                    // create the updatepanel
-                                    UpdatePanel UpdatePanelWidget = new UpdatePanel();
-                                    UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
-                                    UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
                                     // add the widget to the grid
-                                    grid_parent.Controls.Add(UpdatePanelWidget);
+                                    grid_parent.Controls.Add(widget);
                                 }
                                 // create a widget with a special input type
                                 else
@@ -225,10 +193,11 @@ namespace Domotica_ASP
 
                                     // create InputFields user control
                                     InputFields input = (InputFields)LoadControl("~/UserControls/InputFields.ascx");
-                                    input.ID = input_type[1]; //input_type[1] + "_" + 
+                                    input.ID = input_type[1];
 
                                     int type; // the type index from the dictionary
-                                    if (!global.listTypes.TryGetValue(input_type[1], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from apparaat: {0}", row[0])); } // throw an error if the input type from the database does not exist
+                                    // throw an error if the input type from the database does not exist
+                                    if (!global.listTypes.TryGetValue(input_type[1], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from apparaat: {0}", row[0])); } 
                                     else
                                     {
                                         // get the device specs such as "min/max" or "stand"
@@ -247,14 +216,13 @@ namespace Domotica_ASP
                                         if (appSpecError != "")
                                         {
                                             /* do something with the error */
-                                            global.generic_QueryErrorHandler(appSpecError);
+                                            global.generic_QueryErrorHandler(getAppSpec, appSpecError);
                                         }
                                         else
                                         {
                                             // create the <__radio> or <__DropList> placeholder
                                             PlaceHolder ListPH = new PlaceHolder();
-                                            //ListPH.ID = "ListPH"; needed?
-
+                                            
                                             // set the special input parameters of the widget
                                             switch (type)
                                             {
@@ -333,11 +301,6 @@ namespace Domotica_ASP
                                     inputPH.Controls.Add(input);
                                     // set the widget <input> placeholder to inputPH
                                     widget.Input = inputPH;
-                                    // ajax:
-                                    // create the updatepanel
-                                    //UpdatePanel UpdatePanelWidget = new UpdatePanel();
-                                    //UpdatePanelWidget.ID = "UpdatePanel_" + row[1];
-                                    //UpdatePanelWidget.ContentTemplateContainer.Controls.Add(widget);
 
                                     // add the widget to the grid
                                     grid_parent.Controls.Add(widget);
@@ -397,8 +360,9 @@ namespace Domotica_ASP
                 MySqlCommand removeSchedule = new MySqlCommand("DELETE FROM schakelschema WHERE (`apparaatid` IN (SELECT `apparaatid` FROM apparaat WHERE `naam` = :naam)) AND (`tijd` = :tijd)");
                 removeSchedule.Parameters.Add("naam", DC[1].Text);
                 removeSchedule.Parameters.Add("tijd", Convert.ToDateTime(DC[5].Text));
-                if (!global.ExecuteChanger(removeSchedule, out string error))
+                if (!global.ExecuteChanger(removeSchedule, out string removeSchedule_error))
                 {
+                    global.generic_QueryErrorHandler(removeSchedule, removeSchedule_error);
                     /* do something with the error */
                 }
                 else

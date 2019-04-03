@@ -37,11 +37,6 @@ namespace Domotica_ASP
                 input.Visible = false;
             }
 
-            if (timeField)
-            {
-                //timeInput.Text = DateTime.Now.Hour.ToString() + ":" + DateTime.Now.Minute.ToString() + "-" + DateTime.Now.Day.ToString();
-            }
-
             overlayID = "ContentPlaceHolder1_" + overlayID;
 
             toggable.Visible = toggle;
@@ -93,7 +88,8 @@ namespace Domotica_ASP
                     {
                         InputFields InputField = (InputFields)Input.FindControl(input_types[i]);
                         int type; // the type index from the dictionary
-                        if (!global.listTypes.TryGetValue(input_types[i], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from widget: {0}", ID)); } // throw an error if the input type from the database does not exist
+                        // throw an error if the input type from the database does not exist
+                        if (!global.listTypes.TryGetValue(input_types[i], out type)) { throw new inputTypeException(string.Format("Given Input type does not exist! from widget: {0}", ID)); } 
                         else
                         {
                             switch (type)
@@ -183,7 +179,7 @@ namespace Domotica_ASP
             if (error != "")
             {
                 /* do something with the error */
-                global.generic_QueryErrorHandler(error);
+                throw new QueryErrorException(error);
             }
             else
             {

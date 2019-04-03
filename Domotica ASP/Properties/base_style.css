@@ -191,6 +191,16 @@ form {
   padding: 10px;
 }
 
+.UpdatePanelOverlay {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6em, -webkit-max-content));
+  grid-template-columns: repeat(auto-fit, minmax(6em, max-content));
+  justify-content: center;
+  grid-gap: 0.5em;
+  margin-left: -2px;
+  margin-bottom: 0.7em;
+}
+
 .timeInputField {
   position: absolute;
   top: 2.8em;

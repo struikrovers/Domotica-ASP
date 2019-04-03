@@ -14,10 +14,12 @@ namespace Domotica_ASP
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Membership.GetUser() != null)
-            {
-                Response.Redirect("~/Default.aspx");
-            }
+            
+        }
+
+        protected void btn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("~/default.aspx");
         }
     }
 }
