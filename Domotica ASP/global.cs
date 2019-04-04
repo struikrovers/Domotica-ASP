@@ -147,37 +147,12 @@ namespace Domotica_ASP
             dt.Columns.Add(new DataColumn("hidden", typeof(DateTime)));
 
             // get the devices with multiple values
-            MySqlCommand getSchedule;
-            if (Membership.GetUser() != null)
-            {
-                getSchedule = new MySqlCommand("SELECT naam, tijd, temperatuur, `stand` " +
-                    "FROM temp " +
-                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
+            MySqlCommand getSchedule = new MySqlCommand(
+                    "SELECT naam, ss.tijd, temp.temperatuur, `stand`.stand " +
+                    "FROM `stand` " +
+                    "RIGHT JOIN schakelschema AS ss ON ss.SCHAKELID = `stand`.SCHAKELID " +
                     "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
-                    "WHERE apparaat.apparaatID IN (" +
-                        "SELECT DISTINCT h.APPARAATID " +
-                        "FROM heefttoegangtot AS h " +
-                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
-                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
-                        "WHERE h.GROUPID IN( " +
-                            "SELECT `GROUPID` " +
-                            "FROM neemtdeelaan " +
-                            "WHERE `userid` IN(" +
-                                "SELECT `userid` " +
-                                "FROM users " +
-                                "WHERE `username` = :gbnaam)))");
-                getSchedule.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-            }
-            else
-            {
-                getSchedule = new MySqlCommand(
-                    "SELECT naam, tijd, temperatuur, `stand` " +
-                    "FROM temp " +
-                    "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID");
-            }
+                    "LEFT JOIN temp ON temp.SCHAKELID = ss.SCHAKELID");
             List<List<string>> getSchedule_result = ExecuteReader(getSchedule, out string getSchedule_error);
             if (getSchedule_error != "")
             {
@@ -205,148 +180,6 @@ namespace Domotica_ASP
                     dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
                     dr["temp"] = row[2].ToString();
                     dr["stand"] = row[3].ToString();
-                    dr["hidden"] = Convert.ToDateTime(row[1]);
-                    dt.Rows.Add(dr);
-                }
-            }
-
-            // get the devices with single temp value
-            MySqlCommand getSchedule_single_temp;
-            if (Membership.GetUser() != null)
-            {
-                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
-                    "FROM temp " +
-                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
-                    "WHERE naam NOT IN(" +
-                        "SELECT naam " +
-                        "FROM temp " +
-                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
-                    "AND apparaat.apparaatID IN (" +
-                        "SELECT DISTINCT h.APPARAATID " +
-                        "FROM heefttoegangtot AS h " +
-                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
-                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
-                        "WHERE h.GROUPID IN( " +
-                            "SELECT `GROUPID` " +
-                            "FROM neemtdeelaan " +
-                            "WHERE `userid` IN(" +
-                                "SELECT `userid` " +
-                                "FROM users " +
-                                "WHERE `username` = :gbnaam)))");
-                getSchedule_single_temp.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-            }
-            else
-            {
-                getSchedule_single_temp = new MySqlCommand("SELECT naam, tijd, temperatuur " +
-                    "FROM temp " +
-                    "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
-                    "WHERE naam NOT IN ( " +
-                        "SELECT naam " +
-                        "FROM temp " +
-                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
-            }
-            List<List<string>> getSchedule_single_temp_result = ExecuteReader(getSchedule_single_temp, out string getSchedule_single_temp_error);
-            if (getSchedule_single_temp_error != "")
-            {
-                /* do something with the error */
-                generic_QueryErrorHandler(getSchedule_single_temp, getSchedule_single_temp_error);
-            }
-            else
-            {
-                foreach (List<string> row in getSchedule_single_temp_result)
-                {
-                    dr = dt.NewRow();
-                    dr["apparaat"] = row[0].ToString();
-                    DateTime date = Convert.ToDateTime(row[1]);
-                    string hour_add = "";
-                    string minute_add = "";
-                    if (date.Hour < 10)
-                    {
-                        hour_add = "0";
-                    }
-                    if (date.Minute < 10)
-                    {
-                        minute_add = "0";
-                    }
-
-                    dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
-                    dr["temp"] = row[2].ToString();
-                    dr["hidden"] = Convert.ToDateTime(row[1]);
-                    dt.Rows.Add(dr);
-                }
-            }
-
-            // get the devices with single stand value
-            MySqlCommand getSchedule_single_stand;
-            if (Membership.GetUser() != null)
-            {
-                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
-                    "FROM stand INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
-                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
-                    "WHERE naam NOT IN ( " +
-                        "SELECT naam FROM temp " +
-                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)" +
-                    "AND apparaat.apparaatID IN (" +
-                        "SELECT DISTINCT h.APPARAATID " +
-                        "FROM heefttoegangtot AS h " +
-                        "INNER JOIN apparaat AS a ON h.APPARAATID = a.APPARAATID " +
-                        "INNER JOIN apparaattype AS atype ON atype.TypeID = a.TypeID " +
-                        "WHERE h.GROUPID IN( " +
-                            "SELECT `GROUPID` " +
-                            "FROM neemtdeelaan " +
-                            "WHERE `userid` IN(" +
-                                "SELECT `userid` " +
-                                "FROM users " +
-                                "WHERE `username` = :gbnaam)))");
-                getSchedule_single_stand.Parameters.Add("gbnaam", Membership.GetUser().UserName);
-            }
-            else
-            {
-                getSchedule_single_stand = new MySqlCommand("SELECT naam, tijd, `stand` " +
-                    "FROM stand " +
-                    "INNER JOIN schakelschema AS ss ON stand.SCHAKELID = ss.SCHAKELID " +
-                    "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID " +
-                    "WHERE naam NOT IN ( " +
-                        "SELECT naam " +
-                        "FROM temp " +
-                        "INNER JOIN stand ON temp.SCHAKELID = stand.SCHAKELID " +
-                        "INNER JOIN schakelschema AS ss ON temp.SCHAKELID = ss.SCHAKELID " +
-                        "INNER JOIN apparaat ON ss.APPARAATID = apparaat.APPARAATID)");
-            }
-            List<List<string>> getSchedule_single_stand_result = ExecuteReader(getSchedule_single_stand, out string getSchedule_single_stand_error);
-            if (getSchedule_single_stand_error != "")
-            {
-                /* do something with the error */
-                generic_QueryErrorHandler(getSchedule_single_stand, getSchedule_single_stand_error);
-            }
-            else
-            {
-                foreach (List<string> row in getSchedule_single_stand_result)
-                {
-                    dr = dt.NewRow();
-                    dr["apparaat"] = row[0].ToString();
-                    DateTime date = Convert.ToDateTime(row[1]);
-                    string hour_add = "";
-                    string minute_add = "";
-                    if (date.Hour < 10)
-                    {
-                        hour_add = "0";
-                    }
-                    if (date.Minute < 10)
-                    {
-                        minute_add = "0";
-                    }
-
-                    dr["tijd"] = date.Day.ToString() + "-" + date.Month.ToString() + " om " + hour_add + date.Hour.ToString() + ":" + minute_add + date.Minute.ToString();
-                    dr["stand"] = row[2].ToString();
                     dr["hidden"] = Convert.ToDateTime(row[1]);
                     dt.Rows.Add(dr);
                 }
@@ -390,7 +223,7 @@ namespace Domotica_ASP
                             "WHERE naam = :naam ) " +
                         "AND tijd = :tijd");
                     setTimer.Parameters.Add(":naam", name);
-                    setTimer.Parameters.Add(":uit_tijd", schedule.AddMinutes(Timer));
+                    setTimer.Parameters.Add(":tijd_uit", schedule.AddMinutes(Timer));
                     setTimer.Parameters.Add(":tijd", schedule);
                     if (!ExecuteChanger(setTimer, out string setTimerError))
                     {
