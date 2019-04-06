@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -72,6 +73,8 @@ namespace Domotica_ASP
 
         protected void submitBTN_Click(object sender, EventArgs e)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             Label output = (Label)Parent.FindControl("output");
             string[] UserInput = new string[3];
             output.Text = "";
@@ -176,6 +179,7 @@ namespace Domotica_ASP
             }
 
             global.updateDevices(UserInput, schedule, Timer, name, out string error);
+            stopwatch.Stop();
             if (error != "")
             {
                 /* do something with the error */
@@ -206,6 +210,7 @@ namespace Domotica_ASP
                     output.Text += " voor " + Timer.ToString() + " Minuten";
                 }
             }
+            output.Text += stopwatch.ElapsedMilliseconds.ToString();
             output.DataBind();
 
             GridView ScheduleDisplayer = (GridView)Parent.FindControl("ScheduleDisplayer");
