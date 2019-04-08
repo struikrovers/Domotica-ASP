@@ -703,13 +703,13 @@ namespace Domotica_ASP
 
         protected void ReloadPage(object sender, EventArgs e)
         {
-            Response.Redirect(Request.Url.AbsolutePath, true);
             output.Text = "Gebruiker aangemaakt";
             Page.ClientScript.RegisterStartupScript(
                         GetType(),
                         "show_output",
                         "OpenUpdater();",
                         true);
+            Response.Redirect(Request.Url.AbsolutePath, true);
         }
 
         protected void btn_Click(object sender, EventArgs e)
