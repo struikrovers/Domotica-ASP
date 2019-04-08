@@ -33,7 +33,7 @@ namespace Domotica_ASP
                     Dictionary<string, string> tableQueryComb = new Dictionary<string, string>() { { "kantemp", "`min`, `max`" }, { "kanstand", "`stand`" } };
 
                     List<string> apparaatIDSmetOverlayList = new List<string>();
-                    MySqlCommand apparatIDSMetOverlay = new MySqlCommand("SELECT DISTINCT kantemp.apparaatID, kanstand.apparaatID FROM kantemp, kanstand WHERE kantemp.apparaatID = kanstand.apparaatID");
+                    MySqlCommand apparatIDSMetOverlay = new MySqlCommand("SELECT DISTINCT kantemp.TYPEID, kanstand.TYPEID FROM kantemp, kanstand WHERE kantemp.TYPEID = kanstand.TYPEID");
                     List<List<string>> apparaatIDSmetOverlayResult = global.ExecuteReader(apparatIDSMetOverlay, out string IDError);
                     if (IDError != "")
                     { 
@@ -53,7 +53,12 @@ namespace Domotica_ASP
                         if (apparaatIDSmetOverlayList.Contains(row[0]))
                         {
                             // get multiple values
-                            MySqlCommand overlayQuery = new MySqlCommand("SELECT `min`, `max`, `stand` FROM kanstand INNER JOIN kantemp ON kanstand.APPARAATID = kantemp.APPARAATID WHERE kanstand.APPARAATID = :appID");
+                            MySqlCommand overlayQuery = new MySqlCommand("SELECT `min`, `max`, `stand` " +
+                                "FROM kanstand " +
+                                "INNER JOIN kantemp ON kanstand.TYPEID = kantemp.TYPEID " +
+                                "INNER JOIN apparaattype ON apparaattype.TypeID = kantemp.TYPEID " +
+                                "INNER JOIN apparaat ON apparaat.TYPEID = apparaattype.TypeID " +
+                                "WHERE APPARAATID = :appID");
                             overlayQuery.Parameters.Add("appID", row[0]);
                             List<List<string>> overlayQueryResult = global.ExecuteReader(overlayQuery, out string overlayQueryError);
                             if (overlayQueryError != "")
@@ -204,11 +209,19 @@ namespace Domotica_ASP
                                         MySqlCommand getAppSpec = new MySqlCommand();
                                         if (input_type[2] == "kantemp")
                                         {
-                                            getAppSpec.CommandText = "SELECT `min`, `max` FROM kantemp WHERE `apparaatid` = :apparaatid";
+                                            getAppSpec.CommandText = "SELECT `min`, `max` " +
+                                                "FROM kantemp " +
+                                                "INNER JOIN apparaattype ON apparaattype.TypeID = kantemp.TYPEID " +
+                                                "INNER JOIN apparaat ON apparaat.TYPEID = apparaattype.TypeID " +
+                                                "WHERE APPARAATID = :apparaatid";
                                         }
                                         else
                                         {
-                                            getAppSpec.CommandText = "SELECT `stand` FROM kanstand WHERE `apparaatid` = :apparaatid";
+                                            getAppSpec.CommandText = "SELECT `stand` " +
+                                                "FROM kanstand " +
+                                                "INNER JOIN apparaattype ON apparaattype.TypeID = kanstand.TYPEID " +
+                                                "INNER JOIN apparaat ON apparaat.TYPEID = apparaattype.TypeID " +
+                                                "WHERE APPARAATID = :apparaatid";
                                         }
                                         getAppSpec.Parameters.Add("apparaatid", input_type[0]);
                                         // get the apparaat specs
