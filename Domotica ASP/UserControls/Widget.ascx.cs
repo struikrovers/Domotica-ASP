@@ -129,19 +129,19 @@ namespace Domotica_ASP
                                 case 5:
                                     // radio
                                     RadioButtonList RBList = (RadioButtonList)InputField.__DropList.FindControl("RadioButtonListInput");
-                                    UserInput[i] += RBList.SelectedValue;
+                                    UserInput[i] = RBList.SelectedValue;
                                     break;
 
                                 case 6:
                                     // checkbox
                                     CheckBoxList CKList = (CheckBoxList)InputField.__DropList.FindControl("CheckboxListInput");
-                                    UserInput[i] += CKList.SelectedValue;
+                                    UserInput[i] = CKList.SelectedValue;
                                     break;
 
                                 case 7:
                                     // dropdownlist
                                     DropDownList DDList = (DropDownList)InputField.__DropList.FindControl("DropDownListInput");
-                                    UserInput[i] += DDList.SelectedValue;
+                                    UserInput[i] = DDList.SelectedValue;
                                     break;
 
                                 default:
