@@ -23,6 +23,8 @@ namespace Domotica_ASP
                     DeleteDevice_UP.Attributes["class"] = "UpdatePanelOverlay";
 
                     DeleteGroup_UP.Attributes["class"] = "UpdatePanelOverlay";
+                    modifyUsers_UP.Attributes["class"] = "UpdatePanelOverlay";
+                    modifyDevices_UP.Attributes["class"] = "UpdatePanelOverlay";
 
                     MySqlCommand userQuery = new MySqlCommand("SELECT username FROM users");
                     List<List<string>> GebruikersTabel = global.ExecuteReader(userQuery, out string error_gebruiker);
@@ -78,11 +80,16 @@ namespace Domotica_ASP
                     else
                     {
                         global.init_pinnr();
+                        List<string> bz_pins = new List<string>();
+                        foreach(List<string> pin in bezette_pins)
+                        {
+                            bz_pins.Add(pin[0]);
+                        }
                         foreach(string pinnr in global.pinnr)
                         {
                             if (bezette_pins.Count != 0)
                             {
-                                if (!bezette_pins[0].Contains(pinnr))
+                                if (!bz_pins.Contains(pinnr))
                                 {
                                     input_devicepin_list.Items.Add(pinnr);
                                 }
@@ -209,11 +216,14 @@ namespace Domotica_ASP
                 if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
                     Widget wid = (Widget)con;
-                    users.Add(wid.name);
-                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
-                    if (ch_box.Checked)
+                    if (wid.name != "verstuur")
                     {
-                        checked_users.Add(wid.name);
+                        users.Add(wid.name);
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (ch_box.Checked)
+                        {
+                            checked_users.Add(wid.name);
+                        }
                     }
                 }
             }
@@ -319,11 +329,14 @@ namespace Domotica_ASP
                 if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
                     Widget wid = (Widget)con;
-                    devices.Add(wid.name);
-                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
-                    if (ch_box.Checked)
+                    if (wid.name != "verstuur")
                     {
-                        checked_devices.Add(wid.name);
+                        devices.Add(wid.name);
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (ch_box.Checked)
+                        {
+                            checked_devices.Add(wid.name);
+                        }
                     }
                 }
             }
@@ -463,16 +476,19 @@ namespace Domotica_ASP
             List<string> checked_groups = new List<string>();
             List<string> removed_groups = new List<string>();
 
-            foreach (Control con in Remove_User_UP.ContentTemplateContainer.Controls)
+            foreach (Control con in DeleteGroup_UP.ContentTemplateContainer.Controls)
             {
                 if (con.GetType() == LoadControl("~/UserControls/Widget.ascx").GetType())
                 {
                     Widget wid = (Widget)con;
-                    groups.Add(wid.name);
-                    CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
-                    if (ch_box.Checked)
+                    if (wid.name != "verstuur")
                     {
-                        checked_groups.Add(wid.name);
+                        groups.Add(wid.name);
+                        CheckBox ch_box = (CheckBox)wid.FindControl("Toggle_Checkbox");
+                        if (ch_box.Checked)
+                        {
+                            checked_groups.Add(wid.name);
+                        }
                     }
                 }
             }
@@ -623,11 +639,11 @@ namespace Domotica_ASP
 
         protected void ModifyGroup_Selected(string group)
         {
-            MySqlCommand changeActiveGroup_query = new MySqlCommand("SELECT username, naam FROM apparaat " +
-                "INNER JOIN heefttoegangtot ON apparaat.APPARAATID = heefttoegangtot.APPARAATID " +
-                "INNER JOIN `group` ON `group`.GROUPID = heefttoegangtot.GROUPID " +
-                "INNER JOIN `neemtdeelaan` ON heefttoegangtot.GROUPID = `neemtdeelaan`.GROUPID " +
-                "INNER JOIN `users` ON `neemtdeelaan`.USERID = `users`.id " +
+            MySqlCommand changeActiveGroup_query = new MySqlCommand("SELECT username, naam FROM `group` AS g " +
+                "LEFT JOIN neemtdeelaan AS NDA ON NDA.GROUPID = g.GROUPID " +
+                "LEFT JOIN heefttoegangtot AS HTT ON HTT.GROUPID = g.GROUPID " +
+                "LEFT JOIN users AS U ON U.id = NDA.USERID " +
+                "LEFT JOIN apparaat AS A ON A.APPARAATID = HTT.APPARAATID " +
                 "WHERE groepnaam = :gpnaam");
             changeActiveGroup_query.Parameters.Add("gpnaam", group);
             List<List<string>> changeActiveGroup_result = global.ExecuteReader(changeActiveGroup_query, out string changeActiveGroup_error);

@@ -217,10 +217,12 @@ function setTime(el) {
 
 function OpenUpdater(){
     panel = document.getElementById('ContentPlaceHolder1_outputUpdatePanel')
+    
     setTimeout(() => {
         panel.style.top = "1em";
     }, 500);
     setTimeout(() => {
+        document.getElementById('ContentPlaceHolder1_output').innerHTML = "";
         panel.style.top = "-10em";
     }, 3000);
 }

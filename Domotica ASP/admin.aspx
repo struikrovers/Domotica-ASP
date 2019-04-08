@@ -82,7 +82,7 @@
         </Wid:Overlay>
             <Wid:Overlay ID="Add_User" runat="server">
                 <Content>
-                    <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" LoginCreatedUser="False" EmailRegularExpression="^(.{1,})+@(.{1,})\.+(.{3,5})$" autocomplete="off" OnCreatedUser="ReloadPage">
+                    <asp:CreateUserWizard ID="CreateUserWizard1" runat="server" LoginCreatedUser="False" EmailRegularExpression="^(.{1,})+@(.{1,})\.+(.{2,5})$" autocomplete="off" OnCreatedUser="ReloadPage">
                         <WizardSteps>
                             <asp:CreateUserWizardStep ID="CreateUserWizardStep1" runat="server">
                                 <ContentTemplate>
@@ -133,7 +133,7 @@
                                         </tr>
                                         <tr>
                                             <td align="center" colspan="2">
-                                                <asp:RegularExpressionValidator ID="EmailRegExp" runat="server" ControlToValidate="Email" Display="Dynamic" ErrorMessage="Please enter a different e-mail." ValidationExpression="^(.{1,})+@(.{1,})\.+(.{3,5})$" ValidationGroup="CreateUserWizard1"></asp:RegularExpressionValidator>
+                                                <asp:RegularExpressionValidator ID="EmailRegExp" runat="server" ControlToValidate="Email" Display="Dynamic" ErrorMessage="Please enter a different e-mail." ValidationExpression="^(.{1,})+@(.{1,})\.+(.{2,5})$" ValidationGroup="CreateUserWizard1"></asp:RegularExpressionValidator>
                                             </td>
                                         </tr>
                                         <tr>
@@ -215,7 +215,7 @@
             </Content>
         </Wid:Overlay>
 
-            <Wid:Overlay ID="modifyUsers" runat="server">
+            <Wid:Overlay ID="modifyUsers" runat="server" cssClass="overlay_content ajaxContent">
                 <Content>
                     <asp:UpdatePanel ID="modifyUsers_UP" runat="server">
                         <ContentTemplate>
@@ -223,7 +223,7 @@
                     </asp:UpdatePanel>
                 </Content>
             </Wid:Overlay>
-            <Wid:Overlay ID="modifyDevices" runat="server">
+            <Wid:Overlay ID="modifyDevices" runat="server" cssClass="overlay_content ajaxContent">
                 <Content>
                     <asp:UpdatePanel ID="modifyDevices_UP" runat="server">
                         <ContentTemplate>

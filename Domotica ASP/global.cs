@@ -57,7 +57,7 @@ namespace Domotica_ASP
         {
             if (pinnr.Count == 0)
             {
-                for (int i = 1; i < 21; i++)
+                for (int i = 1; i < 16; i++)
                 {
                     pinnr.Add("D" + i.ToString());
                 }
